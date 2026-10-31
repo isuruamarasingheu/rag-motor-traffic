@@ -1,0 +1,26 @@
+paths:
+  raw_dir: "data/raw"
+  interim_dir: "data/interim"
+  processed_dir: "data/processed"
+  sections_file: "data/processed/sections.jsonl"
+  chroma_dir: "data/chroma_db"
+  eval_dev_dir: "data/eval/dev"
+  eval_frozen_dir: "data/eval/frozen"
+  reports_dir: "reports"
+
+models:
+  embedding_model: "text-embedding-3-small"
+  generator_model: "gpt-4o-mini"
+  judge_model: "claude-3-5-sonnet"  # Different model family to avoid self-grading bias
+
+retrieval:
+  top_k: 5
+  dense_weight: 0.5
+  bm25_weight: 0.5
+  rrf_k: 60
+  confidence_threshold: 0.5  # placeholder, to be tuned on dev set
+
+generation:
+  prompt_version: "v1.0"
+  temperature: 0.0
+

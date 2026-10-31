@@ -1,0 +1,42 @@
+# Environment variables
+.env
+.env.local
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.ruff_cache/
+
+# Chroma & local databases
+chroma_db/
+data/chroma_db/
+
+# Intermediate data
+data/interim/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# Node & Frontend
+frontend/node_modules/
+node_modules/
+.npm
+frontend/dist/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
