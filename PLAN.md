@@ -10,9 +10,9 @@ Rules for using this file:
 ## Phase 0 - Project setup
 - [x] **0.1 Repo scaffold** per `AGENTS.md` section 4; `requirements.txt`, `.gitignore` (include `.env`, `data/interim/`, Chroma folder), `.env.example`, `configs/base.yaml`.
   *Done when:* `pytest -q` runs (even with one placeholder test) and `ruff check .` is clean.
-- [ ] **0.2 Git initialised** with a first commit.
+- [x] **0.2 Git initialised** with a first commit.
   *Done when:* `git log` shows the commit; `.env` is not tracked.
-- [ ] **0.3 Skills installed** for both tools (see `README.md`).
+- [x] **0.3 Skills installed** for both tools (see `README.md`).
   *Done when:* each tool can list or describe the three skills.
 
 ## Phase 1 - Evaluation set FIRST (before building the system)
@@ -107,3 +107,4 @@ Rules for using this file:
 
 ## NOTES (append-only: who, what, when)
 - 2026-10-31: Task 0.1 completed by Builder mode. Scaffolded repo directories, requirements.txt, .gitignore, .env.example, configs/base.yaml, placeholder test. pytest -q passed, ruff check clean.
+- 2026-10-31: Tasks 0.2 and 0.3 completed by Builder mode. Git initialized and root commit created with .env untracked; skills (statute-chunking, ocr-number-check, rag-eval) confirmed available. Phase 0 complete.
