@@ -24,11 +24,11 @@ Rules for using this file:
   *Done when:* split script exists and is deterministic (fixed seed).
 
 ## Phase 2 - Data collection
-- [ ] **2.1 Collect Act text** (consolidated Motor Traffic Act + amendments) from official sources; cross-check two sources; record in `data/raw/SOURCES.md` (url, date accessed, notes).
+- [x] **2.1 Collect Act text** (consolidated Motor Traffic Act + amendments) from official sources; cross-check two sources; record in `data/raw/SOURCES.md` (url, date accessed, notes).
   *Done when:* raw files exist and `SOURCES.md` lists each one.
-- [ ] **2.2 Collect relevant gazette regulations** (noise emission, fitness, registration, fine/appeal procedures).
+- [x] **2.2 Collect relevant gazette regulations** (noise emission, fitness, registration, fine/appeal procedures).
   *Done when:* PDFs in `data/raw/` and listed in `SOURCES.md` with gazette numbers.
-- [ ] **2.3 Collect procedural info** (fine payment, appeals) from the Department of Motor Traffic / Police public resources.
+- [x] **2.3 Collect procedural info** (fine payment, appeals) from the Department of Motor Traffic / Police public resources.
   *Done when:* listed in `SOURCES.md`.
 
 ## Phase 3 - OCR, cleaning, verification
@@ -110,3 +110,4 @@ Rules for using this file:
 - 2026-10-31: Tasks 0.2 and 0.3 completed by Builder mode. Git initialized and root commit created with .env untracked; skills (statute-chunking, ocr-number-check, rag-eval) confirmed available. Phase 0 complete.
 - 2026-10-31: Task 1.1 completed by Builder mode. Created data/eval/RUBRIC.md; approved by user.
 - 2026-10-31: Tasks 1.2 and 1.3 completed by Builder mode. Implemented evaluation tooling (schema, validate, split), generated 60 approved citizen questions, split into dev (18) and frozen (42) sets deterministically (seed 42, 30/70 stratified). All tests passed, Phase 1 complete.
+- 2026-10-31: Tasks 2.1, 2.2, and 2.3 completed by Builder mode. Organized primary legal documents in data/raw/ across principal_act, amendments (7 acts), gazettes (18 gazettes), and procedural_guides (3 guides). Fully documented data/raw/SOURCES.md with gazette numbers, dates, and statutory anchors. Phase 2 complete.
