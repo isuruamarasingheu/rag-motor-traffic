@@ -34,7 +34,7 @@ Rules for using this file:
 ## Phase 3 - OCR, cleaning, verification
 - [x] **3.1 Text extraction pipeline** for machine-readable files; OCR for scanned gazettes (output goes to `data/interim/`).
   *Done when:* each raw file has an interim text output and a log.
-- [ ] **3.2 Number extraction report** using skill `ocr-number-check`: every number, unit, date and section reference listed with page and image crop reference.
+- [x] **3.2 Number extraction report** using skill `ocr-number-check`: every number, unit, date and section reference listed with page and image crop reference.
   *Done when:* report generated for each OCR'd document.
 - [ ] **3.3 Manual verification by the user** of all flagged numbers against the scans.
   *Done when:* each verified item is marked in the report and the interim text is corrected by a human decision, not by guessing.
@@ -112,3 +112,4 @@ Rules for using this file:
 - 2026-10-31: Tasks 1.2 and 1.3 completed by Builder mode. Implemented evaluation tooling (schema, validate, split), generated 60 approved citizen questions, split into dev (18) and frozen (42) sets deterministically (seed 42, 30/70 stratified). All tests passed, Phase 1 complete.
 - 2026-10-31: Tasks 2.1, 2.2, and 2.3 completed by Builder mode. Organized primary legal documents in data/raw/ across principal_act, amendments (7 acts), gazettes (18 gazettes), and procedural_guides (3 guides). Fully documented data/raw/SOURCES.md with gazette numbers, dates, and statutory anchors. Phase 2 complete.
 - 2026-10-31: Task 3.1 completed by Builder mode. Implemented src/ingest/extract.py with PyMuPDF digital text extraction, 250 DPI page rendering, and RapidOCR fallback. Processed all 29 raw documents (over 1.1 million characters, 500+ page images) into data/interim/ with per-document text.txt and extraction_log.json. Tests passed, ruff clean.
+- 2026-11-01: Task 3.2 completed by Builder mode. Implemented src/ingest/number_report.py per ocr-number-check skill. Scanned all 29 documents, extracted and classified thousands of numeric/currency/speed/noise/section values, and generated per-document number_report.csv, number_report.md, and master NUMBER_VERIFICATION_INDEX.md. Tests passed, ruff clean.
