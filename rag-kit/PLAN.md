@@ -32,7 +32,7 @@ Rules for using this file:
   *Done when:* listed in `SOURCES.md`.
 
 ## Phase 3 - OCR, cleaning, verification
-- [ ] **3.1 Text extraction pipeline** for machine-readable files; OCR for scanned gazettes (output goes to `data/interim/`).
+- [x] **3.1 Text extraction pipeline** for machine-readable files; OCR for scanned gazettes (output goes to `data/interim/`).
   *Done when:* each raw file has an interim text output and a log.
 - [ ] **3.2 Number extraction report** using skill `ocr-number-check`: every number, unit, date and section reference listed with page and image crop reference.
   *Done when:* report generated for each OCR'd document.
@@ -111,3 +111,4 @@ Rules for using this file:
 - 2026-10-31: Task 1.1 completed by Builder mode. Created data/eval/RUBRIC.md; approved by user.
 - 2026-10-31: Tasks 1.2 and 1.3 completed by Builder mode. Implemented evaluation tooling (schema, validate, split), generated 60 approved citizen questions, split into dev (18) and frozen (42) sets deterministically (seed 42, 30/70 stratified). All tests passed, Phase 1 complete.
 - 2026-10-31: Tasks 2.1, 2.2, and 2.3 completed by Builder mode. Organized primary legal documents in data/raw/ across principal_act, amendments (7 acts), gazettes (18 gazettes), and procedural_guides (3 guides). Fully documented data/raw/SOURCES.md with gazette numbers, dates, and statutory anchors. Phase 2 complete.
+- 2026-10-31: Task 3.1 completed by Builder mode. Implemented src/ingest/extract.py with PyMuPDF digital text extraction, 250 DPI page rendering, and RapidOCR fallback. Processed all 29 raw documents (over 1.1 million characters, 500+ page images) into data/interim/ with per-document text.txt and extraction_log.json. Tests passed, ruff clean.
