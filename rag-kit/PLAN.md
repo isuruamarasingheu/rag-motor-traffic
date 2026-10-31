@@ -16,11 +16,11 @@ Rules for using this file:
   *Done when:* each tool can list or describe the three skills.
 
 ## Phase 1 - Evaluation set FIRST (before building the system)
-- [ ] **1.1 Define question types and a labelling rubric** (in-scope, edge, out-of-scope; what counts as a correct gold section).
+- [x] **1.1 Define question types and a labelling rubric** (in-scope, edge, out-of-scope; what counts as a correct gold section).
   *Done when:* `data/eval/RUBRIC.md` exists and the user approved it.
-- [ ] **1.2 Draft 50-80 realistic citizen questions** (user writes/approves; AI may suggest phrasing styles only). Include: plain-language phrasing, wrong-terminology phrasing, multi-section questions, deliberately out-of-scope questions (other laws, general knowledge), and questions whose answer is not in the corpus.
+- [x] **1.2 Draft 50-80 realistic citizen questions** (user writes/approves; AI may suggest phrasing styles only). Include: plain-language phrasing, wrong-terminology phrasing, multi-section questions, deliberately out-of-scope questions (other laws, general knowledge), and questions whose answer is not in the corpus.
   *Done when:* `data/eval/dev/questions.jsonl` validates against the schema (6.2) with `gold_sections` left as `TODO` where the corpus does not yet exist.
-- [ ] **1.3 Split into dev and frozen** (suggest ~30% dev / ~70% frozen, stratified by type). Freeze after gold labels are filled in Phase 3.
+- [x] **1.3 Split into dev and frozen** (suggest ~30% dev / ~70% frozen, stratified by type). Freeze after gold labels are filled in Phase 3.
   *Done when:* split script exists and is deterministic (fixed seed).
 
 ## Phase 2 - Data collection
@@ -108,3 +108,5 @@ Rules for using this file:
 ## NOTES (append-only: who, what, when)
 - 2026-10-31: Task 0.1 completed by Builder mode. Scaffolded repo directories, requirements.txt, .gitignore, .env.example, configs/base.yaml, placeholder test. pytest -q passed, ruff check clean.
 - 2026-10-31: Tasks 0.2 and 0.3 completed by Builder mode. Git initialized and root commit created with .env untracked; skills (statute-chunking, ocr-number-check, rag-eval) confirmed available. Phase 0 complete.
+- 2026-10-31: Task 1.1 completed by Builder mode. Created data/eval/RUBRIC.md; approved by user.
+- 2026-10-31: Tasks 1.2 and 1.3 completed by Builder mode. Implemented evaluation tooling (schema, validate, split), generated 60 approved citizen questions, split into dev (18) and frozen (42) sets deterministically (seed 42, 30/70 stratified). All tests passed, Phase 1 complete.
