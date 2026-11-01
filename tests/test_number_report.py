@@ -88,3 +88,4 @@ Date of gazette: 15 January 2018.
     assert "70 km/h" in md_content
     assert "85 dB(A)" in md_content
     assert "15 January 2018" in md_content
+
