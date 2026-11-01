@@ -18,7 +18,9 @@ retrieval:
   dense_weight: 0.5
   bm25_weight: 0.5
   rrf_k: 60
-  confidence_threshold: 0.5  # placeholder, to be tuned on dev set
+  # Calibrated on dev set: in-scope min dense score is 0.4302, out-of-scope max is 0.3730
+  confidence_threshold: 0.40
+  confidence_rrf_threshold: 0.014
 
 generation:
   prompt_version: "v1.0"

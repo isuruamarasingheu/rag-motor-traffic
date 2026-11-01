@@ -69,11 +69,11 @@ Rules for using this file:
   *Done when:* a short table exists in `reports/`.
 
 ## Phase 7 - Grounded generation
-- [ ] **7.1 Grounded prompt** (answer only from provided text, plain language, cite section ids, quote key clause, say not found otherwise).
+- [x] **7.1 Grounded prompt** (answer only from provided text, plain language, cite section ids, quote key clause, say not found otherwise).
   *Done when:* prompt is in `src/generation/prompts.py` with a version number.
-- [ ] **7.2 Citation verifier**: every citation id exists in the corpus and in the retrieved set.
+- [x] **7.2 Citation verifier**: every citation id exists in the corpus and in the retrieved set.
   *Done when:* unit tests cover valid, invented, and not-retrieved citations.
-- [ ] **7.3 Confidence gate** with threshold tuned on **dev** set only.
+- [x] **7.3 Confidence gate** with threshold tuned on **dev** set only.
   *Done when:* threshold is in `configs/base.yaml` with a note on how it was chosen.
 
 ## Phase 8 - LangGraph pipeline and refusal
@@ -118,3 +118,4 @@ Rules for using this file:
 - 2026-11-01: Tasks 4.1, 4.2, 4.3, and 4.4 completed by Builder mode. Implemented src/chunking/schema.py, parser.py, and build.py per statute-chunking skill. Generated 945 validated section records in data/processed/sections.jsonl (474 Act sections, 461 gazette units, 10 procedural units) with full citations, parent context, statutory definition linking, and cross-reference detection. All 16 tests passed, ruff clean. Phase 4 complete.
 - 2026-11-01: Tasks 5.1, 5.2, and 5.3 completed by Builder mode. Implemented src/index/embedding.py with SQLite disk caching (second run made 0 API calls for 945 units), src/index/chroma.py for persistent vector storage in data/chroma_db with structured metadata, and src/retrieval/bm25.py with section anchor boosting. Built master CLI script src/index/build.py. All 21 tests passed, ruff clean. Phase 5 complete.
 - 2026-11-01: Tasks 6.1, 6.2, 6.3, 6.4, and 6.5 completed by Builder mode. Implemented src/retrieval/dense.py (DenseRetriever), src/retrieval/hybrid.py (HybridRetriever with Reciprocal Rank Fusion), src/retrieval/rewrite.py (QueryRewriter for citizen colloquial terms), src/eval/retrieval.py and src/eval/run.py (per rag-eval skill), and src/eval/index_benchmark.py (Brute-Force vs Chroma HNSW). Dev benchmark executed across 4 variants and saved to reports/retrieval_benchmark_dev.md and CSV. Index comparison saved to reports/index_comparison.md. All 27 tests passed, ruff clean. Phase 6 complete.
+- 2026-11-01: Tasks 7.1, 7.2, and 7.3 completed by Builder mode. Implemented src/generation/prompts.py with versioned grounded prompt (v1.0), src/generation/verifier.py for corpus and retrieved-set citation verification and ungrounded numeric fact detection, src/generation/gate.py for confidence gating with dev-set tuned cutoff (dense threshold 0.40, RRF 0.014 documented in configs/base.yaml), and src/generation/generator.py orchestrating LLM generation with retry logic. All 40 unit tests passed, ruff check and format clean. Phase 7 complete.
