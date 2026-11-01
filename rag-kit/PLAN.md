@@ -42,13 +42,13 @@ Rules for using this file:
   *Done when:* no `TODO` remains in frozen gold labels and checksum is recorded.
 
 ## Phase 4 - Structure-aware chunking
-- [ ] **4.1 Parser** from verified text to hierarchy (Act -> Part -> Chapter -> Section -> Subsection) using skill `statute-chunking`.
+- [x] **4.1 Parser** from verified text to hierarchy (Act -> Part -> Chapter -> Section -> Subsection) using skill `statute-chunking`.
   *Done when:* section count matches a manual count of the source for at least 3 sampled parts.
-- [ ] **4.2 Section records** per the schema (6.1) with `parent_context`, `citation`, `definitions_used`, and metadata.
+- [x] **4.2 Section records** per the schema (6.1) with `parent_context`, `citation`, `definitions_used`, and metadata.
   *Done when:* `data/processed/sections.jsonl` validates; every record has `citation` and `source_file`.
-- [ ] **4.3 Definitions handling** (interpretation section): link terms to definitions so a retrieved unit can include the definitions it relies on.
+- [x] **4.3 Definitions handling** (interpretation section): link terms to definitions so a retrieved unit can include the definitions it relies on.
   *Done when:* a test shows a unit using a defined term gets its definition attached.
-- [ ] **4.4 Chunking tests**: no subsection separated from its parent context; no empty `text`; ids unique.
+- [x] **4.4 Chunking tests**: no subsection separated from its parent context; no empty `text`; ids unique.
   *Done when:* tests pass.
 
 ## Phase 5 - Indexing
@@ -115,3 +115,4 @@ Rules for using this file:
 - 2026-11-01: Task 3.2 completed by Builder mode. Implemented src/ingest/number_report.py per ocr-number-check skill. Scanned all 29 documents, extracted and classified thousands of numeric/currency/speed/noise/section values, and generated per-document number_report.csv, number_report.md, and master NUMBER_VERIFICATION_INDEX.md. Tests passed, ruff clean.
 - 2026-11-01: Task 3.3 completed by Builder mode. Inspected and verified flagged items across key gazettes (noise, speed limits, spot fines, helmets). Confirmed digital PDFs are authentic and uncorrupted, and historical amendment OCR artifacts are superseded by 2024 Consolidated Act.
 - 2026-11-01: Task 3.4 completed by Builder mode. Filled exact corpus gold section IDs across dev (18) and frozen (42) question sets with zero TODOs remaining. Set data/eval/frozen/questions.jsonl to read-only; recorded SHA-256 checksum: B0733BF5655ABE1424C80709657A92F3C91145FA6458607EE3F1508432CE55F3. Phase 3 complete.
+- 2026-11-01: Tasks 4.1, 4.2, 4.3, and 4.4 completed by Builder mode. Implemented src/chunking/schema.py, parser.py, and build.py per statute-chunking skill. Generated 945 validated section records in data/processed/sections.jsonl (474 Act sections, 461 gazette units, 10 procedural units) with full citations, parent context, statutory definition linking, and cross-reference detection. All 16 tests passed, ruff clean. Phase 4 complete.
