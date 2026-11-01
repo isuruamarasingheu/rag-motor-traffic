@@ -176,16 +176,18 @@ def parse_consolidated_act(
             parent_ctx = f"{part_name}: {part_title} — Section {sec_num}: {heading}"
 
             # If section is very long (> 450 words) and has clear subsections, split
-            sub_matches = list(re.finditer(r"(?:^|\n)\s*(\([0-9]+\))\s+", sec_text))
+            sub_matches = list(
+                re.finditer(r"(?:^|\n|\b[0-9]+[A-Z]?\.)\s*(\([0-9]+\))\s+", sec_text)
+            )
             if len(words) > 450 and len(sub_matches) > 1:
-                lead_in = sec_text[: sub_matches[0].start()].strip()
+                lead_in = sec_text[: sub_matches[0].start(1)].strip()
                 sec_parent_context = f"{parent_ctx}. {lead_in}"
 
                 for sub_i, sub_m in enumerate(sub_matches):
                     sub_num = sub_m.group(1)
-                    sub_start = sub_m.start()
+                    sub_start = sub_m.start(1)
                     sub_end = (
-                        sub_matches[sub_i + 1].start()
+                        sub_matches[sub_i + 1].start(1)
                         if sub_i + 1 < len(sub_matches)
                         else len(sec_text)
                     )

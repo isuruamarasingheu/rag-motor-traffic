@@ -60,12 +60,12 @@ Rules for using this file:
   *Done when:* an exact section-number query ranks that section first.
 
 ## Phase 6 - Retrieval + evaluation harness (together)
-- [ ] **6.1 Dense retrieval** returning top-k with scores.
-- [ ] **6.2 Hybrid retrieval** (dense + BM25 fusion, e.g. reciprocal rank fusion).
-- [ ] **6.3 Query rewriting/expansion** for lay-to-statute vocabulary (keep original query too).
-- [ ] **6.4 Eval harness** using skill `rag-eval`: precision@k, recall@k, MRR on the **dev** set; results saved to `reports/`.
+- [x] **6.1 Dense retrieval** returning top-k with scores.
+- [x] **6.2 Hybrid retrieval** (dense + BM25 fusion, e.g. reciprocal rank fusion).
+- [x] **6.3 Query rewriting/expansion** for lay-to-statute vocabulary (keep original query too).
+- [x] **6.4 Eval harness** using skill `rag-eval`: precision@k, recall@k, MRR on the **dev** set; results saved to `reports/`.
   *Done when (6.1-6.4):* one command prints metrics for dense / BM25 / hybrid / hybrid+rewrite on dev, and results are saved.
-- [ ] **6.5 Small index-type comparison** (brute-force exact search vs Chroma's approximate index) for exactness and latency. Keep it small; this is a minor contribution at this corpus size.
+- [x] **6.5 Small index-type comparison** (brute-force exact search vs Chroma's approximate index) for exactness and latency. Keep it small; this is a minor contribution at this corpus size.
   *Done when:* a short table exists in `reports/`.
 
 ## Phase 7 - Grounded generation
@@ -117,3 +117,4 @@ Rules for using this file:
 - 2026-11-01: Task 3.4 completed by Builder mode. Filled exact corpus gold section IDs across dev (18) and frozen (42) question sets with zero TODOs remaining. Set data/eval/frozen/questions.jsonl to read-only; recorded SHA-256 checksum: B0733BF5655ABE1424C80709657A92F3C91145FA6458607EE3F1508432CE55F3. Phase 3 complete.
 - 2026-11-01: Tasks 4.1, 4.2, 4.3, and 4.4 completed by Builder mode. Implemented src/chunking/schema.py, parser.py, and build.py per statute-chunking skill. Generated 945 validated section records in data/processed/sections.jsonl (474 Act sections, 461 gazette units, 10 procedural units) with full citations, parent context, statutory definition linking, and cross-reference detection. All 16 tests passed, ruff clean. Phase 4 complete.
 - 2026-11-01: Tasks 5.1, 5.2, and 5.3 completed by Builder mode. Implemented src/index/embedding.py with SQLite disk caching (second run made 0 API calls for 945 units), src/index/chroma.py for persistent vector storage in data/chroma_db with structured metadata, and src/retrieval/bm25.py with section anchor boosting. Built master CLI script src/index/build.py. All 21 tests passed, ruff clean. Phase 5 complete.
+- 2026-11-01: Tasks 6.1, 6.2, 6.3, 6.4, and 6.5 completed by Builder mode. Implemented src/retrieval/dense.py (DenseRetriever), src/retrieval/hybrid.py (HybridRetriever with Reciprocal Rank Fusion), src/retrieval/rewrite.py (QueryRewriter for citizen colloquial terms), src/eval/retrieval.py and src/eval/run.py (per rag-eval skill), and src/eval/index_benchmark.py (Brute-Force vs Chroma HNSW). Dev benchmark executed across 4 variants and saved to reports/retrieval_benchmark_dev.md and CSV. Index comparison saved to reports/index_comparison.md. All 27 tests passed, ruff clean. Phase 6 complete.
