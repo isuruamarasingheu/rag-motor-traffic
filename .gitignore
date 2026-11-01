@@ -40,6 +40,7 @@ node_modules/
 frontend/dist/
 
 # OS and IDE files
+reports/*.jsonl
 .DS_Store
 Thumbs.db
 .vscode/
