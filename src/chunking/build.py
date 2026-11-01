@@ -53,9 +53,18 @@ def build_corpus(
 
     # 3. Parse Procedural Guides
     proc_files = [
-        ("DMT_Registration_and_Transfer_Procedures", "data/raw/procedural_guides/DMT_Registration_and_Transfer_Procedures.md"),
-        ("Police_Spot_Fine_Payment_and_Appeal_Guide", "data/raw/procedural_guides/Police_Spot_Fine_Payment_and_Appeal_Guide.md"),
-        ("DMT_Circular_2022-14_Foreign_License", "data/raw/procedural_guides/DMT_Circular_2022-14_Foreign_License.pdf"),
+        (
+            "DMT_Registration_and_Transfer_Procedures",
+            "data/raw/procedural_guides/DMT_Registration_and_Transfer_Procedures.md",
+        ),
+        (
+            "Police_Spot_Fine_Payment_and_Appeal_Guide",
+            "data/raw/procedural_guides/Police_Spot_Fine_Payment_and_Appeal_Guide.md",
+        ),
+        (
+            "DMT_Circular_2022-14_Foreign_License",
+            "data/raw/procedural_guides/DMT_Circular_2022-14_Foreign_License.pdf",
+        ),
     ]
     print(f"\nParsing {len(proc_files)} procedural guides...")
     for doc_name, source_rel in proc_files:
@@ -89,7 +98,9 @@ def build_corpus(
         for rec in valid_records:
             f.write(json.dumps(rec.model_dump(), ensure_ascii=False) + "\n")
 
-    print(f"\nCorpus build complete! Total units: {len(valid_records)} -> {output_file}")
+    print(
+        f"\nCorpus build complete! Total units: {len(valid_records)} -> {output_file}"
+    )
     report_corpus_statistics(valid_records)
     return valid_records
 
@@ -102,7 +113,9 @@ def report_corpus_statistics(records: list[SectionRecord]) -> dict[str, Any]:
 
     for r in records:
         by_type[r.instrument_type] = by_type.get(r.instrument_type, 0) + 1
-        by_category[r.regulation_category] = by_category.get(r.regulation_category, 0) + 1
+        by_category[r.regulation_category] = (
+            by_category.get(r.regulation_category, 0) + 1
+        )
         if r.part:
             by_part[r.part] = by_part.get(r.part, 0) + 1
 

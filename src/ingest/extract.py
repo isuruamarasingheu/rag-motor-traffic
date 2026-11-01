@@ -17,9 +17,7 @@ from rapidocr_onnxruntime import RapidOCR
 def clean_html_to_text(html_content: str) -> str:
     """Basic extraction of plain text from HTML documents."""
     # Remove script and style elements
-    text = re.sub(
-        r"<(script|style)[^>]*>.*?</\1>", "", html_content, flags=re.DOTALL
-    )
+    text = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html_content, flags=re.DOTALL)
     # Replace breaks and paragraphs with newlines
     text = re.sub(r"<(br|p|div|tr)[^>]*>", "\n", text, flags=re.IGNORECASE)
     # Remove all remaining tags
@@ -73,12 +71,14 @@ def extract_document(
         log_data["page_count"] = 1
         log_data["extraction_method"] = "direct_text"
         log_data["total_chars"] = len(text)
-        log_data["pages"].append({
-            "page_number": 1,
-            "char_count": len(text),
-            "method": "direct_text",
-            "confidence": 1.0,
-        })
+        log_data["pages"].append(
+            {
+                "page_number": 1,
+                "char_count": len(text),
+                "method": "direct_text",
+                "confidence": 1.0,
+            }
+        )
         (doc_output_dir / "text.txt").write_text(text, encoding="utf-8")
 
     # 2. Handle HTML statutory documents
@@ -88,12 +88,14 @@ def extract_document(
         log_data["page_count"] = 1
         log_data["extraction_method"] = "html_clean"
         log_data["total_chars"] = len(text)
-        log_data["pages"].append({
-            "page_number": 1,
-            "char_count": len(text),
-            "method": "html_clean",
-            "confidence": 1.0,
-        })
+        log_data["pages"].append(
+            {
+                "page_number": 1,
+                "char_count": len(text),
+                "method": "html_clean",
+                "confidence": 1.0,
+            }
+        )
         (doc_output_dir / "text.txt").write_text(text, encoding="utf-8")
 
     # 3. Handle PDF documents
@@ -142,23 +144,27 @@ def extract_document(
                     confidence = 0.0
 
             overall_methods.add(method)
-            log_data["pages"].append({
-                "page_number": page_num,
-                "char_count": len(page_text),
-                "method": method,
-                "confidence": confidence,
-                "image_path": str(page_img_path.as_posix()) if save_images else None,
-            })
-            full_text_pages.append(
-                f"--- Page {page_num} ---\n{page_text}"
+            log_data["pages"].append(
+                {
+                    "page_number": page_num,
+                    "char_count": len(page_text),
+                    "method": method,
+                    "confidence": confidence,
+                    "image_path": str(page_img_path.as_posix())
+                    if save_images
+                    else None,
+                }
             )
+            full_text_pages.append(f"--- Page {page_num} ---\n{page_text}")
 
         doc.close()
         full_text = "\n\n".join(full_text_pages)
         log_data["total_chars"] = len(full_text)
         log_data["extraction_method"] = (
-            "direct_digital_text" if overall_methods == {"direct_digital_text"}
-            else "ocr" if overall_methods == {"rapidocr"}
+            "direct_digital_text"
+            if overall_methods == {"direct_digital_text"}
+            else "ocr"
+            if overall_methods == {"rapidocr"}
             else "hybrid_digital_and_ocr"
         )
         (doc_output_dir / "text.txt").write_text(full_text, encoding="utf-8")
@@ -180,7 +186,8 @@ def process_all_raw_documents(
     """Process all valid raw files into data/interim/."""
     valid_suffixes = {".pdf", ".html", ".htm", ".md"}
     raw_files = [
-        p for p in raw_dir.rglob("*")
+        p
+        for p in raw_dir.rglob("*")
         if p.is_file() and p.suffix.lower() in valid_suffixes and p.name != "SOURCES.md"
     ]
     raw_files.sort(key=lambda p: p.name)
@@ -252,4 +259,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

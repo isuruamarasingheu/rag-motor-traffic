@@ -52,11 +52,11 @@ Rules for using this file:
   *Done when:* tests pass.
 
 ## Phase 5 - Indexing
-- [ ] **5.1 Embedding script** (`text-embedding-3-small`) with caching so re-runs do not re-pay for unchanged sections.
+- [x] **5.1 Embedding script** (`text-embedding-3-small`) with caching so re-runs do not re-pay for unchanged sections.
   *Done when:* second run makes zero API calls for unchanged records.
-- [ ] **5.2 Chroma collection** with metadata (act, section, instrument_type, regulation_category, amendment_date).
+- [x] **5.2 Chroma collection** with metadata (act, section, instrument_type, regulation_category, amendment_date).
   *Done when:* a query by id returns the right record and metadata filters work.
-- [ ] **5.3 BM25 index** over the same units.
+- [x] **5.3 BM25 index** over the same units.
   *Done when:* an exact section-number query ranks that section first.
 
 ## Phase 6 - Retrieval + evaluation harness (together)
@@ -116,3 +116,4 @@ Rules for using this file:
 - 2026-11-01: Task 3.3 completed by Builder mode. Inspected and verified flagged items across key gazettes (noise, speed limits, spot fines, helmets). Confirmed digital PDFs are authentic and uncorrupted, and historical amendment OCR artifacts are superseded by 2024 Consolidated Act.
 - 2026-11-01: Task 3.4 completed by Builder mode. Filled exact corpus gold section IDs across dev (18) and frozen (42) question sets with zero TODOs remaining. Set data/eval/frozen/questions.jsonl to read-only; recorded SHA-256 checksum: B0733BF5655ABE1424C80709657A92F3C91145FA6458607EE3F1508432CE55F3. Phase 3 complete.
 - 2026-11-01: Tasks 4.1, 4.2, 4.3, and 4.4 completed by Builder mode. Implemented src/chunking/schema.py, parser.py, and build.py per statute-chunking skill. Generated 945 validated section records in data/processed/sections.jsonl (474 Act sections, 461 gazette units, 10 procedural units) with full citations, parent context, statutory definition linking, and cross-reference detection. All 16 tests passed, ruff clean. Phase 4 complete.
+- 2026-11-01: Tasks 5.1, 5.2, and 5.3 completed by Builder mode. Implemented src/index/embedding.py with SQLite disk caching (second run made 0 API calls for 945 units), src/index/chroma.py for persistent vector storage in data/chroma_db with structured metadata, and src/retrieval/bm25.py with section anchor boosting. Built master CLI script src/index/build.py. All 21 tests passed, ruff clean. Phase 5 complete.

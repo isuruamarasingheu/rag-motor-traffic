@@ -68,7 +68,9 @@ CONFUSABLES = [
 ]
 
 
-def extract_context(text: str, match_start: int, match_end: int, window: int = 40) -> str:
+def extract_context(
+    text: str, match_start: int, match_end: int, window: int = 40
+) -> str:
     """Extract snippet context around a match."""
     start = max(0, match_start - window)
     end = min(len(text), match_end + window)
@@ -106,7 +108,9 @@ def find_suspicion_flags(
                 flags.append(f"UNUSUAL_RANGE: Noise limit {num} dB outside [50, 130]")
             elif item_type == "speed_limit" and (num < 10 or num > 140):
                 flags.append(f"UNUSUAL_RANGE: Speed limit {num} outside [10, 140]")
-            elif item_type == "time_period" and "day" in ocr_value.lower() and num > 365:
+            elif (
+                item_type == "time_period" and "day" in ocr_value.lower() and num > 365
+            ):
                 flags.append(f"UNUSUAL_RANGE: Time period {num} days > 365")
             elif item_type == "currency" and num < 10:
                 flags.append(f"UNUSUAL_RANGE: Fine {num} unusually low")
@@ -149,17 +153,23 @@ def analyze_document_text(
             page_num = int(page_chunks[i])
             page_text = page_chunks[i + 1]
             page_conf = confidences.get(page_num, 1.0)
-            items.extend(scan_page_text(doc_id, page_num, page_text, page_conf, doc_dir))
+            items.extend(
+                scan_page_text(doc_id, page_num, page_text, page_conf, doc_dir)
+            )
     else:
         # No page headers, treat as page 1
-        items.extend(scan_page_text(doc_id, 1, full_text, confidences.get(1, 1.0), doc_dir))
+        items.extend(
+            scan_page_text(doc_id, 1, full_text, confidences.get(1, 1.0), doc_dir)
+        )
 
     stats = {
         "doc_id": doc_id,
         "total_numbers": len(items),
         "flagged_numbers": sum(1 for it in items if it["suspicion_flags"]),
         "currency_count": sum(1 for it in items if it["item_type"] == "currency"),
-        "section_refs_count": sum(1 for it in items if it["item_type"] == "section_ref"),
+        "section_refs_count": sum(
+            1 for it in items if it["item_type"] == "section_ref"
+        ),
         "speed_noise_count": sum(
             1 for it in items if it["item_type"] in ["noise_limit", "speed_limit"]
         ),
@@ -207,17 +217,19 @@ def scan_page_text(
             context = extract_context(text, span[0], span[1])
             flags = find_suspicion_flags(item_type, ocr_val, context, confidence)
 
-            page_items.append({
-                "doc_id": doc_id,
-                "page": page_num,
-                "item_type": item_type,
-                "ocr_value": ocr_val,
-                "context_snippet": context,
-                "confidence": confidence,
-                "suspicion_flags": "; ".join(flags),
-                "image_ref": img_ref,
-                "human_status": "unverified",
-            })
+            page_items.append(
+                {
+                    "doc_id": doc_id,
+                    "page": page_num,
+                    "item_type": item_type,
+                    "ocr_value": ocr_val,
+                    "context_snippet": context,
+                    "confidence": confidence,
+                    "suspicion_flags": "; ".join(flags),
+                    "image_ref": img_ref,
+                    "human_status": "unverified",
+                }
+            )
 
     # Sort items by occurrence in text
     return page_items
@@ -285,7 +297,9 @@ def write_number_reports(
         lines.append("|---|---|---|---|---|")
 
         for it in p_items:
-            flag_text = f"⚠️ **{it['suspicion_flags']}**" if it["suspicion_flags"] else "OK"
+            flag_text = (
+                f"⚠️ **{it['suspicion_flags']}**" if it["suspicion_flags"] else "OK"
+            )
             clean_snippet = it["context_snippet"].replace("|", "\\|")
             lines.append(
                 f"| `{it['item_type']}` | **{it['ocr_value']}** | {clean_snippet} | {flag_text} | `[ ] unverified` |"
@@ -304,13 +318,19 @@ def process_document_number_report(doc_dir: Path) -> dict[str, Any]:
     return stats
 
 
-def process_all_interim_documents(interim_dir: Path = Path("data/interim")) -> list[dict[str, Any]]:
+def process_all_interim_documents(
+    interim_dir: Path = Path("data/interim"),
+) -> list[dict[str, Any]]:
     """Generate number reports for all processed documents in data/interim/."""
-    doc_dirs = [d for d in interim_dir.iterdir() if d.is_dir() and (d / "text.txt").exists()]
+    doc_dirs = [
+        d for d in interim_dir.iterdir() if d.is_dir() and (d / "text.txt").exists()
+    ]
     doc_dirs.sort(key=lambda d: d.name)
 
     all_stats: list[dict[str, Any]] = []
-    print(f"Generating number reports for {len(doc_dirs)} documents in {interim_dir}...")
+    print(
+        f"Generating number reports for {len(doc_dirs)} documents in {interim_dir}..."
+    )
 
     for d in doc_dirs:
         stats = process_document_number_report(d)

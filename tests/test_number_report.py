@@ -65,12 +65,14 @@ Date of gazette: 15 January 2018.
 """
     (doc_dir / "text.txt").write_text(sample_text, encoding="utf-8")
     (doc_dir / "extraction_log.json").write_text(
-        json.dumps({
-            "pages": [
-                {"page_number": 1, "confidence": 0.98},
-                {"page_number": 2, "confidence": 0.98},
-            ]
-        }),
+        json.dumps(
+            {
+                "pages": [
+                    {"page_number": 1, "confidence": 0.98},
+                    {"page_number": 2, "confidence": 0.98},
+                ]
+            }
+        ),
         encoding="utf-8",
     )
 
@@ -88,4 +90,3 @@ Date of gazette: 15 January 2018.
     assert "70 km/h" in md_content
     assert "85 dB(A)" in md_content
     assert "15 January 2018" in md_content
-

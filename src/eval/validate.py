@@ -47,9 +47,7 @@ def validate_questions_file(file_path: Path) -> tuple[list[EvalQuestion], list[s
             except ValidationError as ve:
                 for err in ve.errors():
                     field = ".".join(str(loc) for loc in err["loc"])
-                    errors.append(
-                        f"Line {line_num} (field '{field}'): {err['msg']}"
-                    )
+                    errors.append(f"Line {line_num} (field '{field}'): {err['msg']}")
 
     return valid_questions, errors
 

@@ -44,21 +44,25 @@ def test_validate_questions_file_with_errors(tmp_path: Path):
     """Verify that validate_questions_file catches line numbers and duplicates."""
     file_path = tmp_path / "questions.jsonl"
     lines = [
-        json.dumps({
-            "id": "Q001",
-            "question": "Valid query one?",
-            "type": "in_scope",
-            "gold_sections": ["TODO"],
-            "expected_behavior": "answer_with_citation",
-        }),
+        json.dumps(
+            {
+                "id": "Q001",
+                "question": "Valid query one?",
+                "type": "in_scope",
+                "gold_sections": ["TODO"],
+                "expected_behavior": "answer_with_citation",
+            }
+        ),
         "invalid json line",
-        json.dumps({
-            "id": "Q001",  # duplicate ID
-            "question": "Valid query duplicate?",
-            "type": "in_scope",
-            "gold_sections": ["TODO"],
-            "expected_behavior": "answer_with_citation",
-        }),
+        json.dumps(
+            {
+                "id": "Q001",  # duplicate ID
+                "question": "Valid query duplicate?",
+                "type": "in_scope",
+                "gold_sections": ["TODO"],
+                "expected_behavior": "answer_with_citation",
+            }
+        ),
     ]
     file_path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -75,33 +79,37 @@ def test_split_questions_deterministic_and_stratified(tmp_path: Path):
     records = []
     # 10 in_scope, 5 edge, 5 out_of_scope = 20 total
     for i in range(10):
-        records.append({
-            "id": f"Q_IN_{i:02d}",
-            "question": f"In-scope question number {i:02d}?",
-            "type": "in_scope",
-            "gold_sections": ["TODO"],
-            "expected_behavior": "answer_with_citation",
-        })
+        records.append(
+            {
+                "id": f"Q_IN_{i:02d}",
+                "question": f"In-scope question number {i:02d}?",
+                "type": "in_scope",
+                "gold_sections": ["TODO"],
+                "expected_behavior": "answer_with_citation",
+            }
+        )
     for i in range(5):
-        records.append({
-            "id": f"Q_ED_{i:02d}",
-            "question": f"Edge question number {i:02d}?",
-            "type": "edge",
-            "gold_sections": ["TODO"],
-            "expected_behavior": "answer_with_citation",
-        })
+        records.append(
+            {
+                "id": f"Q_ED_{i:02d}",
+                "question": f"Edge question number {i:02d}?",
+                "type": "edge",
+                "gold_sections": ["TODO"],
+                "expected_behavior": "answer_with_citation",
+            }
+        )
     for i in range(5):
-        records.append({
-            "id": f"Q_OUT_{i:02d}",
-            "question": f"Out of scope question number {i:02d}?",
-            "type": "out_of_scope",
-            "gold_sections": [],
-            "expected_behavior": "refuse",
-        })
+        records.append(
+            {
+                "id": f"Q_OUT_{i:02d}",
+                "question": f"Out of scope question number {i:02d}?",
+                "type": "out_of_scope",
+                "gold_sections": [],
+                "expected_behavior": "refuse",
+            }
+        )
 
-    input_file.write_text(
-        "\n".join(json.dumps(r) for r in records), encoding="utf-8"
-    )
+    input_file.write_text("\n".join(json.dumps(r) for r in records), encoding="utf-8")
 
     dev_out = tmp_path / "dev.jsonl"
     frozen_out = tmp_path / "frozen.jsonl"

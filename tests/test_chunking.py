@@ -79,7 +79,9 @@ def test_parse_gazette_regulations():
     SCHEDULE
     Maximum permissible noise level is 105 dB(A) at 2m.
     """
-    records = parse_gazette("Gazette_1738-37_2011", synthetic_gazette, "data/raw/gaz.pdf")
+    records = parse_gazette(
+        "Gazette_1738-37_2011", synthetic_gazette, "data/raw/gaz.pdf"
+    )
     assert len(records) >= 3
     reg3 = next(r for r in records if "reg-3" in r.id)
     assert reg3.section == "3"

@@ -76,7 +76,9 @@ def find_definitions_used(text: str, defined_terms: dict[str, str]) -> list[str]
 def find_cross_references(text: str) -> list[str]:
     """Find explicit statutory cross-references (e.g., 'section 112', 'regulation 4')."""
     refs = set()
-    for m in re.finditer(r"\b(?:section|sec\.|s\.)\s*(\d+[A-Z]?)\b", text, re.IGNORECASE):
+    for m in re.finditer(
+        r"\b(?:section|sec\.|s\.)\s*(\d+[A-Z]?)\b", text, re.IGNORECASE
+    ):
         refs.add(f"MTA-1951-s{m.group(1)}")
     for m in re.finditer(r"\bregulation\s*(\d+[A-Z]?)\b", text, re.IGNORECASE):
         refs.add(f"reg-{m.group(1)}")
@@ -115,7 +117,11 @@ def parse_consolidated_act(
         part_name = p_match.group(1).strip()
         part_title = " ".join(p_match.group(2).strip().split())
         part_start = p_match.end()
-        part_end = part_matches[i + 1].start() if i + 1 < len(part_matches) else len(clean_text)
+        part_end = (
+            part_matches[i + 1].start()
+            if i + 1 < len(part_matches)
+            else len(clean_text)
+        )
         part_body = clean_text[part_start:part_end]
 
         category = PART_CATEGORIES.get(part_name, "other")
@@ -146,7 +152,17 @@ def parse_consolidated_act(
                 continue
 
             sec_category = category
-            if sec_num in ["140", "141", "148", "150", "151", "152", "152A", "157", "161"]:
+            if sec_num in [
+                "140",
+                "141",
+                "148",
+                "150",
+                "151",
+                "152",
+                "152A",
+                "157",
+                "161",
+            ]:
                 sec_category = "offences"
             elif sec_num in ["195", "196", "197", "198"]:
                 sec_category = "noise" if sec_num == "195" else "fitness"
@@ -250,7 +266,9 @@ def parse_gazette(
     title_match = re.search(
         r"cited as the\s+([^.\n]+?\bRegulations[^\n.]*)", clean_text, re.IGNORECASE
     )
-    act_title = title_match.group(1).strip() if title_match else doc_id.replace("_", " ")
+    act_title = (
+        title_match.group(1).strip() if title_match else doc_id.replace("_", " ")
+    )
 
     records: list[SectionRecord] = []
 
@@ -330,7 +348,11 @@ def parse_gazette(
         )
 
     # Check for Schedule
-    sched_match = re.search(r"(?:^|\n)\s*(SCHEDULE\s*[A-Z0-9]*\b.*?)(?=\Z)", clean_text, re.DOTALL | re.IGNORECASE)
+    sched_match = re.search(
+        r"(?:^|\n)\s*(SCHEDULE\s*[A-Z0-9]*\b.*?)(?=\Z)",
+        clean_text,
+        re.DOTALL | re.IGNORECASE,
+    )
     if sched_match:
         sched_text = sched_match.group(1).strip()
         if len(sched_text) > 30:
@@ -370,7 +392,9 @@ def parse_procedural_guide(
     """Parse procedural markdown guides into citable procedural sections."""
     records: list[SectionRecord] = []
     # Split by headings like '## Section PG-...'
-    sec_blocks = re.split(r"(?:^|\n)\s*##+\s*(Section PG-[A-Z0-9\-]+:[^\n]+)", text.strip())
+    sec_blocks = re.split(
+        r"(?:^|\n)\s*##+\s*(Section PG-[A-Z0-9\-]+:[^\n]+)", text.strip()
+    )
 
     if len(sec_blocks) > 1:
         for i in range(1, len(sec_blocks), 2):

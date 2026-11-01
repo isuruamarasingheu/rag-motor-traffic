@@ -19,6 +19,11 @@ __pycache__/
 # Chroma & local databases
 chroma_db/
 data/chroma_db/
+DATA/chroma_db/
+data/cache/
+DATA/cache/
+data/bm25_index.pkl
+DATA/bm25_index.pkl
 
 # Intermediate data
 data/interim/

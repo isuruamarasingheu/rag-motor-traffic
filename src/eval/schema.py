@@ -11,7 +11,9 @@ class EvalQuestion(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     id: str = Field(..., description="Unique question identifier (e.g., Q001)")
-    question: str = Field(..., min_length=5, description="Citizen natural language query")
+    question: str = Field(
+        ..., min_length=5, description="Citizen natural language query"
+    )
     type: Literal["in_scope", "edge", "out_of_scope"] = Field(
         ..., description="Question domain category"
     )
@@ -19,9 +21,9 @@ class EvalQuestion(BaseModel):
         default_factory=list,
         description="Target legal section IDs; can contain 'TODO' prior to freezing",
     )
-    expected_behavior: Literal[
-        "answer_with_citation", "refuse", "say_not_found"
-    ] = Field(..., description="Target system behavior")
+    expected_behavior: Literal["answer_with_citation", "refuse", "say_not_found"] = (
+        Field(..., description="Target system behavior")
+    )
     notes: str | None = Field(
         default="", description="Rationale, phrasing category, or test intent"
     )
