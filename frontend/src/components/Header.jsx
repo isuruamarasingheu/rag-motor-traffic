@@ -1,35 +1,30 @@
 import React from 'react';
-import { Scale, ShieldCheck, BookOpen } from 'lucide-react';
+import { Scale, ChevronRight, BookOpen, AlertTriangle } from 'lucide-react';
 
 export default function Header() {
   return (
-    <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-20">
-      <div className="max-w-5xl mx-auto px-4 py-4 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-emerald-700 text-white flex items-center justify-center shadow-md">
-            <Scale className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              Sri Lanka Motor Traffic Legal Assistant
-            </h1>
-            <p className="text-xs text-slate-500 font-medium">
-              Citation-Grounded Citizen Legal Information System
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-semibold">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-            <BookOpen className="w-3.5 h-3.5" />
-            MTA No. 14 of 1951
-          </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            100% Grounded
-          </span>
-        </div>
+    <header className="h-14 bg-white/80 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between z-20 flex-shrink-0">
+      {/* Breadcrumb Navigation */}
+      <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+        <Scale className="w-4 h-4 text-slate-700" />
+        <span className="hidden sm:inline text-slate-600">Sri Lanka Legal System</span>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-400 hidden sm:inline" />
+        <span className="text-slate-700 font-semibold">Motor Traffic Act No. 14 of 1951</span>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+        <span className="text-slate-900 font-bold">Q&amp;A Assistant</span>
+      </div>
+
+      {/* Status Badges */}
+      <div className="flex items-center gap-2 text-xs">
+        <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-medium">
+          <BookOpen className="w-3 h-3 text-slate-500" />
+          979 Verified Sections
+        </span>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 font-medium text-[11px]">
+          <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0" />
+          <span>Legal Info · Not Advice</span>
+        </span>
       </div>
     </header>
   );
 }
-
