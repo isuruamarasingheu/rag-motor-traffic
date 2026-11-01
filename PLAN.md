@@ -83,8 +83,8 @@ Rules for using this file:
 - [x] **8.3 Logging** of query, rewritten query, retrieved ids/scores, status (for error analysis).
 
 ## Phase 9 - API and frontend
-- [ ] **9.1 FastAPI endpoint** returning the contract in 6.3, with input validation and error handling.
-- [ ] **9.2 React + Tailwind UI**: question box, answer, citations with the verbatim source text, visible disclaimer, clear refusal message.
+- [x] **9.1 FastAPI endpoint** returning the contract in 6.3, with input validation and error handling.
+- [x] **9.2 React + Tailwind UI**: question box, answer, citations with the verbatim source text, visible disclaimer, clear refusal message.
   *Done when:* a user can ask a question in the browser and see answer + cited text; refusal looks different from an answer.
 
 ## Phase 10 - Full evaluation and benchmark
@@ -120,3 +120,4 @@ Rules for using this file:
 - 2026-11-01: Tasks 6.1, 6.2, 6.3, 6.4, and 6.5 completed by Builder mode. Implemented src/retrieval/dense.py (DenseRetriever), src/retrieval/hybrid.py (HybridRetriever with Reciprocal Rank Fusion), src/retrieval/rewrite.py (QueryRewriter for citizen colloquial terms), src/eval/retrieval.py and src/eval/run.py (per rag-eval skill), and src/eval/index_benchmark.py (Brute-Force vs Chroma HNSW). Dev benchmark executed across 4 variants and saved to reports/retrieval_benchmark_dev.md and CSV. Index comparison saved to reports/index_comparison.md. All 27 tests passed, ruff clean. Phase 6 complete.
 - 2026-11-01: Tasks 7.1, 7.2, and 7.3 completed by Builder mode. Implemented src/generation/prompts.py with versioned grounded prompt (v1.0), src/generation/verifier.py for corpus and retrieved-set citation verification and ungrounded numeric fact detection, src/generation/gate.py for confidence gating with dev-set tuned cutoff (dense threshold 0.40, RRF 0.014 documented in configs/base.yaml), and src/generation/generator.py orchestrating LLM generation with retry logic. All 40 unit tests passed, ruff check and format clean. Phase 7 complete.
 - 2026-11-01: Tasks 8.1, 8.2, and 8.3 completed by Builder mode. Implemented src/graph/scope.py (ScopeClassifier for motor traffic domain boundary and refusal), src/graph/state.py (TypedDict GraphState), src/graph/nodes.py and src/graph/builder.py (LangGraph StateGraph compilation with conditional branching), and src/graph/logger.py (PipelineLogger writing to reports/pipeline_queries.jsonl). Added 4 end-to-end integration tests in tests/test_graph.py covering answered, refused_out_of_scope, and not_found. All 44 tests passed, ruff check and format clean. Phase 8 complete.
+- 2026-11-01: Tasks 9.1 and 9.2 completed by Builder mode. Implemented src/api/schemas.py and main.py with POST /ask returning standard AGENTS.md §6.3 response contract, input validation, CORS, and GET /health. Built comprehensive test suite in tests/test_api.py (all 49 tests passed). Scaffolded and compiled frontend/ with React, Vite, Tailwind CSS, Lucide icons, sample query pills, dynamic status styling (answered, refused, not_found), expandable verbatim source citations, and permanent legal disclaimer. Phase 9 complete.
