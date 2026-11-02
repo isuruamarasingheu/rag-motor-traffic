@@ -175,3 +175,33 @@ def test_hybrid_retriever_integration() -> None:
     assert hits[0]["rank"] == 1
     assert hits[0]["dense_score"] == 0.9
     assert hits[0]["bm25_score"] == 10.0
+
+
+def test_query_rewriter_sub_queries_fallback() -> None:
+    """Offline rule-based rewriter provides sub_queries matching expanded query."""
+    rewriter = QueryRewriter(use_llm=False)
+    res = rewriter.rewrite("Can I install musical horn?")
+    assert "musical horn" in res.expanded_terms
+    assert len(res.sub_queries) >= 1
+    assert res.sub_queries[0] == res.rewritten_query
+
+
+def test_query_rewriter_sub_queries_llm_json() -> None:
+    """LLM rewriter parses JSON output into rewritten_query and decomposed sub_queries."""
+    mock_client = MagicMock()
+    mock_resp = MagicMock()
+    mock_resp.choices = [
+        MagicMock(
+            message=MagicMock(
+                content='{"rewritten_query": "noise limits and contest procedure", "sub_queries": ["horn limits", "exhaust limits", "contest fine"]}'
+            )
+        )
+    ]
+    mock_client.chat.completions.create.return_value = mock_resp
+
+    rewriter = QueryRewriter(client=mock_client, use_llm=True)
+    res = rewriter.rewrite("Is my horn loud and how do I contest fine?")
+    assert len(res.sub_queries) == 3
+    assert res.sub_queries[0] == "horn limits"
+    assert res.sub_queries[1] == "exhaust limits"
+    assert res.sub_queries[2] == "contest fine"

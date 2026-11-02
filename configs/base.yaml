@@ -14,7 +14,7 @@ models:
   judge_model: "claude-3-5-sonnet"  # Different model family to avoid self-grading bias
 
 retrieval:
-  top_k: 5
+  top_k: 8
   dense_weight: 0.5
   bm25_weight: 0.5
   rrf_k: 60

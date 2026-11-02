@@ -1,7 +1,7 @@
 # Retrieval Benchmark Report (DEV Set)
 
-- **Date**: 2026-11-02 12:46:36
-- **Git Commit**: `3c8706b`
+- **Date**: 2026-11-02 14:47:36
+- **Git Commit**: `731fb13`
 - **Question Set**: `dev` (`data\eval\dev\questions.jsonl`)
 - **Questions SHA-256**: `6cc83d6b4ee8fcd6e5a66285a500e69013a8e7fe89ce2b38f81ceb8c8c21837f`
 - **RRF Constant k**: 60
@@ -13,8 +13,8 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Dense only | 0.2967 | 0.2667 | 0.2333 | 0.1111 | 0.2333 | 0.1067 | 0.3667 |
 | BM25 only | 0.2300 | 0.1333 | 0.1000 | 0.0889 | 0.2333 | 0.0933 | 0.3333 |
-| Hybrid (RRF) | 0.2333 | 0.2000 | 0.1667 | 0.1111 | 0.2333 | 0.0800 | 0.2667 |
-| Hybrid + Rewrite | 0.3333 | 0.2000 | 0.1667 | 0.1778 | 0.3667 | 0.1467 | 0.4667 |
+| Hybrid (RRF) | 0.2429 | 0.2000 | 0.1667 | 0.1111 | 0.2333 | 0.0800 | 0.2667 |
+| Hybrid + Rewrite | 0.3300 | 0.2667 | 0.2333 | 0.1778 | 0.3333 | 0.1333 | 0.4000 |
 
 ## Analysis Notes
 - **Dense only**: Captures semantic intent when the user asks conceptual questions without exact legal terminology.

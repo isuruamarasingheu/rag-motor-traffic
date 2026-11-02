@@ -24,7 +24,7 @@ class PipelineNodes:
         gate: ConfidenceGate | None = None,
         generator: GroundedGenerator | None = None,
         logger: PipelineLogger | None = None,
-        top_k: int = 5,
+        top_k: int = 8,
     ) -> None:
         self.scope_classifier = scope_classifier or ScopeClassifier()
         self.rewriter = rewriter or QueryRewriter()
@@ -53,12 +53,34 @@ class PipelineNodes:
         }
 
     def rewrite_and_retrieve(self, state: GraphState) -> dict[str, Any]:
-        """Node: Expand query with statutory terms and perform hybrid retrieval."""
+        """Node: Expand query with statutory terms, decompose if compound, and perform hybrid retrieval."""
         question = state.get("question", "")
         rewrite_res = self.rewriter.rewrite(question)
         rewritten = rewrite_res.rewritten_query
+        sub_queries = getattr(rewrite_res, "sub_queries", None) or [rewritten]
 
-        hits = self.retriever.retrieve(rewritten, top_k=self.top_k)
+        if len(sub_queries) > 1:
+            per_sub_k = min(self.top_k, max(3, (self.top_k // len(sub_queries)) + 2))
+            hits_by_id: dict[str, dict[str, Any]] = {}
+            for sq in sub_queries:
+                sub_hits = self.retriever.retrieve(sq, top_k=per_sub_k)
+                for h in sub_hits:
+                    hid = h["id"]
+                    if hid not in hits_by_id:
+                        hits_by_id[hid] = h
+                    else:
+                        if h.get("score", 0.0) > hits_by_id[hid].get("score", 0.0):
+                            hits_by_id[hid] = h
+
+            merged_hits = sorted(
+                hits_by_id.values(),
+                key=lambda x: x.get("score", 0.0),
+                reverse=True,
+            )[: self.top_k]
+            hits = merged_hits
+        else:
+            hits = self.retriever.retrieve(rewritten, top_k=self.top_k)
+
         return {
             "rewritten_query": rewritten,
             "retrieved_hits": hits,

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import os
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, field
 from typing import Any
 
 from dotenv import load_dotenv
@@ -52,16 +54,24 @@ COLLOQUIAL_LEGAL_MAPPINGS: dict[str, str] = {
     "second-hand car": "transfer of ownership change of possession section 12",
 }
 
-REWRITE_SYSTEM_PROMPT = """You are a legal query rewriter for Sri Lanka's Motor Traffic Act and traffic regulations.
-A citizen has asked a plain-language question using colloquial or everyday terms.
-Your job is to reformulate and expand the query into statutory legal phrasing used in Sri Lankan legislation, while keeping the user's core intent.
+REWRITE_SYSTEM_PROMPT = """You are a legal query rewriter and query decomposer for Sri Lanka's Motor Traffic Act and traffic regulations.
+A citizen has asked a plain-language question using colloquial, narrative, or situational terms.
+Your job is to:
+1. Reformulate the overall question into statutory legal phrasing used in Sri Lankan legislation, combining statutory terms with key concepts from the query.
+2. Determine whether the citizen's query contains multiple distinct legal questions or issues (e.g. horn decibel limits vs. exhaust silencing requirements vs. procedures for contesting a spot-fine ticket).
+   - If compound, decompose the query into 2 to 3 targeted, single-topic statutory search sub-queries.
+   - If single-topic, provide a list containing the single search query.
 
 Rules:
 1. Translate colloquial terms (e.g., 'car book' -> 'certificate of registration', 'driving book' -> 'driving licence', 'musical horn' -> 'harsh or musical sound horn', 'spot fine' -> 'fine penalty notice', 'drunk driving' -> 'driving under influence of intoxicating liquor').
-2. When a citizen asks about police seizing, taking, or detaining a vehicle, include statutory terms for Section 232F (powers of police officer or examiner to detain vehicle) and the lawful grounds for detention.
-3. When a query involves unpaid fines from a prior owner or seller, include terms for spot fine liability of the offender under Section 215A and ownership transfer under Section 12.
-4. Keep the output concise: 1 to 2 sentences containing the essential statutory legal terms.
-5. Output ONLY the rewritten search query, nothing else."""
+2. When police detention or vehicle seizure is mentioned, include Section 232F and Section 12 powers.
+3. When unpaid fines from a prior owner or seller are mentioned, include Section 215A offender liability and Section 12 ownership transfer.
+4. Output MUST be a valid JSON object in this exact schema:
+{
+  "rewritten_query": "Expanded query with statutory terminology",
+  "sub_queries": ["Targeted sub-query 1", "Targeted sub-query 2"]
+}
+Do NOT include markdown fences (```json) or text outside the JSON object."""
 
 
 @dataclass
@@ -69,6 +79,7 @@ class QueryRewriteResult:
     original_query: str
     rewritten_query: str
     expanded_terms: list[str]
+    sub_queries: list[str] = field(default_factory=list)
 
 
 class QueryRewriter:
@@ -108,11 +119,11 @@ class QueryRewriter:
         return query, []
 
     def rewrite(self, query: str) -> QueryRewriteResult:
-        """Rewrite and expand query using LLM with rule-based fallback."""
+        """Rewrite, expand, and decompose query using LLM with rule-based fallback."""
         clean_query = query.strip()
         if not clean_query:
             return QueryRewriteResult(
-                original_query="", rewritten_query="", expanded_terms=[]
+                original_query="", rewritten_query="", expanded_terms=[], sub_queries=[]
             )
 
         rule_expanded, matched_terms = self._rule_based_expand(clean_query)
@@ -122,6 +133,7 @@ class QueryRewriter:
                 original_query=clean_query,
                 rewritten_query=rule_expanded,
                 expanded_terms=matched_terms,
+                sub_queries=[rule_expanded],
             )
 
         try:
@@ -132,15 +144,43 @@ class QueryRewriter:
                     {"role": "user", "content": f"Citizen query: {clean_query}"},
                 ],
                 temperature=0.0,
-                max_tokens=150,
+                max_tokens=250,
             )
-            llm_rewritten = response.choices[0].message.content.strip()
-            # Combine LLM rewrite with original query keywords for high recall
-            final_rewritten = f"{clean_query} {llm_rewritten}"
+            raw_output = response.choices[0].message.content or ""
+            raw_output = raw_output.strip()
+
+            clean_output = raw_output
+            if clean_output.startswith("```"):
+                clean_output = re.sub(r"^```(?:json)?\s*", "", clean_output)
+                clean_output = re.sub(r"\s*```$", "", clean_output).strip()
+
+            rewritten_text = ""
+            sub_queries: list[str] = []
+
+            try:
+                parsed = json.loads(clean_output)
+                if isinstance(parsed, dict):
+                    rewritten_text = parsed.get("rewritten_query", "").strip()
+                    subs = parsed.get("sub_queries", [])
+                    if isinstance(subs, list):
+                        sub_queries = [
+                            s.strip() for s in subs if isinstance(s, str) and s.strip()
+                        ]
+            except json.JSONDecodeError:
+                rewritten_text = raw_output
+
+            if not rewritten_text:
+                rewritten_text = raw_output
+
+            final_rewritten = f"{clean_query} {rewritten_text}".strip()
+            if not sub_queries:
+                sub_queries = [final_rewritten]
+
             return QueryRewriteResult(
                 original_query=clean_query,
                 rewritten_query=final_rewritten,
                 expanded_terms=matched_terms,
+                sub_queries=sub_queries,
             )
         except Exception:  # noqa: BLE001
             # Fall back safely to rule-based expansion
@@ -148,4 +188,5 @@ class QueryRewriter:
                 original_query=clean_query,
                 rewritten_query=rule_expanded,
                 expanded_terms=matched_terms,
+                sub_queries=[rule_expanded],
             )
