@@ -47,6 +47,32 @@ GAZETTE_CATEGORIES = {
 }
 
 
+CROSS_REF_PREV_WORDS = re.compile(
+    r"\b(?:provisions of|accordance with|terms of|under|purposes of|referred to in|"
+    r"contravention of|compliance with|comply with|specified in|liable to|"
+    r"pursuant to|notice of|application of|application under|authorized by|"
+    r"authorized under|prescribed under|prescribed in|defined in|meaning of|"
+    r"schedule to|item \d+ of|penalty in|fee under|order under|notification under|"
+    r"in|to|of|by|from|into|for|with)\s*$",
+    re.IGNORECASE,
+)
+
+CROSS_REF_HEADING_CONTAINS = re.compile(
+    r"\b(?:provisions of|accordance with|terms of|referred to in|contravention of|"
+    r"penalty specified in|conviction be liable|under section|in section|to section|"
+    r"of section|by section|with section|from section)\b",
+    re.IGNORECASE,
+)
+
+
+def is_cross_reference_split(raw_heading: str) -> bool:
+    """Check if a matched heading text is an inline cross-reference clause, not a real section heading."""
+    if not raw_heading:
+        return False
+    h = " ".join(raw_heading.strip().split())
+    return bool(CROSS_REF_PREV_WORDS.search(h) or CROSS_REF_HEADING_CONTAINS.search(h))
+
+
 def extract_defined_terms_from_text(definitions_text: str) -> dict[str, str]:
     """Extract defined terms and their definitions from Section 240 / Interpretation text."""
     defined_terms: dict[str, str] = {}
@@ -131,7 +157,10 @@ def parse_consolidated_act(
             re.MULTILINE,
         )
 
-        sec_splits = list(sec_pattern.finditer(part_body))
+        all_splits = list(sec_pattern.finditer(part_body))
+        sec_splits = [
+            s for s in all_splits if not is_cross_reference_split(s.group(1) or "")
+        ]
         if not sec_splits:
             continue
 

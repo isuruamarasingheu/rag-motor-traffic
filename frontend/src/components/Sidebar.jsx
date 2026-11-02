@@ -108,7 +108,7 @@ export default function Sidebar({ onSelectQuery, onNewQuestion, history = [] }) 
       <div className="p-3 border-t border-slate-800/80 bg-slate-950/40 relative z-10">
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg py-1.5 px-1">
-            <div className="text-xs font-bold text-[#f0c96a]">979</div>
+            <div className="text-xs font-bold text-[#f0c96a]">991</div>
             <div className="text-[9px] text-slate-400 uppercase tracking-wider">Sections</div>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg py-1.5 px-1">
@@ -124,3 +124,4 @@ export default function Sidebar({ onSelectQuery, onNewQuestion, history = [] }) 
     </aside>
   );
 }
+

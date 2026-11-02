@@ -131,3 +131,13 @@ class ChromaStore:
     def count(self) -> int:
         """Return the number of items in the collection."""
         return self.collection.count()
+
+    def reset_collection(self) -> None:
+        """Delete existing collection and recreate an empty one."""
+        existing_names = [c.name for c in self.client.list_collections()]
+        if self.collection_name in existing_names:
+            self.client.delete_collection(name=self.collection_name)
+        self.collection = self.client.get_or_create_collection(
+            name=self.collection_name,
+            metadata={"hnsw:space": "cosine"},
+        )

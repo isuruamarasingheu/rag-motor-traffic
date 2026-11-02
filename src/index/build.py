@@ -39,7 +39,7 @@ def load_records(sections_path: str | Path) -> list[SectionRecord]:
     return records
 
 
-def build_all(config_path: str = "configs/base.yaml") -> None:
+def build_all(config_path: str = "configs/base.yaml", reset: bool = False) -> None:
     config = load_config(config_path)
     paths = config.get("paths", {})
     models = config.get("models", {})
@@ -80,6 +80,9 @@ def build_all(config_path: str = "configs/base.yaml") -> None:
     # 2. Chroma Vector Database
     logger.info("Updating Chroma persistent vector store at %s...", chroma_dir)
     chroma_store = ChromaStore(persist_dir=chroma_dir, collection_name="mta_sections")
+    if reset:
+        logger.info("Resetting Chroma collection '%s'...", chroma_store.collection_name)
+        chroma_store.reset_collection()
     chroma_store.add_records(verified_records, embeddings, batch_size=250)
     logger.info(
         "Chroma collection 'mta_sections' updated. Total documents: %d",
@@ -104,8 +107,13 @@ def main() -> None:
         default="configs/base.yaml",
         help="Path to YAML configuration file.",
     )
+    parser.add_argument(
+        "--reset",
+        action="store_true",
+        help="Reset vector collection before building.",
+    )
     args = parser.parse_args()
-    build_all(config_path=args.config)
+    build_all(config_path=args.config, reset=args.reset)
 
 
 if __name__ == "__main__":
