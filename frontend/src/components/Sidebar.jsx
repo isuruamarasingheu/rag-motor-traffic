@@ -9,11 +9,10 @@ import {
   Search,
   PanelLeftClose,
   PanelLeft,
-  Scale,
-  ShieldCheck,
   Clock,
   Sparkles,
 } from 'lucide-react';
+import GoldenScaleLogo from './GoldenScaleLogo';
 
 const TOPIC_PRESETS = [
   {
@@ -61,10 +60,10 @@ export default function Sidebar({
       <aside className="w-16 bg-[#090d15] text-slate-300 flex flex-col h-full border-r border-slate-800/80 items-center py-4 space-y-6 flex-shrink-0 select-none">
         <button
           onClick={() => setCollapsed(false)}
-          className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-[#d4a843] hover:border-[#d4a843] transition font-serif-legal text-lg"
+          className="focus:outline-none"
           title="Expand Sidebar"
         >
-          §
+          <GoldenScaleLogo className="w-9 h-9 rounded-xl" iconSize="w-5 h-5" />
         </button>
 
         <button
@@ -110,9 +109,7 @@ export default function Sidebar({
       {/* Top Header */}
       <div className="p-3.5 border-b border-slate-800/80 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 flex items-center justify-center text-[#d4a843] font-serif-legal text-base shadow-sm">
-            §
-          </div>
+          <GoldenScaleLogo className="w-8 h-8 rounded-xl" iconSize="w-4 h-4" />
           <span className="text-xs font-semibold text-slate-200 tracking-tight">
             Motor Traffic Law
           </span>

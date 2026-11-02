@@ -50,6 +50,24 @@ body {
   animation: fadeUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Weighing / balancing animation for legal scale */
+@keyframes scaleWeigh {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg) scale(1.05);
+  }
+  75% {
+    transform: rotate(10deg) scale(1.05);
+  }
+}
+
+.animate-scale-weigh {
+  animation: scaleWeigh 1.2s ease-in-out infinite;
+  transform-origin: center top;
+}
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;

@@ -6,13 +6,13 @@ import {
   Mic,
   ChevronDown,
   Sparkles,
-  Loader2,
+  Scale,
   FileText,
   Volume2,
   Car,
   AlertTriangle,
-  HelpCircle,
 } from 'lucide-react';
+import GoldenScaleLogo from './GoldenScaleLogo';
 
 const POPULAR_QUESTIONS = [
   {
@@ -67,7 +67,6 @@ export default function QueryHero({
   };
 
   const handleMicToggle = () => {
-    // Check speech recognition support
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert('Speech recognition is not supported in this browser. Please type your query.');
@@ -99,9 +98,9 @@ export default function QueryHero({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] py-8 px-4 text-center max-w-3xl mx-auto w-full animate-fade-up">
-      {/* Top § Badge */}
-      <div className="w-11 h-11 rounded-2xl bg-[#131926] border border-slate-700/80 text-[#d4a843] flex items-center justify-center text-xl font-serif-legal shadow-xl shadow-black/40 mb-4 hover:border-[#d4a843]/60 transition">
-        §
+      {/* Top Golden Scale Logo matching photo with subtle animation on hover */}
+      <div className="mb-4">
+        <GoldenScaleLogo className="w-13 h-13" iconSize="w-7 h-7" animated={loading} />
       </div>
 
       {/* Main Serif Headline */}
@@ -109,7 +108,7 @@ export default function QueryHero({
         What does the law say?
       </h1>
 
-      {/* Central Query Box */}
+      {/* Central Query Box (Stays in-place, never unmounted during search) */}
       <div className="w-full bg-[#121824]/90 backdrop-blur-md border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-2xl focus-within:border-[#d4a843]/70 focus-within:ring-2 focus-within:ring-[#d4a843]/15 transition duration-200 text-left relative group">
         <form onSubmit={onSubmit}>
           <textarea
@@ -122,9 +121,9 @@ export default function QueryHero({
             placeholder={
               activeTab === 'ask'
                 ? 'Ask about a vehicle, a licence or a fine...'
-                : 'Enter a section number (e.g. Section 123, 141A, 215A, or Gazette 1738/37)...'
+                : 'Enter a section number (e.g. 123, 141A, 218) or click Browse to explore Act...'
             }
-            className="w-full bg-transparent text-slate-100 placeholder:text-slate-500 text-sm sm:text-base leading-relaxed outline-none resize-none font-normal"
+            className="w-full bg-transparent text-slate-100 placeholder:text-slate-500 text-sm sm:text-base leading-relaxed outline-none resize-none font-normal disabled:opacity-70"
           />
 
           {error && (
@@ -140,6 +139,7 @@ export default function QueryHero({
               <button
                 type="button"
                 onClick={() => setActiveTab('ask')}
+                disabled={loading}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
                   activeTab === 'ask'
                     ? 'bg-slate-200 text-slate-950 font-semibold shadow-sm'
@@ -154,6 +154,7 @@ export default function QueryHero({
                   setActiveTab('section');
                   onOpenActBrowser();
                 }}
+                disabled={loading}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
                   activeTab === 'section'
                     ? 'bg-slate-200 text-slate-950 font-semibold shadow-sm'
@@ -174,6 +175,7 @@ export default function QueryHero({
               <button
                 type="button"
                 onClick={handleMicToggle}
+                disabled={loading}
                 className={`p-2 rounded-xl transition ${
                   isListening
                     ? 'bg-rose-500/20 text-rose-400 border border-rose-500 animate-pulse'
@@ -184,20 +186,36 @@ export default function QueryHero({
                 <Mic className="w-4 h-4" />
               </button>
 
+              {/* Submit button with animated golden scale weighing when loading */}
               <button
                 type="submit"
                 disabled={loading || !question.trim()}
-                className="w-9 h-9 rounded-xl bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 flex items-center justify-center font-bold shadow-lg shadow-[#d4a843]/20 transition disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
-                title="Submit Question"
+                className={`w-9 h-9 rounded-xl text-slate-950 flex items-center justify-center font-bold shadow-lg transition active:scale-95 ${
+                  loading
+                    ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
+                    : 'bg-[#d4a843] hover:bg-[#e4b952] shadow-[#d4a843]/20 disabled:opacity-40 disabled:cursor-not-allowed'
+                }`}
+                title={loading ? 'Consulting the law...' : 'Submit Question'}
               >
                 {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                  <Scale className="w-4 h-4 stroke-[2.5] text-slate-950 animate-scale-weigh" />
                 ) : (
                   <ArrowUp className="w-4 h-4 stroke-[2.8]" />
                 )}
               </button>
             </div>
           </div>
+
+          {/* In-place subtle status line when searching without changing the box */}
+          {loading && (
+            <div className="pt-2.5 mt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-[#f0c96a] animate-pulse">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#d4a843] animate-ping" />
+                <span>Consulting 991 sections & verifying statutory citations...</span>
+              </div>
+              <span className="font-mono text-slate-400 text-[10px]">Zero Hallucination Grounding</span>
+            </div>
+          )}
         </form>
       </div>
 
@@ -247,7 +265,8 @@ export default function QueryHero({
               <button
                 key={idx}
                 onClick={() => setQuestion(item.query)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white text-xs transition active:scale-95"
+                disabled={loading}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white text-xs transition active:scale-95 disabled:opacity-50"
               >
                 <Icon className="w-3.5 h-3.5 text-[#d4a843]" />
                 <span>{item.label}</span>

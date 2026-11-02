@@ -8,16 +8,13 @@ import {
   Check,
   Code,
   ShieldCheck,
-  Scale,
   Bookmark,
   Plus,
   ArrowRight,
-  ExternalLink,
 } from 'lucide-react';
 
 export default function ResponseCard({
   result,
-  loading,
   currentQuestion,
   onNewQuestion,
   onSaveAnswer,
@@ -26,28 +23,6 @@ export default function ResponseCard({
   const [activeTab, setActiveTab] = useState('answer');
   const [copiedId, setCopiedId] = useState(null);
   const [answerCopied, setAnswerCopied] = useState(false);
-
-  if (loading) {
-    return (
-      <div className="w-full max-w-3xl mx-auto bg-[#121824]/90 border border-slate-700/80 rounded-2xl p-8 sm:p-12 shadow-2xl text-center space-y-4 animate-fade-up">
-        <div className="w-12 h-12 rounded-2xl bg-[#d4a843]/15 border border-[#d4a843]/40 text-[#d4a843] flex items-center justify-center mx-auto shadow-lg shadow-[#d4a843]/10">
-          <Scale className="w-6 h-6 animate-pulse" />
-        </div>
-        <div>
-          <h3 className="text-base font-semibold text-slate-100">
-            Consulting Sri Lanka Motor Traffic Act
-          </h3>
-          <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
-            Classifying scope, executing hybrid retrieval across 991 sections, and verifying statutory citations...
-          </p>
-        </div>
-        <div className="flex items-center justify-center gap-2 pt-2">
-          <span className="w-2 h-2 rounded-full bg-[#d4a843] animate-ping" />
-          <span className="text-[11px] text-[#f0c96a] font-mono">Zero-hallucination grounding active</span>
-        </div>
-      </div>
-    );
-  }
 
   if (!result) return null;
 
@@ -104,7 +79,7 @@ export default function ResponseCard({
   const IconComp = config.icon;
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-8 animate-fade-up">
+    <div className="w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-6 animate-fade-up">
       {/* Top Bar with Question and Status */}
       <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">

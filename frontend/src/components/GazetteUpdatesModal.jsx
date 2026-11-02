@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, Bell, FileText, ChevronRight, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { X, Bell, ChevronRight, FileText } from 'lucide-react';
+import GoldenScaleLogo from './GoldenScaleLogo';
 
 const GAZETTE_UPDATES = [
   {
@@ -49,9 +50,7 @@ export default function GazetteUpdatesModal({ isOpen, onClose, onSelectTopic }) 
         {/* Header */}
         <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center">
-              <Bell className="w-5 h-5" />
-            </div>
+            <GoldenScaleLogo className="w-9 h-9 rounded-xl" iconSize="w-5 h-5" />
             <div>
               <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
                 <span>Gazette & Amendment Updates</span>
@@ -99,16 +98,16 @@ export default function GazetteUpdatesModal({ isOpen, onClose, onSelectTopic }) 
                 {item.summary}
               </p>
 
-              <div className="pt-1 flex justify-end">
+              <div className="pt-2 flex justify-end">
                 <button
                   onClick={() => {
                     onSelectTopic(item.query);
                     onClose();
                   }}
-                  className="flex items-center gap-1.5 text-[11px] font-semibold text-[#f0c96a] hover:text-white transition"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 text-[11px] font-semibold transition shadow-sm active:scale-95"
                 >
                   <span>Query this update</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </button>
               </div>
             </div>
