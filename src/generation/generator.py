@@ -18,7 +18,7 @@ from src.generation.prompts import (
     GROUNDED_SYSTEM_PROMPT,
     render_user_prompt,
 )
-from src.generation.verifier import CitationVerifier
+from src.generation.verifier import CitationVerifier, enrich_fines_with_numerals
 
 load_dotenv()
 
@@ -143,6 +143,9 @@ class GroundedGenerator:
                     "citations": [],
                     "disclaimer": LEGAL_DISCLAIMER,
                 }
+
+            # Automatically enrich statutory word fines with clear currency notation [Rs. X to Rs. Y]
+            answer = enrich_fines_with_numerals(answer)
 
             # Verify citations & numbers
             verification = self.verifier.verify(

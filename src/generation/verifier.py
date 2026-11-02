@@ -26,8 +26,13 @@ STATUTORY_WORD_NUMBERS: dict[str, int] = {
     "three thousand": 3000,
     "four thousand": 4000,
     "five thousand": 5000,
+    "six thousand": 6000,
+    "seven thousand": 7000,
     "seven thousand five hundred": 7500,
+    "eight thousand": 8000,
+    "nine thousand": 9000,
     "ten thousand": 10000,
+    "twelve thousand": 12000,
     "fifteen thousand": 15000,
     "twenty thousand": 20000,
     "twenty-five thousand": 25000,
@@ -51,6 +56,45 @@ STATUTORY_WORD_NUMBERS: dict[str, int] = {
     "sixty": 60,
     "ninety": 90,
 }
+
+
+def enrich_fines_with_numerals(text: str) -> str:
+    """Enrich fine amounts written in statutory English words with numeric currency figures."""
+    if not text:
+        return text
+
+    # Avoid duplicating if already followed by currency range
+    def repl_range(match: re.Match[str]) -> str:
+        full = match.group(0)
+        w1 = match.group(1).strip().lower()
+        w2 = match.group(2).strip().lower()
+        v1 = STATUTORY_WORD_NUMBERS.get(w1)
+        v2 = STATUTORY_WORD_NUMBERS.get(w2)
+        if v1 and v2:
+            return f"{full} [Rs. {v1:,} to Rs. {v2:,}]"
+        return full
+
+    pat_range = re.compile(
+        r"not less than\s+([a-zA-Z\s\-]+?)\s+rupees\s+and\s+not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees(?!\s*\[Rs\.)",
+        re.IGNORECASE,
+    )
+    res = pat_range.sub(repl_range, text)
+
+    # Pattern 2: standalone not exceeding
+    def repl_single(match: re.Match[str]) -> str:
+        full = match.group(0)
+        w = match.group(1).strip().lower()
+        v = STATUTORY_WORD_NUMBERS.get(w)
+        if v:
+            return f"{full} [Rs. {v:,}]"
+        return full
+
+    pat_single = re.compile(
+        r"(?<!and\s)not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees(?!\s*\[Rs\.)",
+        re.IGNORECASE,
+    )
+    res = pat_single.sub(repl_single, res)
+    return res
 
 
 @dataclass
