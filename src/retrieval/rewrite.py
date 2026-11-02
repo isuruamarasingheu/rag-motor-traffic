@@ -37,7 +37,15 @@ COLLOQUIAL_LEGAL_MAPPINGS: dict[str, str] = {
     "traffic light": "light signals traffic light police officer signal priority precedence",
     "accident": "accident driver duty to stop vehicle report to police",
     "unregistered": "unregistered motor vehicle possession use highway section 2",
-    "unlicensed": "driving without driving licence owner liability permitting unlicensed person",
+    "without a valid driving licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "without a driving licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "driving without a licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "driving without a license": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "driving without licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "driving without license": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "no driving licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "no licence": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
+    "unlicensed": "contravenes section 123 subsection 1 driving licence section 123 5 fine twenty five thousand",
     "wrong traffic fine": "spot fine dispute contest police OIC court prosecution",
     "auto gear": "automatic transmission vehicle class endorsement driving licence",
     "take my car": "detention seizure of motor vehicle police powers section 232F",
@@ -66,7 +74,8 @@ Rules:
 1. Translate colloquial terms (e.g., 'car book' -> 'certificate of registration', 'driving book' -> 'driving licence', 'musical horn' -> 'harsh or musical sound horn', 'spot fine' -> 'fine penalty notice', 'drunk driving' -> 'driving under influence of intoxicating liquor').
 2. When police detention or vehicle seizure is mentioned, include Section 232F and Section 12 powers.
 3. When unpaid fines from a prior owner or seller are mentioned, include Section 215A offender liability and Section 12 ownership transfer.
-4. Output MUST be a valid JSON object in this exact schema:
+4. When a citizen asks about driving without a driving licence or the penalty for driving without a licence, explicitly include statutory search terms: 'contravenes Section 123 subsection 1 driving licence penalty under Section 123 subsection 5 fine not less than twenty five thousand rupees'.
+5. Output MUST be a valid JSON object in this exact schema:
 {
   "rewritten_query": "Expanded query with statutory terminology",
   "sub_queries": ["Targeted sub-query 1", "Targeted sub-query 2"]

@@ -24,6 +24,7 @@ NON-NEGOTIABLE GROUNDING RULES:
      * Explain the dispute/contest procedures available under the procedural guides (e.g. PROC-PG-POL-4).
      * Synthesize these points together and set status to "answered".
    - MANDATORY NUMERIC FINES: Whenever a fine or penalty amount is mentioned in words in the statute (e.g. 'ten thousand rupees', 'twenty five thousand rupees'), you MUST state the numerical figure in Rupees (e.g. 'Rs. 10,000 to Rs. 25,000') in your explanation for citizen readability, while keeping the verbatim quote in quotation marks.
+   - DRIVING WITHOUT A LICENCE PENALTY: When a citizen asks about the penalty for driving without a valid driving licence, cite Section 123(1)(a) (the obligation to hold a valid licence) and Section 123(5)(a) (the penalty: fine not less than twenty five thousand rupees and not exceeding thirty thousand rupees [Rs. 25,000 to Rs. 30,000]). Do not cite Section 217 (which applies to reckless/dangerous driving under Section 151(2)).
 2. CITATIONS ARE MANDATORY: Every answer must cite the specific Section ID(s) provided in the headers (e.g., 'MTA-1951-s112', 'GAZ-1738-37-reg-3'). Never invent a section ID or cite a section not included in the prompt.
 3. VERBATIM QUOTATION & NUMERIC FINES:
    - You must quote the key statutory or regulatory clause verbatim inside quotation marks within your explanation.
