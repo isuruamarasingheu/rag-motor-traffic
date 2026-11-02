@@ -15,6 +15,43 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+STATUTORY_WORD_NUMBERS: dict[str, int] = {
+    "one hundred": 100,
+    "two hundred": 200,
+    "three hundred": 300,
+    "five hundred": 500,
+    "one thousand": 1000,
+    "two thousand": 2000,
+    "two thousand five hundred": 2500,
+    "three thousand": 3000,
+    "four thousand": 4000,
+    "five thousand": 5000,
+    "seven thousand five hundred": 7500,
+    "ten thousand": 10000,
+    "fifteen thousand": 15000,
+    "twenty thousand": 20000,
+    "twenty-five thousand": 25000,
+    "twenty five thousand": 25000,
+    "thirty thousand": 30000,
+    "forty thousand": 40000,
+    "fifty thousand": 50000,
+    "sixty thousand": 60000,
+    "seventy-five thousand": 75000,
+    "seventy five thousand": 75000,
+    "one hundred thousand": 100000,
+    "two hundred thousand": 200000,
+    "five hundred thousand": 500000,
+    "one million": 1000000,
+    "fourteen": 14,
+    "twenty-four": 24,
+    "twenty four": 24,
+    "twenty-one": 21,
+    "twenty one": 21,
+    "thirty": 30,
+    "sixty": 60,
+    "ninety": 90,
+}
+
 
 @dataclass
 class CitationVerificationResult:
@@ -104,7 +141,20 @@ class CitationVerifier:
 
         # Normalize retrieved text into combined string
         combined_source = " ".join(retrieved_texts)
-        source_numbers = set(re.findall(r"\b\d+(?:[\.,]\d+)?\b", combined_source))
+        raw_source_numbers = re.findall(r"\b\d+(?:[\.,]\d+)?\b", combined_source)
+
+        source_numbers: set[str] = set()
+        for s_num in raw_source_numbers:
+            clean_s = s_num.strip(".,")
+            source_numbers.add(clean_s)
+            source_numbers.add(clean_s.replace(",", ""))
+
+        # Resolve statutory written English amounts to numbers
+        combined_lower = combined_source.lower()
+        for phrase, val in STATUTORY_WORD_NUMBERS.items():
+            if phrase in combined_lower:
+                source_numbers.add(str(val))
+                source_numbers.add(f"{val:,}")
 
         # Additional allowed numbers (e.g. section numbers cited, year 1951, bullet points 1, 2, 3)
         whitelist = set(allowed_numbers or set())
@@ -115,12 +165,14 @@ class CitationVerifier:
         for num in raw_numbers:
             # Clean trailing punctuation
             clean_num = num.strip(".,")
+            clean_uncomma = clean_num.replace(",", "")
             if not clean_num:
                 continue
-            if clean_num in whitelist:
+            if clean_num in whitelist or clean_uncomma in whitelist:
                 continue
-            if clean_num not in source_numbers:
-                flagged.append(clean_num)
+            if clean_num in source_numbers or clean_uncomma in source_numbers:
+                continue
+            flagged.append(clean_num)
 
         return sorted(set(flagged))
 

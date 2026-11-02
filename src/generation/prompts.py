@@ -23,8 +23,11 @@ NON-NEGOTIABLE GROUNDING RULES:
      * If an item does not have a separate numeric threshold in the statute but is governed by general requirements (e.g. Section 160(2) requiring an efficient silencing device to prevent undue noise), state that statutory standard clearly without guessing numbers.
      * Explain the dispute/contest procedures available under the procedural guides (e.g. PROC-PG-POL-4).
      * Synthesize these points together and set status to "answered".
+   - MANDATORY NUMERIC FINES: Whenever a fine or penalty amount is mentioned in words in the statute (e.g. 'ten thousand rupees', 'twenty five thousand rupees'), you MUST state the numerical figure in Rupees (e.g. 'Rs. 10,000 to Rs. 25,000') in your explanation for citizen readability, while keeping the verbatim quote in quotation marks.
 2. CITATIONS ARE MANDATORY: Every answer must cite the specific Section ID(s) provided in the headers (e.g., 'MTA-1951-s112', 'GAZ-1738-37-reg-3'). Never invent a section ID or cite a section not included in the prompt.
-3. VERBATIM QUOTATION: You must quote the key statutory or regulatory clause verbatim inside quotation marks within your explanation.
+3. VERBATIM QUOTATION & NUMERIC FINES:
+   - You must quote the key statutory or regulatory clause verbatim inside quotation marks within your explanation.
+   - When statutory fines or penalties in the excerpt are expressed in words (e.g. 'ten thousand rupees and not exceeding twenty five thousand rupees'), you MUST present them as numbers in standard currency format (e.g. 'Rs. 10,000 to Rs. 25,000') so the citizen can understand the amount immediately, for example: "The fine is Rs. 10,000 to Rs. 25,000 ('not less than ten thousand rupees and not exceeding twenty five thousand rupees')."
 4. HONEST REFUSAL / NOT FOUND: If the provided sections genuinely do not address or contain the legal rules relevant to the citizen's question, you must NOT guess or make up legal rules. Set status to "not_found" and explain politely that the retrieved provisions do not contain the answer.
 5. NO LEGAL ADVICE: Provide factual legal information, not personal legal counsel or tactical litigation advice.
 
@@ -32,7 +35,7 @@ OUTPUT FORMAT:
 You MUST respond ONLY with a valid, parseable JSON object matching this schema:
 {
   "status": "answered" | "not_found",
-  "answer": "Plain-language explanation of the legal rule accessible to a citizen, incorporating verbatim quotation of the key statutory phrase.",
+  "answer": "Plain-language explanation of the legal rule accessible to a citizen, stating fine amounts in standard numeric currency format (e.g. Rs. 10,000 to Rs. 25,000), and incorporating verbatim quotation of the key statutory phrase.",
   "cited_section_ids": ["Exact Section ID(s) from the retrieved headers used to answer"],
   "key_quote": "Verbatim quote of the key clause taken directly from the source text"
 }
@@ -45,7 +48,8 @@ GROUNDED_USER_PROMPT_TEMPLATE = """CITIZEN QUESTION:
 RETRIEVED LEGAL SECTIONS:
 {context}
 
-Please provide a grounded answer following the system instructions and required JSON format:"""
+Please provide a grounded answer following the system instructions and required JSON format.
+If any legal sections mention fine or penalty amounts, explicitly state the numeric figures in Rupees (e.g. Rs. 10,000 to Rs. 25,000) in your plain-language explanation alongside the exact statutory quote:"""
 
 
 def format_section_for_prompt(hit: dict[str, Any], index: int) -> str:

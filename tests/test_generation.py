@@ -189,6 +189,24 @@ def test_number_verifier_grounded_and_invented(tmp_path) -> None:
     assert "5000" in flagged
 
 
+def test_number_verifier_statutory_words_to_numerals(tmp_path) -> None:
+    """Verifies that numbers expressed as statutory English words pass verification when stated as numerals."""
+    verifier = CitationVerifier(sections_path=tmp_path / "dummy.jsonl")
+    retrieved_texts = [
+        "liable to a fine not less than ten thousand rupees and not exceeding twenty five thousand rupees."
+    ]
+
+    answer = "The offender is liable to a fine between Rs. 10,000 and Rs. 25,000 under the section."
+    flagged = verifier.verify_numbers(answer, retrieved_texts)
+    assert flagged == []
+
+    # Invented numbers are still flagged
+    bad_answer = "The fine is Rs. 99,000 and the jail term is 50 months."
+    flagged_bad = verifier.verify_numbers(bad_answer, retrieved_texts)
+    assert any("99" in n for n in flagged_bad)
+    assert "50" in flagged_bad
+
+
 # --- Confidence Gate Tests ---
 
 
