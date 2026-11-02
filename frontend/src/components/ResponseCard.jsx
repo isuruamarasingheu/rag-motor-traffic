@@ -9,42 +9,59 @@ import {
   Code,
   ShieldCheck,
   Scale,
+  Bookmark,
+  Plus,
+  ArrowRight,
+  ExternalLink,
 } from 'lucide-react';
 
-export default function ResponseCard({ result, loading }) {
+export default function ResponseCard({
+  result,
+  loading,
+  currentQuestion,
+  onNewQuestion,
+  onSaveAnswer,
+  isSaved = false,
+}) {
   const [activeTab, setActiveTab] = useState('answer');
   const [copiedId, setCopiedId] = useState(null);
+  const [answerCopied, setAnswerCopied] = useState(false);
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-8 text-center animate-pulse">
-        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3">
-          <Scale className="w-5 h-5 text-slate-400 animate-spin" />
+      <div className="w-full max-w-3xl mx-auto bg-[#121824]/90 border border-slate-700/80 rounded-2xl p-8 sm:p-12 shadow-2xl text-center space-y-4 animate-fade-up">
+        <div className="w-12 h-12 rounded-2xl bg-[#d4a843]/15 border border-[#d4a843]/40 text-[#d4a843] flex items-center justify-center mx-auto shadow-lg shadow-[#d4a843]/10">
+          <Scale className="w-6 h-6 animate-pulse" />
         </div>
-        <h3 className="text-sm font-semibold text-slate-700">Consulting Statutory Corpus</h3>
-        <p className="text-xs text-slate-400 mt-1">Retrieving sections and verifying legal citations...</p>
+        <div>
+          <h3 className="text-base font-semibold text-slate-100">
+            Consulting Sri Lanka Motor Traffic Act
+          </h3>
+          <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+            Classifying scope, executing hybrid retrieval across 991 sections, and verifying statutory citations...
+          </p>
+        </div>
+        <div className="flex items-center justify-center gap-2 pt-2">
+          <span className="w-2 h-2 rounded-full bg-[#d4a843] animate-ping" />
+          <span className="text-[11px] text-[#f0c96a] font-mono">Zero-hallucination grounding active</span>
+        </div>
       </div>
     );
   }
 
-  if (!result) {
-    return (
-      <div className="bg-white/60 backdrop-blur-xs rounded-2xl border border-dashed border-slate-300 p-8 text-center text-slate-400">
-        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
-          <Scale className="w-5 h-5" />
-        </div>
-        <h3 className="text-sm font-medium text-slate-600">No Legal Inquiry Active</h3>
-        <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-          Type your traffic law question above or choose a suggested query from the left panel to begin.
-        </p>
-      </div>
-    );
-  }
+  if (!result) return null;
 
   const { status, answer, citations = [] } = result;
 
-  const handleCopy = (id, text, e) => {
-    e.stopPropagation();
+  const handleCopyAnswer = () => {
+    if (!answer) return;
+    navigator.clipboard.writeText(answer);
+    setAnswerCopied(true);
+    setTimeout(() => setAnswerCopied(false), 2000);
+  };
+
+  const handleCopyCitation = (id, text, e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
@@ -55,36 +72,30 @@ export default function ResponseCard({ result, loading }) {
       case 'answered':
         return {
           title: 'Grounded Legal Information',
-          subtitle: `${citations.length} ${citations.length === 1 ? 'provision' : 'provisions'} retrieved · High confidence`,
+          subtitle: `${citations.length} ${citations.length === 1 ? 'section' : 'sections'} verified · Strict Grounding`,
           icon: CheckCircle2,
-          iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
-          scopeBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-          scopeText: '✓ In Scope',
-          statusBadge: 'bg-emerald-100 text-emerald-800 border-emerald-300',
-          statusText: 'ANSWERED',
+          iconBg: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30',
+          statusBadge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+          statusText: 'ANSWERED · VERIFIED CITATION',
         };
       case 'refused_out_of_scope':
         return {
-          title: 'Out of Scope — Request Refused',
-          subtitle: 'Query falls outside Sri Lankan Motor Traffic Law jurisdiction',
+          title: 'Out of Scope — Motor Traffic Act Only',
+          subtitle: 'Query does not pertain to Sri Lankan Motor Traffic Law',
           icon: AlertTriangle,
-          iconBg: 'bg-rose-50 text-rose-600 border border-rose-200',
-          scopeBadge: 'bg-rose-50 text-rose-700 border-rose-200',
-          scopeText: '✗ Out of Scope',
-          statusBadge: 'bg-rose-100 text-rose-800 border-rose-300',
-          statusText: 'REFUSED',
+          iconBg: 'bg-amber-500/10 text-amber-400 border border-amber-500/30',
+          statusBadge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+          statusText: 'REFUSED · OUT OF SCOPE',
         };
       case 'not_found':
       default:
         return {
-          title: 'No Relevant Provision Found',
-          subtitle: 'Query appears in-scope but corpus lacks confident statutory match',
+          title: 'No Matching Provision Found',
+          subtitle: 'In-scope query, but no statutory provision was retrieved with sufficient confidence',
           icon: HelpCircle,
-          iconBg: 'bg-slate-100 text-slate-600 border border-slate-200',
-          scopeBadge: 'bg-slate-100 text-slate-700 border-slate-200',
-          scopeText: '✓ In Scope',
-          statusBadge: 'bg-slate-200 text-slate-800 border-slate-300',
-          statusText: 'NOT FOUND',
+          iconBg: 'bg-slate-800 text-slate-400 border border-slate-700',
+          statusBadge: 'bg-slate-800 text-slate-300 border-slate-700',
+          statusText: 'NOT FOUND IN CORPUS',
         };
     }
   };
@@ -93,164 +104,205 @@ export default function ResponseCard({ result, loading }) {
   const IconComp = config.icon;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-6 animate-fade-up">
-      {/* Card Header */}
-      <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 bg-gradient-to-r from-slate-50/50 to-white">
+    <div className="w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-8 animate-fade-up">
+      {/* Top Bar with Question and Status */}
+      <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-2xs ${config.iconBg}`}>
+          <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${config.iconBg}`}>
             <IconComp className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
-              {config.title}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${config.statusBadge}`}>
+                {config.statusText}
+              </span>
+            </div>
+            <h2 className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">
+              {currentQuestion || config.title}
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">{config.subtitle}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border uppercase tracking-wider ${config.scopeBadge}`}>
-            {config.scopeText}
-          </span>
-          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border uppercase tracking-wider ${config.statusBadge}`}>
-            {config.statusText}
-          </span>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-1.5 self-end sm:self-center">
+          <button
+            onClick={handleCopyAnswer}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/60 transition"
+            title="Copy Answer"
+          >
+            {answerCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{answerCopied ? 'Copied' : 'Copy'}</span>
+          </button>
+
+          <button
+            onClick={() => onSaveAnswer && onSaveAnswer(currentQuestion, answer, citations)}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition ${
+              isSaved
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/40'
+                : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-700/60'
+            }`}
+            title="Bookmark this answer"
+          >
+            <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f0c96a]' : ''}`} />
+            <span>{isSaved ? 'Saved' : 'Save'}</span>
+          </button>
+
+          <button
+            onClick={onNewQuestion}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/60 transition"
+            title="Ask new question"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>New</span>
+          </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center px-4 bg-slate-50/60 border-b border-slate-200/80 gap-1 text-xs font-semibold">
+      <div className="flex items-center px-4 bg-slate-900/40 border-b border-slate-800 text-xs font-medium gap-2">
         <button
           onClick={() => setActiveTab('answer')}
-          className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition ${
+          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
             activeTab === 'answer'
-              ? 'border-[#1c3160] text-[#1c3160]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'border-[#d4a843] text-[#f0c96a]'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
           <FileText className="w-3.5 h-3.5" />
-          <span>Answer</span>
+          <span>Legal Answer</span>
         </button>
 
         <button
-          onClick={() => setActiveTab('sources')}
-          className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition ${
-            activeTab === 'sources'
-              ? 'border-[#1c3160] text-[#1c3160]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+          onClick={() => setActiveTab('citations')}
+          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
+            activeTab === 'citations'
+              ? 'border-[#d4a843] text-[#f0c96a]'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
           <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Sources</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-700">
+          <span>Verified Citations</span>
+          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
             {citations.length}
           </span>
         </button>
 
         <button
           onClick={() => setActiveTab('raw')}
-          className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition ${
+          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
             activeTab === 'raw'
-              ? 'border-[#1c3160] text-[#1c3160]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'border-[#d4a843] text-[#f0c96a]'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
           <Code className="w-3.5 h-3.5" />
-          <span>Raw Text</span>
+          <span>Statute View</span>
         </button>
       </div>
 
       {/* Tab Panes */}
-      <div className="p-5">
+      <div className="p-5 sm:p-6">
         {/* Pane 1: Answer */}
         {activeTab === 'answer' && (
-          <div>
-            <div className="text-sm leading-relaxed text-slate-800 whitespace-pre-line font-normal">
+          <div className="space-y-5">
+            <div className="text-sm leading-relaxed text-slate-200 font-normal whitespace-pre-line space-y-3">
               {answer || 'No answer available.'}
             </div>
 
-            {/* Retrieval Confidence Summary */}
+            {/* Citations Preview Footer */}
             {citations.length > 0 && (
-              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center gap-4 text-xs">
-                <span className="text-slate-400 font-medium text-[11px] uppercase tracking-wider">
-                  Retrieval Verification:
-                </span>
-                <div className="flex items-center gap-3 flex-1 flex-wrap">
-                  <div className="flex-1 min-w-[120px] bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
-                    <div className="text-[10px] text-slate-400">Dense Embedding Match</div>
-                    <div className="w-full bg-slate-200 h-1.5 rounded-full mt-1 overflow-hidden">
-                      <div className="bg-gradient-to-r from-[#1c3160] to-[#d4a843] h-full rounded-full" style={{ width: '84%' }} />
+              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                    Statutory Source:
+                  </span>
+                  {citations.map((c, i) => (
+                    <span
+                      key={i}
+                      onClick={() => setActiveTab('citations')}
+                      className="cursor-pointer text-xs font-mono font-medium px-2 py-0.5 rounded-md bg-[#d4a843]/10 text-[#f0c96a] border border-[#d4a843]/20 hover:border-[#d4a843] transition"
+                    >
+                      {c.citation || c.id}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setActiveTab('citations')}
+                  className="text-[11px] font-semibold text-[#f0c96a] hover:text-white flex items-center gap-1 transition"
+                >
+                  <span>View verbatim text</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Pane 2: Citations */}
+        {activeTab === 'citations' && (
+          <div className="space-y-4">
+            {citations.length === 0 ? (
+              <div className="text-xs text-slate-400 py-6 text-center">
+                No citations retrieved for this response.
+              </div>
+            ) : (
+              citations.map((c, idx) => (
+                <div
+                  key={c.id || idx}
+                  className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60 hover:border-slate-700 transition"
+                >
+                  <div className="bg-slate-950/60 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#d4a843] flex-shrink-0" />
+                      <span className="font-mono text-xs font-semibold text-[#f0c96a]">
+                        {c.id}
+                      </span>
+                      <span className="text-xs text-slate-400 font-medium">
+                        · {c.citation}
+                      </span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={(e) => handleCopyCitation(c.id, c.text, e)}
+                      className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+                      title="Copy verbatim passage"
+                    >
+                      {copiedId === c.id ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
                   </div>
-                  <div className="flex-1 min-w-[120px] bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
-                    <div className="text-[10px] text-slate-400">Hybrid (RRF) Grounding</div>
-                    <div className="w-full bg-slate-200 h-1.5 rounded-full mt-1 overflow-hidden">
-                      <div className="bg-gradient-to-r from-[#1c3160] to-[#d4a843] h-full rounded-full" style={{ width: '92%' }} />
-                    </div>
+                  <div className="p-4 text-xs text-slate-300 leading-relaxed font-serif-legal italic border-l-2 border-[#d4a843] m-3 bg-[#0a0e17]/80 rounded-r">
+                    "{c.text}"
                   </div>
                 </div>
-              </div>
+              ))
             )}
           </div>
         )}
 
-        {/* Pane 2: Sources */}
-        {activeTab === 'sources' && (
-          <div>
-            {citations.length === 0 ? (
-              <p className="text-xs text-slate-400 py-3">No citations available for this response.</p>
-            ) : (
-              <div className="space-y-3">
-                {citations.map((c, idx) => (
-                  <div
-                    key={c.id || idx}
-                    className="border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition"
-                  >
-                    <div className="bg-slate-50 px-3.5 py-2.5 flex items-center justify-between border-b border-slate-200/80">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-[#d4a843] flex-shrink-0" />
-                        <span className="font-mono text-xs font-semibold text-slate-800">
-                          {c.id}
-                        </span>
-                        <span className="text-xs text-slate-500 font-medium">· {c.citation || c.id}</span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={(e) => handleCopy(c.id, c.text, e)}
-                        className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition"
-                        title="Copy verbatim text"
-                      >
-                        {copiedId === c.id ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5" />
-                        )}
-                      </button>
-                    </div>
-                    <div className="p-3.5 bg-white text-xs text-slate-700 leading-relaxed font-normal border-l-4 border-[#d4a843] m-2.5 rounded-r bg-amber-50/20 italic">
-                      "{c.text}"
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Pane 3: Raw Text */}
+        {/* Pane 3: Raw Statute View */}
         {activeTab === 'raw' && (
           <div>
             {citations.length === 0 ? (
-              <p className="text-xs text-slate-400 py-3">No raw text provisions retrieved.</p>
+              <div className="text-xs text-slate-400 py-6 text-center">
+                No raw statutory text available.
+              </div>
             ) : (
-              <div className="bg-[#0a1628] rounded-xl p-4 font-mono text-xs text-slate-300 overflow-x-auto space-y-3">
-                <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold pb-1 border-b border-slate-800">
-                  Verbatim Statutory Corpus Content
+              <div className="bg-[#090d15] rounded-xl p-4 font-mono text-xs text-slate-300 overflow-x-auto space-y-3 border border-slate-800">
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold pb-1 border-b border-slate-800">
+                  Verbatim Primary Corpus Records
                 </div>
                 {citations.map((c, idx) => (
-                  <div key={idx} className="p-2.5 rounded bg-slate-900/60 border-l-2 border-[#d4a843]">
-                    <div className="text-[#f0c96a] font-bold text-[11px] mb-1">[{c.id}] {c.citation}</div>
-                    <div className="text-slate-300 leading-relaxed font-normal">{c.text}</div>
+                  <div key={idx} className="p-3 rounded bg-slate-900/50 border-l-2 border-[#d4a843]">
+                    <div className="text-[#f0c96a] font-bold text-xs mb-1">
+                      [{c.id}] {c.citation}
+                    </div>
+                    <div className="text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+                      {c.text}
+                    </div>
                   </div>
                 ))}
               </div>
