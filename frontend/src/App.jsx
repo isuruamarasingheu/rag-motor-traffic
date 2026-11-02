@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import QueryHero from './components/QueryHero';
 import ResponseCard from './components/ResponseCard';
-import ActBrowserModal from './components/ActBrowserModal';
+import StatuteLibraryModal from './components/StatuteLibraryModal';
+import FineCalculatorModal from './components/FineCalculatorModal';
 import SavedAnswersModal from './components/SavedAnswersModal';
-import GazetteUpdatesModal from './components/GazetteUpdatesModal';
 import HowItWorksModal from './components/HowItWorksModal';
 import GoldenScaleLogo from './components/GoldenScaleLogo';
-import { ArrowUp, Scale, BookOpen } from 'lucide-react';
+import { ArrowUp, Scale, BookOpen, Calculator } from 'lucide-react';
 
 export default function App() {
   const [question, setQuestion] = useState('');
@@ -17,10 +17,10 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Modals state
-  const [actBrowserOpen, setActBrowserOpen] = useState(false);
+  // New Modals state: Statute Library & Fine Calculator
+  const [statuteLibraryOpen, setStatuteLibraryOpen] = useState(false);
+  const [fineCalculatorOpen, setFineCalculatorOpen] = useState(false);
   const [savedAnswersOpen, setSavedAnswersOpen] = useState(false);
-  const [gazetteUpdatesOpen, setGazetteUpdatesOpen] = useState(false);
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
 
   // History & Saved Answers with LocalStorage persistence
@@ -73,7 +73,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     setCurrentQuestion(cleanQ);
-    setQuestion(''); // Immediately clear input field so bottom follow-up bar is fresh
+    setQuestion(''); // Immediately clear input field so follow-up bar is fresh
 
     try {
       const response = await fetch('/ask', {
@@ -143,9 +143,9 @@ export default function App() {
         onNewQuestion={handleNewQuestion}
         history={history}
         savedCount={savedAnswers.length}
-        onOpenActBrowser={() => setActBrowserOpen(true)}
+        onOpenStatuteLibrary={() => setStatuteLibraryOpen(true)}
+        onOpenFineCalculator={() => setFineCalculatorOpen(true)}
         onOpenSavedAnswers={() => setSavedAnswersOpen(true)}
-        onOpenGazetteUpdates={() => setGazetteUpdatesOpen(true)}
         collapsed={sidebarCollapsed}
         setCollapsed={setSidebarCollapsed}
       />
@@ -174,12 +174,21 @@ export default function App() {
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setActBrowserOpen(true)}
+                onClick={() => setFineCalculatorOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-[#f0c96a] hover:text-white hover:border-[#d4a843] transition"
+              >
+                <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
+                <span className="hidden sm:inline">Calculator</span>
+              </button>
+
+              <button
+                onClick={() => setStatuteLibraryOpen(true)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white hover:border-slate-700 transition"
               >
-                <BookOpen className="w-3.5 h-3.5 text-[#d4a843]" />
-                <span className="hidden sm:inline">Read Act</span>
+                <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+                <span className="hidden sm:inline">Statute Library</span>
               </button>
+
               <button
                 onClick={handleNewQuestion}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 font-semibold text-xs transition shadow-sm active:scale-95"
@@ -200,7 +209,8 @@ export default function App() {
               onSubmit={handleAsk}
               loading={loading}
               error={error}
-              onOpenActBrowser={() => setActBrowserOpen(true)}
+              onOpenStatuteLibrary={() => setStatuteLibraryOpen(true)}
+              onOpenFineCalculator={() => setFineCalculatorOpen(true)}
               onOpenHowItWorks={() => setHowItWorksOpen(true)}
             />
           ) : (
@@ -270,11 +280,17 @@ export default function App() {
         </main>
       </div>
 
-      {/* Interactive Modals */}
-      <ActBrowserModal
-        isOpen={actBrowserOpen}
-        onClose={() => setActBrowserOpen(false)}
-        onSelectSection={(q) => handleSelectQuery(q)}
+      {/* New Interactive Modals */}
+      <StatuteLibraryModal
+        isOpen={statuteLibraryOpen}
+        onClose={() => setStatuteLibraryOpen(false)}
+        onExplainSection={(q) => handleSelectQuery(q)}
+      />
+
+      <FineCalculatorModal
+        isOpen={fineCalculatorOpen}
+        onClose={() => setFineCalculatorOpen(false)}
+        onLaunchRAGAction={(q) => handleSelectQuery(q)}
       />
 
       <SavedAnswersModal
@@ -283,12 +299,6 @@ export default function App() {
         savedAnswers={savedAnswers}
         onRemove={(idx) => setSavedAnswers((prev) => prev.filter((_, i) => i !== idx))}
         onSelect={(q) => handleSelectQuery(q)}
-      />
-
-      <GazetteUpdatesModal
-        isOpen={gazetteUpdatesOpen}
-        onClose={() => setGazetteUpdatesOpen(false)}
-        onSelectTopic={(q) => handleSelectQuery(q)}
       />
 
       <HowItWorksModal

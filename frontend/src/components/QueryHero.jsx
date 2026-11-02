@@ -11,6 +11,8 @@ import {
   Volume2,
   Car,
   AlertTriangle,
+  Calculator,
+  Database,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 
@@ -43,14 +45,14 @@ export default function QueryHero({
   onSubmit,
   loading,
   error,
-  onOpenActBrowser,
+  onOpenStatuteLibrary,
+  onOpenFineCalculator,
   onOpenHowItWorks,
 }) {
-  const [activeTab, setActiveTab] = useState('ask'); // 'ask' | 'section'
+  const [activeTab, setActiveTab] = useState('ask');
   const [isListening, setIsListening] = useState(false);
   const textareaRef = useRef(null);
 
-  // Focus textarea when switching to 'ask'
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -98,7 +100,7 @@ export default function QueryHero({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] py-8 px-4 text-center max-w-3xl mx-auto w-full animate-fade-up">
-      {/* Top Golden Scale Logo matching photo with subtle animation on hover */}
+      {/* Top Golden Scale Logo */}
       <div className="mb-4">
         <GoldenScaleLogo className="w-13 h-13" iconSize="w-7 h-7" animated={loading} />
       </div>
@@ -108,7 +110,7 @@ export default function QueryHero({
         What does the law say?
       </h1>
 
-      {/* Central Query Box (Stays in-place, never unmounted during search) */}
+      {/* Central Query Box */}
       <div className="w-full bg-[#121824]/90 backdrop-blur-md border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-2xl focus-within:border-[#d4a843]/70 focus-within:ring-2 focus-within:ring-[#d4a843]/15 transition duration-200 text-left relative group">
         <form onSubmit={onSubmit}>
           <textarea
@@ -118,11 +120,7 @@ export default function QueryHero({
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={loading}
-            placeholder={
-              activeTab === 'ask'
-                ? 'Ask about a vehicle, a licence or a fine...'
-                : 'Enter a section number (e.g. 123, 141A, 218) or click Browse to explore Act...'
-            }
+            placeholder="Ask about a vehicle, a licence or a fine in plain English..."
             className="w-full bg-transparent text-slate-100 placeholder:text-slate-500 text-sm sm:text-base leading-relaxed outline-none resize-none font-normal disabled:opacity-70"
           />
 
@@ -134,7 +132,7 @@ export default function QueryHero({
 
           {/* Bottom Bar inside the box */}
           <div className="pt-3 mt-1 border-t border-slate-800/80 flex items-center justify-between gap-3">
-            {/* Mode Pills */}
+            {/* Mode Pills: Ask / Calculator / Library */}
             <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
               <button
                 type="button"
@@ -150,18 +148,21 @@ export default function QueryHero({
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setActiveTab('section');
-                  onOpenActBrowser();
-                }}
+                onClick={onOpenFineCalculator}
                 disabled={loading}
-                className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
-                  activeTab === 'section'
-                    ? 'bg-slate-200 text-slate-950 font-semibold shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
+                className="px-3 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-[#d4a843] hover:bg-slate-800/60 transition flex items-center gap-1"
               >
-                Find a section
+                <Calculator className="w-3 h-3 text-[#d4a843]" />
+                <span>Calculator</span>
+              </button>
+              <button
+                type="button"
+                onClick={onOpenStatuteLibrary}
+                disabled={loading}
+                className="px-3 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-1"
+              >
+                <BookOpen className="w-3 h-3" />
+                <span>Library</span>
               </button>
             </div>
 
@@ -219,7 +220,7 @@ export default function QueryHero({
         </form>
       </div>
 
-      {/* Two Feature Action Cards Below the Box */}
+      {/* Two Feature Action Cards Below the Box: Ask in Plain English & Fine Calculator */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full mt-5 text-left">
         {/* Card 1: Ask in plain English */}
         <div
@@ -237,27 +238,42 @@ export default function QueryHero({
           </p>
         </div>
 
-        {/* Card 2: Read the Act */}
+        {/* Card 2: Deterministic Fine Calculator */}
         <div
-          onClick={onOpenActBrowser}
+          onClick={onOpenFineCalculator}
           className="p-4 rounded-2xl bg-[#121824]/70 border border-slate-800/90 hover:border-[#d4a843]/50 hover:bg-[#131b29] transition cursor-pointer group shadow-lg"
         >
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-200 group-hover:text-white mb-1">
-            <BookOpen className="w-3.5 h-3.5 text-[#d4a843]" />
-            <span>Read the Act</span>
+            <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
+            <span className="flex items-center gap-1.5">
+              <span>Traffic Fine Calculator</span>
+              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Deterministic
+              </span>
+            </span>
           </div>
           <p className="text-[11px] text-slate-400 group-hover:text-slate-300 leading-relaxed">
-            Browse 991 sections by Part, with all gazette regulations and 2019 fine amendments.
+            Select 33 official spot fines or 2019 court penalties to calculate exact totals with AI legal actions.
           </p>
         </div>
       </div>
 
-      {/* Quick Questions Pills */}
+      {/* Quick Questions Pills & Statute Library pill */}
       <div className="w-full mt-6 pt-5 border-t border-slate-800/80 text-left">
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 mb-2.5 uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-[#d4a843]" />
-          <span>Popular Citizen Questions:</span>
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-[#d4a843]" />
+            <span>Popular Citizen Questions:</span>
+          </div>
+          <button
+            onClick={onOpenStatuteLibrary}
+            className="text-[11px] text-[#f0c96a] hover:text-white flex items-center gap-1 transition"
+          >
+            <BookOpen className="w-3 h-3" />
+            <span>Browse 991 Chunks in Library →</span>
+          </button>
         </div>
+
         <div className="flex flex-wrap gap-2">
           {POPULAR_QUESTIONS.map((item, idx) => {
             const Icon = item.icon;

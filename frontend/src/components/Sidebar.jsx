@@ -3,7 +3,7 @@ import {
   Plus,
   BookOpen,
   Bookmark,
-  Bell,
+  Calculator,
   ChevronDown,
   ChevronRight,
   Search,
@@ -11,6 +11,7 @@ import {
   PanelLeft,
   Clock,
   Sparkles,
+  Database,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 
@@ -46,9 +47,9 @@ export default function Sidebar({
   onNewQuestion,
   history = [],
   savedCount = 0,
-  onOpenActBrowser,
+  onOpenStatuteLibrary,
+  onOpenFineCalculator,
   onOpenSavedAnswers,
-  onOpenGazetteUpdates,
   collapsed,
   setCollapsed,
 }) {
@@ -76,11 +77,18 @@ export default function Sidebar({
 
         <nav className="flex flex-col items-center gap-4 flex-1">
           <button
-            onClick={onOpenActBrowser}
+            onClick={onOpenStatuteLibrary}
             className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition"
-            title="Read the Act"
+            title="Statute Library (Data Explorer)"
           >
             <BookOpen className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onOpenFineCalculator}
+            className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition"
+            title="Fine Calculator"
+          >
+            <Calculator className="w-4 h-4 text-[#d4a843]" />
           </button>
           <button
             onClick={onOpenSavedAnswers}
@@ -91,13 +99,6 @@ export default function Sidebar({
             {savedCount > 0 && (
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#d4a843]" />
             )}
-          </button>
-          <button
-            onClick={onOpenGazetteUpdates}
-            className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition"
-            title="Gazette Updates"
-          >
-            <Bell className="w-4 h-4" />
           </button>
         </nav>
       </aside>
@@ -116,9 +117,9 @@ export default function Sidebar({
         </div>
         <div className="flex items-center gap-1 text-slate-400">
           <button
-            onClick={onOpenActBrowser}
+            onClick={onOpenStatuteLibrary}
             className="p-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition"
-            title="Search the Act"
+            title="Explore 991 Sections"
           >
             <Search className="w-3.5 h-3.5" />
           </button>
@@ -143,14 +144,32 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Main Navigation Links */}
+      {/* Main Navigation Links: Statute Library & Fine Calculator */}
       <div className="px-2 space-y-0.5">
         <button
-          onClick={onOpenActBrowser}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left"
+          onClick={onOpenStatuteLibrary}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left group"
         >
-          <BookOpen className="w-3.5 h-3.5 text-slate-400" />
-          <span>Read the Act</span>
+          <div className="flex items-center gap-2.5">
+            <BookOpen className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#d4a843] transition" />
+            <span>Statute Library</span>
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 group-hover:text-slate-400">
+            991 Chunks
+          </span>
+        </button>
+
+        <button
+          onClick={onOpenFineCalculator}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left group"
+        >
+          <div className="flex items-center gap-2.5">
+            <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
+            <span>Fine Calculator</span>
+          </div>
+          <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            Spot Fines
+          </span>
         </button>
 
         <button
@@ -166,14 +185,6 @@ export default function Sidebar({
               {savedCount}
             </span>
           )}
-        </button>
-
-        <button
-          onClick={onOpenGazetteUpdates}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left"
-        >
-          <Bell className="w-3.5 h-3.5 text-slate-400" />
-          <span>Gazette updates</span>
         </button>
       </div>
 

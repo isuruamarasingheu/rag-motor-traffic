@@ -57,3 +57,37 @@ class HealthResponse(BaseModel):
     status: str
     app: str
     version: str
+
+
+class SectionItem(BaseModel):
+    """Section record exposed for Statute Library data provenance."""
+
+    id: str
+    act: str
+    instrument_type: str
+    part: str | None = None
+    section: str | None = None
+    citation: str
+    heading: str
+    text: str
+    parent_context: str | None = None
+    regulation_category: str | None = None
+    amendment_date: str | None = None
+    gazette_no: str | None = None
+    source_file: str | None = None
+
+
+class FineItem(BaseModel):
+    """Offence fine item for deterministic calculator."""
+
+    id: str
+    name: str
+    section: str
+    act: str
+    category: str
+    fine_type: Literal["spot", "court"]
+    min_amount: int
+    max_amount: int
+    spot_fine: bool
+    points: int = 0
+    description: str
