@@ -38,6 +38,18 @@ COLLOQUIAL_LEGAL_MAPPINGS: dict[str, str] = {
     "unlicensed": "driving without driving licence owner liability permitting unlicensed person",
     "wrong traffic fine": "spot fine dispute contest police OIC court prosecution",
     "auto gear": "automatic transmission vehicle class endorsement driving licence",
+    "take my car": "detention seizure of motor vehicle police powers section 232F",
+    "take car": "detention of motor vehicle police powers section 232F",
+    "taking my car": "detain motor vehicle police powers section 232F",
+    "seize car": "detain motor vehicle police powers section 232F",
+    "seize my car": "detention seizure of motor vehicle police powers section 232F",
+    "seize vehicle": "power of police officer or examiner to detain vehicle section 232F",
+    "impound car": "detention of motor vehicle police station section 232F",
+    "impounding": "detention of motor vehicle police powers section 232F",
+    "unpaid fine": "spot fine non payment court proceedings section 215A liability of offender driver",
+    "unpaid spot fine": "fine penalty notice non payment court proceedings section 215A",
+    "bought a second-hand car": "transfer of motor vehicle change of possession section 12",
+    "second-hand car": "transfer of ownership change of possession section 12",
 }
 
 REWRITE_SYSTEM_PROMPT = """You are a legal query rewriter for Sri Lanka's Motor Traffic Act and traffic regulations.
@@ -46,9 +58,10 @@ Your job is to reformulate and expand the query into statutory legal phrasing us
 
 Rules:
 1. Translate colloquial terms (e.g., 'car book' -> 'certificate of registration', 'driving book' -> 'driving licence', 'musical horn' -> 'harsh or musical sound horn', 'spot fine' -> 'fine penalty notice', 'drunk driving' -> 'driving under influence of intoxicating liquor').
-2. Do not invent section numbers unless already specified by the user.
-3. Keep the output concise: 1 to 2 sentences containing the essential legal terms.
-4. Output ONLY the rewritten search query, nothing else."""
+2. When a citizen asks about police seizing, taking, or detaining a vehicle, include statutory terms for Section 232F (powers of police officer or examiner to detain vehicle) and the lawful grounds for detention.
+3. When a query involves unpaid fines from a prior owner or seller, include terms for spot fine liability of the offender under Section 215A and ownership transfer under Section 12.
+4. Keep the output concise: 1 to 2 sentences containing the essential statutory legal terms.
+5. Output ONLY the rewritten search query, nothing else."""
 
 
 @dataclass
