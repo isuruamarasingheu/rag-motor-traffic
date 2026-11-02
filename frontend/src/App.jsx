@@ -86,7 +86,15 @@ export default function App() {
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.detail || `Server error (${response.status})`);
+        let errorMsg = `Server error (${response.status})`;
+        if (typeof errData.detail === 'string') {
+          errorMsg = errData.detail;
+        } else if (Array.isArray(errData.detail) && errData.detail.length > 0) {
+          errorMsg = errData.detail.map((d) => d.msg || JSON.stringify(d)).join('; ');
+        } else if (errData.detail && typeof errData.detail === 'object') {
+          errorMsg = JSON.stringify(errData.detail);
+        }
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();

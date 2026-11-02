@@ -23,7 +23,7 @@ export default function QueryInput({ question, setQuestion, onSubmit, loading, e
             <span>💬</span> Ask a Legal Question in Plain English
           </label>
           <span className="text-[11px] text-slate-400 font-medium">
-            {question.length} / 500
+            {question.length} / 2000
           </span>
         </div>
 
@@ -36,7 +36,7 @@ export default function QueryInput({ question, setQuestion, onSubmit, loading, e
           disabled={loading}
           placeholder="e.g. What is the maximum permissible noise level for a motorcycle exhaust in Sri Lanka?"
           className="w-full px-3.5 py-2.5 text-slate-900 bg-slate-50/60 hover:bg-slate-50 focus:bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1c3160] focus:border-transparent text-sm leading-relaxed outline-none transition disabled:bg-slate-100 disabled:text-slate-400 resize-none font-normal"
-          maxLength={500}
+          maxLength={2000}
         />
 
         {error && (

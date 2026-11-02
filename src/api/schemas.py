@@ -21,7 +21,7 @@ class AskRequest(BaseModel):
     question: str = Field(
         ...,
         min_length=3,
-        max_length=500,
+        max_length=2000,
         description="Plain-language question regarding Sri Lankan motor traffic law",
     )
     query_id: str | None = Field(
