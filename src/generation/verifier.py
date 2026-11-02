@@ -63,19 +63,26 @@ def enrich_fines_with_numerals(text: str) -> str:
     if not text:
         return text
 
-    # Avoid duplicating if already followed by currency range
+    # Avoid duplicating if already followed or preceded by currency
     def repl_range(match: re.Match[str]) -> str:
         full = match.group(0)
+        end_pos = match.end()
+        start_pos = match.start()
+        # If Rs. is already present within 40 characters before or after, don't duplicate
+        nearby = text[max(0, start_pos - 40) : min(len(text), end_pos + 40)]
+        if "Rs." in nearby:
+            return full
+
         w1 = match.group(1).strip().lower()
         w2 = match.group(2).strip().lower()
         v1 = STATUTORY_WORD_NUMBERS.get(w1)
         v2 = STATUTORY_WORD_NUMBERS.get(w2)
         if v1 and v2:
-            return f"{full} [Rs. {v1:,} to Rs. {v2:,}]"
+            return f"{full} (Rs. {v1:,} to Rs. {v2:,})"
         return full
 
     pat_range = re.compile(
-        r"not less than\s+([a-zA-Z\s\-]+?)\s+rupees\s+and\s+not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees(?!\s*\[Rs\.)",
+        r"not less than\s+([a-zA-Z\s\-]+?)\s+rupees\s+and\s+not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees",
         re.IGNORECASE,
     )
     res = pat_range.sub(repl_range, text)
@@ -83,14 +90,20 @@ def enrich_fines_with_numerals(text: str) -> str:
     # Pattern 2: standalone not exceeding
     def repl_single(match: re.Match[str]) -> str:
         full = match.group(0)
+        end_pos = match.end()
+        start_pos = match.start()
+        nearby = res[max(0, start_pos - 40) : min(len(res), end_pos + 40)]
+        if "Rs." in nearby:
+            return full
+
         w = match.group(1).strip().lower()
         v = STATUTORY_WORD_NUMBERS.get(w)
         if v:
-            return f"{full} [Rs. {v:,}]"
+            return f"{full} (Rs. {v:,})"
         return full
 
     pat_single = re.compile(
-        r"(?<!and\s)not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees(?!\s*\[Rs\.)",
+        r"(?<!and\s)not exceeding\s+([a-zA-Z\s\-]+?)\s+rupees",
         re.IGNORECASE,
     )
     res = pat_single.sub(repl_single, res)
