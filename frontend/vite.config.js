@@ -9,6 +9,8 @@ export default defineConfig({
     proxy: {
       '/ask': 'http://127.0.0.1:8005',
       '/health': 'http://127.0.0.1:8005',
+      '/sections': 'http://127.0.0.1:8005',
+      '/fines': 'http://127.0.0.1:8005',
     },
   },
 })

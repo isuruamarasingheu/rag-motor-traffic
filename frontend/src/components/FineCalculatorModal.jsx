@@ -400,3 +400,4 @@ export default function FineCalculatorModal({ isOpen, onClose, onLaunchRAGAction
     </div>
   );
 }
+
