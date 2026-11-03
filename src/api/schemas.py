@@ -82,12 +82,17 @@ class FineItem(BaseModel):
 
     id: str
     name: str
+    sinhala_name: str | None = None
     section: str
     act: str
     category: str
+    group: str | None = None
     fine_type: Literal["spot", "court"]
     min_amount: int
     max_amount: int
     spot_fine: bool
+    is_court_only: bool = False
+    amount_display: str | None = None
+    vehicle_classes: list[str] = Field(default_factory=list)
     points: int = 0
     description: str

@@ -1,21 +1,34 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  Calculator,
   RotateCcw,
   ArrowRight,
   Sparkles,
-  CheckSquare,
-  Square,
   ArrowLeft,
-  ShieldAlert,
+  Check,
+  Calculator,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 
+const VEHICLE_CLASSES = [
+  { id: 'motorcycle', label: 'Motorcycle', sinhala: 'මෝටර්සයිකල්' },
+  { id: 'three_wheeler', label: 'Three-wheeler', sinhala: 'ත්‍රිරෝද රථය' },
+  { id: 'light_vehicle', label: 'Light vehicle', sinhala: 'සැහැල්ලු රථය' },
+  { id: 'heavy_vehicle', label: 'Heavy vehicle', sinhala: 'බර වාහන' },
+];
+
+const GROUPS = [
+  'LICENSING',
+  'DOCUMENTATION',
+  'SAFETY EQUIPMENT',
+  'VEHICLE CONDITION',
+  'RECKLESS DRIVING',
+];
+
 export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) {
   const [fines, setFines] = useState([]);
+  const [selectedVehicleClass, setSelectedVehicleClass] = useState('motorcycle');
   const [selectedFineIds, setSelectedFineIds] = useState(new Set());
   const [loading, setLoading] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
     let isMounted = true;
@@ -58,17 +71,25 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
     setSelectedFineIds(new Set());
   };
 
+  // Filter fines visible for currently selected vehicle class
+  const availableFines = useMemo(() => {
+    return fines.filter((f) => {
+      if (!f.vehicle_classes || f.vehicle_classes.length === 0) return true;
+      return f.vehicle_classes.includes(selectedVehicleClass);
+    });
+  }, [fines, selectedVehicleClass]);
+
+  // Compute live totals based on visible selected offences
   const calculation = useMemo(() => {
-    const selected = fines.filter((f) => selectedFineIds.has(f.id));
+    const visibleIds = new Set(availableFines.map((f) => f.id));
+    const selected = fines.filter((f) => selectedFineIds.has(f.id) && visibleIds.has(f.id));
     let spotTotal = 0;
     let courtMinTotal = 0;
     let courtMaxTotal = 0;
-    let totalDemeritPoints = 0;
     let spotCount = 0;
     let courtCount = 0;
 
     selected.forEach((f) => {
-      totalDemeritPoints += f.points || 0;
       if (f.spot_fine) {
         spotTotal += f.min_amount;
         spotCount += 1;
@@ -84,16 +105,10 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
       spotTotal,
       courtMinTotal,
       courtMaxTotal,
-      totalDemeritPoints,
       spotCount,
       courtCount,
     };
-  }, [fines, selectedFineIds]);
-
-  const filteredFines = useMemo(() => {
-    if (activeCategory === 'all') return fines;
-    return fines.filter((f) => f.category === activeCategory);
-  }, [fines, activeCategory]);
+  }, [fines, selectedFineIds, availableFines]);
 
   const selectedOffenceNames = calculation.selected.map((s) => s.name).join(', ');
 
@@ -122,27 +137,28 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0b0f17] animate-fade-up">
-      {/* Top Header */}
-      <div className="p-4 sm:p-5 border-b border-slate-800 bg-[#0e131d]/90 backdrop-blur-md flex items-center justify-between">
+    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0d14] text-slate-100 font-sans animate-fade-up">
+      {/* Top Header matching photo layout */}
+      <div className="px-5 py-4 border-b border-slate-800/80 bg-[#0c101a] flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
-          <GoldenScaleLogo className="w-10 h-10 rounded-xl" iconSize="w-5 h-5" />
+          <GoldenScaleLogo className="w-9 h-9 rounded-xl" iconSize="w-4 h-4" />
           <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-base sm:text-lg font-semibold text-slate-100">
-                Deterministic Traffic Fine Calculator
+            <div className="flex items-center gap-3 flex-wrap">
+              <h1 className="text-base sm:text-lg font-bold text-slate-100 tracking-tight">
+                Spot fine calculator
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                Gazette 2054/09 & Act No. 10 of 2019
+              <span className="text-xs text-slate-400 font-normal">
+                Motor Traffic Act schedule
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Calculate official statutory fines, spot payment totals, and court ranges with verified section references.
-            </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline-block text-[11px] font-mono px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/25 font-medium">
+            Gazette 2271/13 · 2026
+          </span>
+
           {calculation.selected.length > 0 && (
             <button
               onClick={handleReset}
@@ -163,117 +179,158 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
         </div>
       </div>
 
-      {/* Main Two-Column Layout */}
-      <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
-        {/* Left Column: Offence Picker List */}
-        <div className="flex-1 flex flex-col border-b lg:border-b-0 lg:border-r border-slate-800 overflow-hidden">
-          {/* Category Tabs */}
-          <div className="p-3 bg-[#121826] border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto text-xs">
-            {[
-              { id: 'all', label: 'All Offences' },
-              { id: 'licence', label: 'Licence & Driver' },
-              { id: 'speed', label: 'Speeding Limits' },
-              { id: 'equipment', label: 'Noise & Equipment' },
-              { id: 'insurance', label: 'Insurance' },
-              { id: 'registration', label: 'Registration' },
-              { id: 'rules', label: 'Road Rules' },
-            ].map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setActiveCategory(c.id)}
-                className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition text-[11px] ${
-                  activeCategory === c.id
-                    ? 'bg-[#d4a843] text-slate-950 font-semibold shadow-sm'
-                    : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
+      {/* Main Working Area: Left List + Right Calculated Summary */}
+      <div className="flex-1 overflow-hidden flex flex-col xl:flex-row">
+        {/* Left / Center Section: Exact Layout from Photos */}
+        <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-8 space-y-6">
+          {/* Vehicle Class Section */}
+          <div className="space-y-2">
+            <h2 className="text-xs font-semibold text-slate-200 tracking-wide">
+              Vehicle class
+            </h2>
 
-          {/* Offence Cards */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-2.5">
-            {loading ? (
-              <div className="text-center py-20 text-slate-500 text-xs flex flex-col items-center gap-2">
-                <Calculator className="w-6 h-6 animate-pulse text-[#d4a843]" />
-                <span>Loading statutory fine schedules...</span>
-              </div>
-            ) : filteredFines.length === 0 ? (
-              <div className="text-center py-20 text-slate-500 text-xs">
-                No offences found in this category.
-              </div>
-            ) : (
-              filteredFines.map((f) => {
-                const isChecked = selectedFineIds.has(f.id);
+            {/* Pill Selectors matching photo */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {VEHICLE_CLASSES.map((vc) => {
+                const isSelected = selectedVehicleClass === vc.id;
                 return (
-                  <div
-                    key={f.id}
-                    onClick={() => toggleFine(f.id)}
-                    className={`p-3.5 sm:p-4 rounded-xl border transition cursor-pointer flex items-start gap-3 select-none ${
-                      isChecked
-                        ? 'bg-[#d4a843]/10 border-[#d4a843]/50 shadow-sm'
-                        : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
+                  <button
+                    key={vc.id}
+                    onClick={() => setSelectedVehicleClass(vc.id)}
+                    className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl border text-left transition select-none ${
+                      isSelected
+                        ? 'border-blue-500/80 bg-blue-500/10 text-white shadow-sm ring-1 ring-blue-500/40'
+                        : 'border-slate-800 bg-[#0e131e]/70 text-slate-300 hover:border-slate-700 hover:bg-[#111724]'
                     }`}
                   >
-                    <div className="mt-0.5 text-[#d4a843]">
-                      {isChecked ? (
-                        <CheckSquare className="w-4 h-4 fill-[#d4a843] text-slate-950" />
-                      ) : (
-                        <Square className="w-4 h-4 text-slate-600" />
+                    {/* Radio indicator circle */}
+                    <div
+                      className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center flex-shrink-0 transition ${
+                        isSelected
+                          ? 'border-blue-400 bg-blue-500'
+                          : 'border-slate-600 bg-transparent'
+                      }`}
+                    >
+                      {isSelected && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-950" />
                       )}
                     </div>
 
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center justify-between gap-2 flex-wrap">
-                        <span className="text-xs sm:text-sm font-semibold text-slate-100">
-                          {f.name}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
-                              f.spot_fine
-                                ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                                : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                    <div>
+                      <div className="text-xs font-semibold leading-tight">
+                        {vc.label}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">
+                        {vc.sinhala}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="text-[11px] text-slate-400 pt-1 leading-relaxed">
+              Class controls which offences appear: helmet rules only show for motorcycles, three-wheeler overload only for three-wheelers, and so on.
+            </p>
+          </div>
+
+          {/* Select Offences Header */}
+          <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+            <h2 className="text-xs font-semibold text-slate-200 tracking-wide">
+              Select offences
+            </h2>
+            <span className="text-xs text-slate-400 font-mono">
+              {availableFines.length} available
+            </span>
+          </div>
+
+          {/* Grouped Offence Cards in 2-Column Grid */}
+          <div className="space-y-6 pb-12">
+            {GROUPS.map((group) => {
+              const groupFines = availableFines.filter((f) => f.group === group);
+              if (groupFines.length === 0) return null;
+
+              return (
+                <div key={group} className="space-y-2.5">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-semibold px-0.5">
+                    {group}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
+                    {groupFines.map((f) => {
+                      const isChecked = selectedFineIds.has(f.id);
+                      return (
+                        <div
+                          key={f.id}
+                          onClick={() => toggleFine(f.id)}
+                          className={`rounded-2xl border p-3.5 sm:p-4 transition cursor-pointer flex items-start gap-3 select-none ${
+                            isChecked
+                              ? 'border-blue-500/70 bg-blue-950/20 shadow-md ring-1 ring-blue-500/30'
+                              : 'border-slate-800/80 bg-[#0e131f]/80 hover:border-slate-700/80 hover:bg-[#111726]'
+                          }`}
+                        >
+                          {/* Custom Checkbox on the left */}
+                          <div
+                            className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center flex-shrink-0 transition ${
+                              isChecked
+                                ? 'bg-blue-500 border-blue-400 text-slate-950'
+                                : 'border-slate-600 bg-transparent'
                             }`}
                           >
-                            {f.spot_fine ? 'Spot Fine (Post Office)' : 'Court Conviction'}
-                          </span>
-                          <span className="text-xs font-mono font-bold text-[#f0c96a]">
-                            {f.spot_fine
-                              ? `Rs. ${f.min_amount.toLocaleString()}`
-                              : `Rs. ${f.min_amount.toLocaleString()} - ${f.max_amount.toLocaleString()}`}
-                          </span>
+                            {isChecked && (
+                              <Check className="w-3 h-3 stroke-[3]" />
+                            )}
+                          </div>
+
+                          {/* Offence Details */}
+                          <div className="flex-1 min-w-0 space-y-1">
+                            <div className="flex items-baseline justify-between gap-2">
+                              <h3 className="text-xs font-semibold text-slate-100 leading-snug">
+                                {f.name}
+                              </h3>
+                              <span
+                                className={`text-xs font-mono font-semibold whitespace-nowrap flex-shrink-0 ${
+                                  f.is_court_only
+                                    ? 'text-slate-400'
+                                    : 'text-[#38bdf8]'
+                                }`}
+                              >
+                                {f.amount_display || (f.spot_fine ? `Rs ${f.min_amount.toLocaleString()}` : 'court only')}
+                              </span>
+                            </div>
+
+                            {/* Sinhala description under title */}
+                            {f.sinhala_name && (
+                              <p className="text-[11px] text-slate-400 leading-relaxed">
+                                {f.sinhala_name}
+                              </p>
+                            )}
+
+                            {/* Section reference at bottom */}
+                            <div className="text-[10px] font-mono text-slate-500 tracking-wider pt-0.5">
+                              {f.section}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                        <span className="font-mono text-[#d4a843] font-medium">{f.section}</span>
-                        <span>·</span>
-                        <span>{f.act}</span>
-                      </div>
-
-                      <p className="text-[11px] text-slate-400 leading-relaxed pt-0.5">
-                        {f.description}
-                      </p>
-                    </div>
+                      );
+                    })}
                   </div>
-                );
-              })
-            )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Right Column: Calculated Total & AI Actions */}
-        <div className="w-full lg:w-96 bg-slate-950/70 p-5 flex flex-col justify-between overflow-y-auto space-y-5 border-t lg:border-t-0 border-slate-800">
+        {/* Right Summary & RAG Actions Panel */}
+        <div className="w-full xl:w-96 bg-[#0c101a] border-t xl:border-t-0 xl:border-l border-slate-800/80 p-5 flex flex-col justify-between flex-shrink-0 overflow-y-auto space-y-5">
           <div className="space-y-4">
             <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <Calculator className="w-4 h-4 text-[#d4a843]" />
+              <Calculator className="w-4 h-4 text-[#38bdf8]" />
               <span>Calculated Summary</span>
             </h2>
 
-            {/* Tally Box */}
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+            {/* Tally Card */}
+            <div className="p-4 rounded-2xl bg-[#111726] border border-slate-800 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
                 <span className="text-slate-400">Selected Offences:</span>
                 <span className="font-bold text-white font-mono">
@@ -281,56 +338,46 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                 </span>
               </div>
 
-              {/* Spot fines tally */}
+              {/* Spot Total */}
               <div className="flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-slate-300 font-medium">Spot Fines Total:</span>
-                  <div className="text-[10px] text-slate-500">Payable at Post Office within 14 days</div>
+                  <span className="text-slate-200 font-medium">Spot Fines Total:</span>
+                  <div className="text-[10px] text-slate-400">Payable at Post Office within 14 days</div>
                 </div>
-                <span className="text-sm font-bold font-mono text-emerald-400">
-                  Rs. {calculation.spotTotal.toLocaleString()}
+                <span className="text-base font-bold font-mono text-[#38bdf8]">
+                  Rs {calculation.spotTotal.toLocaleString()}
                 </span>
               </div>
 
-              {/* Court fines tally */}
+              {/* Court range if applicable */}
               {calculation.courtCount > 0 && (
                 <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-800/80">
                   <div>
-                    <span className="text-slate-300 font-medium">Court Penalty Range:</span>
-                    <div className="text-[10px] text-amber-400/80">Requires Magistrate Court appearance</div>
+                    <span className="text-slate-200 font-medium">Court Penalty Range:</span>
+                    <div className="text-[10px] text-amber-400/90">Requires Magistrate Court appearance</div>
                   </div>
                   <span className="text-xs font-bold font-mono text-amber-400">
-                    Rs. {calculation.courtMinTotal.toLocaleString()} - {calculation.courtMaxTotal.toLocaleString()}
-                  </span>
-                </div>
-              )}
-
-              {/* Demerit points tally if applicable */}
-              {calculation.totalDemeritPoints > 0 && (
-                <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-800/80">
-                  <span className="text-slate-400">Demerit Points Accumulated:</span>
-                  <span className="font-bold font-mono text-rose-400">
-                    {calculation.totalDemeritPoints} points
+                    Rs {calculation.courtMinTotal.toLocaleString()} - {calculation.courtMaxTotal.toLocaleString()}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Selected List Pills */}
+            {/* Selected offences pills */}
             {calculation.selected.length > 0 && (
               <div className="space-y-1.5">
                 <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                  Offences in Calculation:
+                  Included in Calculation:
                 </span>
-                <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                   {calculation.selected.map((s) => (
                     <div
                       key={s.id}
-                      className="text-[11px] p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between"
+                      className="text-[11px] p-2 rounded-xl bg-[#111726] border border-slate-800/80 flex items-center justify-between"
                     >
                       <span className="truncate text-slate-300 pr-2">{s.name}</span>
-                      <span className="text-[#f0c96a] font-mono flex-shrink-0 text-[10px]">
-                        Rs. {s.min_amount.toLocaleString()}
+                      <span className="text-[#38bdf8] font-mono flex-shrink-0 text-[10px]">
+                        {s.amount_display || `Rs ${s.min_amount.toLocaleString()}`}
                       </span>
                     </div>
                   ))}
@@ -339,23 +386,23 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
             )}
           </div>
 
-          {/* The 3 RAG AI Action Buttons */}
-          <div className="space-y-2 pt-4 border-t border-slate-800">
+          {/* RAG AI Action Assistance Buttons */}
+          <div className="space-y-2 pt-4 border-t border-slate-800/80">
             <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#f0c96a]">
               <Sparkles className="w-3.5 h-3.5 fill-[#f0c96a]" />
-              <span>RAG AI Action Assistance:</span>
+              <span>RAG AI Legal Assistance:</span>
             </div>
             <p className="text-[10px] text-slate-400 leading-tight">
-              Ask MagaNithi AI to explain the exact legal rules for this calculation:
+              Ask MagaNithi AI to explain the exact statutory rules for this selection:
             </p>
 
             {/* Action 1: How to pay */}
             <button
               onClick={handlePayProcedure}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-900 hover:bg-[#131b29] border border-slate-700/80 hover:border-emerald-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#111726] hover:bg-[#161f33] border border-slate-800 hover:border-emerald-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
             >
-              <div className="flex items-center gap-2">
-                <span className="text-emerald-400">📮</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-base">📮</span>
                 <div className="text-left">
                   <div className="font-semibold text-[11px]">How to Pay This Fine</div>
                   <div className="text-[9px] text-slate-400">Post Office & 14-day licence rules</div>
@@ -367,10 +414,10 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
             {/* Action 2: How to dispute */}
             <button
               onClick={handleDisputeProcedure}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-900 hover:bg-[#131b29] border border-slate-700/80 hover:border-amber-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#111726] hover:bg-[#161f33] border border-slate-800 hover:border-amber-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
             >
-              <div className="flex items-center gap-2">
-                <span className="text-amber-400">⚖️</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-base">⚖️</span>
                 <div className="text-left">
                   <div className="font-semibold text-[11px]">How to Dispute or Contest</div>
                   <div className="text-[9px] text-slate-400">Reporting to OIC & Court Trial</div>
@@ -382,10 +429,10 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
             {/* Action 3: Non-payment consequences */}
             <button
               onClick={handleNonPaymentConsequences}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-900 hover:bg-[#131b29] border border-slate-700/80 hover:border-rose-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#111726] hover:bg-[#161f33] border border-slate-800 hover:border-rose-500/50 text-slate-200 hover:text-white text-xs transition active:scale-98 group"
             >
-              <div className="flex items-center gap-2">
-                <span className="text-rose-400">⚠️</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-base">⚠️</span>
                 <div className="text-left">
                   <div className="font-semibold text-[11px]">Consequences of Non-Payment</div>
                   <div className="text-[9px] text-slate-400">Section 215A & vehicle detention</div>
