@@ -8,10 +8,8 @@ import {
   ChevronRight,
   Search,
   PanelLeftClose,
-  PanelLeft,
   Clock,
-  Sparkles,
-  Database,
+  MessageSquare,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 
@@ -43,13 +41,12 @@ const TOPIC_PRESETS = [
 ];
 
 export default function Sidebar({
+  activeView = 'chat',
+  onNavigate,
   onSelectQuery,
   onNewQuestion,
   history = [],
   savedCount = 0,
-  onOpenStatuteLibrary,
-  onOpenFineCalculator,
-  onOpenSavedAnswers,
   collapsed,
   setCollapsed,
 }) {
@@ -68,7 +65,10 @@ export default function Sidebar({
         </button>
 
         <button
-          onClick={onNewQuestion}
+          onClick={() => {
+            onNavigate('chat');
+            onNewQuestion();
+          }}
           className="w-10 h-10 rounded-xl bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/40 flex items-center justify-center hover:bg-[#d4a843]/25 transition"
           title="New Question"
         >
@@ -77,22 +77,48 @@ export default function Sidebar({
 
         <nav className="flex flex-col items-center gap-4 flex-1">
           <button
-            onClick={onOpenStatuteLibrary}
-            className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition"
+            onClick={() => onNavigate('chat')}
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'chat'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
+            title="Chat Assistant"
+          >
+            <MessageSquare className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => onNavigate('library')}
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'library'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Statute Library (Data Explorer)"
           >
             <BookOpen className="w-4 h-4" />
           </button>
+
           <button
-            onClick={onOpenFineCalculator}
-            className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition"
+            onClick={() => onNavigate('calculator')}
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'calculator'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Fine Calculator"
           >
             <Calculator className="w-4 h-4 text-[#d4a843]" />
           </button>
+
           <button
-            onClick={onOpenSavedAnswers}
-            className="p-2.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition relative"
+            onClick={() => onNavigate('saved')}
+            className={`p-2.5 rounded-xl transition relative ${
+              activeView === 'saved'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Saved Answers"
           >
             <Bookmark className="w-4 h-4" />
@@ -109,15 +135,23 @@ export default function Sidebar({
     <aside className="w-64 bg-[#090d15] text-slate-300 flex flex-col h-full border-r border-slate-800/80 flex-shrink-0 relative select-none">
       {/* Top Header */}
       <div className="p-3.5 border-b border-slate-800/80 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
+        <button
+          onClick={() => onNavigate('chat')}
+          className="flex items-center gap-2.5 focus:outline-none text-left"
+        >
           <GoldenScaleLogo className="w-8 h-8 rounded-xl" iconSize="w-4 h-4" />
-          <span className="text-xs font-semibold text-slate-200 tracking-tight">
-            Motor Traffic Law
-          </span>
-        </div>
+          <div>
+            <span className="text-xs font-semibold text-slate-200 tracking-tight block">
+              Motor Traffic Law
+            </span>
+            <span className="text-[10px] text-slate-500 font-sans block">
+              Sri Lanka Act No. 14
+            </span>
+          </div>
+        </button>
         <div className="flex items-center gap-1 text-slate-400">
           <button
-            onClick={onOpenStatuteLibrary}
+            onClick={() => onNavigate('library')}
             className="p-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition"
             title="Explore 991 Sections"
           >
@@ -136,7 +170,10 @@ export default function Sidebar({
       {/* New Question Action Button */}
       <div className="p-3">
         <button
-          onClick={onNewQuestion}
+          onClick={() => {
+            onNavigate('chat');
+            onNewQuestion();
+          }}
           className="w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-[#10b981]/30 hover:border-[#10b981]/60 text-slate-100 text-xs font-medium shadow-sm transition active:scale-[0.98] group"
         >
           <Plus className="w-3.5 h-3.5 text-[#10b981] group-hover:scale-110 transition" />
@@ -144,14 +181,45 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Main Navigation Links: Statute Library & Fine Calculator */}
-      <div className="px-2 space-y-0.5">
+      {/* Main Navigation Tabs: Chat, Statute Library, Fine Calculator, Saved Answers */}
+      <div className="px-2 space-y-1">
         <button
-          onClick={onOpenStatuteLibrary}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left group"
+          onClick={() => onNavigate('chat')}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'chat'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
-            <BookOpen className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#d4a843] transition" />
+            <MessageSquare
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'chat'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
+            />
+            <span>Chat Assistant</span>
+          </div>
+          <span className="text-[10px] text-emerald-400 font-mono">Online</span>
+        </button>
+
+        <button
+          onClick={() => onNavigate('library')}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'library'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <BookOpen
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'library'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
+            />
             <span>Statute Library</span>
           </div>
           <span className="text-[10px] font-mono text-slate-500 group-hover:text-slate-400">
@@ -160,11 +228,19 @@ export default function Sidebar({
         </button>
 
         <button
-          onClick={onOpenFineCalculator}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left group"
+          onClick={() => onNavigate('calculator')}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'calculator'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
-            <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
+            <Calculator
+              className={`w-3.5 h-3.5 text-[#d4a843] ${
+                activeView === 'calculator' ? 'scale-110' : ''
+              }`}
+            />
             <span>Fine Calculator</span>
           </div>
           <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
@@ -173,11 +249,21 @@ export default function Sidebar({
         </button>
 
         <button
-          onClick={onOpenSavedAnswers}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition text-left"
+          onClick={() => onNavigate('saved')}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'saved'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
-            <Bookmark className="w-3.5 h-3.5 text-slate-400" />
+            <Bookmark
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'saved'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
+            />
             <span>Saved answers</span>
           </div>
           {savedCount > 0 && (
@@ -209,7 +295,10 @@ export default function Sidebar({
               {TOPIC_PRESETS.map((t, idx) => (
                 <button
                   key={idx}
-                  onClick={() => onSelectQuery(t.query)}
+                  onClick={() => {
+                    onNavigate('chat');
+                    onSelectQuery(t.query);
+                  }}
                   className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-left transition truncate text-[11px]"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-slate-600 flex-shrink-0" />
@@ -244,7 +333,10 @@ export default function Sidebar({
                 history.slice(0, 8).map((h, idx) => (
                   <button
                     key={idx}
-                    onClick={() => onSelectQuery(h.question)}
+                    onClick={() => {
+                      onNavigate('chat');
+                      onSelectQuery(h.question);
+                    }}
                     className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-left transition truncate text-[11px] group"
                   >
                     <Clock className="w-3 h-3 text-slate-600 group-hover:text-slate-400 flex-shrink-0" />
