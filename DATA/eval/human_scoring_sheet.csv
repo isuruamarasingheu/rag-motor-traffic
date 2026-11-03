@@ -1,0 +1,523 @@
+query_id,question,type,expected_behavior,gold_sections,pipeline_status,system_answer,citations,retrieved_passages,human_faithfulness_score,invented_number,citation_accuracy,refusal_correctness,annotator_notes
+Q005,Can I use a musical horn or dual-tone air horn on my private van?,in_scope,answer_with_citation,GAZ-1738-37-reg-3,answered,"You cannot use a musical horn or dual-tone air horn on your private van. According to Section 155(3) of the Motor Traffic Act, ""No person shall use a motor vehicle that has been equipped with a multi-tone horn sounding a succession of different notes, or with any other sound producing device giving a harsh, shrill, loud or alarming noise."" This restriction applies unless the vehicle is used by emergency services such as the fire brigade, police, or ambulances responding to emergencies.","Motor Traffic Act, Section 155(3)","[1] GAZ-1738-37-reg-3 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s155-3 (Score: 0.016):
+
+
+---
+
+[3] GAZ-1738-37-sched (Score: 0.016):
+
+
+---
+
+[4] GAZ-1738-37-reg-6 (Score: 0.016):
+
+
+---
+
+[5] MTA-1951-s160 (Score: 0.016):
+
+
+---
+
+[6] GAZ-1738-37-reg-4 (Score: 0.016):
+
+
+---
+
+[7] MTA-1951-s155-5 (Score: 0.015):
+
+
+---
+
+[8] GAZ-1738-37-reg-2 (Score: 0.015):
+",,,,,
+Q010,"Can a learner driver drive alone if they display ""L"" plates on the vehicle?",in_scope,answer_with_citation,MTA-1951-s123,answered,"A learner driver cannot drive alone, even if they display 'L' plates on the vehicle. According to Section 123(2)(e)(ii), 'the holder of a Driving Licence which is valid for motor vehicles of that class and who should be at least twenty one years of age, shall accompany him for the purpose of instructing him and shall be seated at his side.' This means that a qualified instructor must be present in the vehicle with the learner driver.","Motor Traffic Act, Section 123(2)","[1] MTA-1951-s123-2 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s135-1 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s124 (Score: 0.016):
+
+
+---
+
+[4] MTA-1951-s138-1 (Score: 0.014):
+
+
+---
+
+[5] MTA-1951-s190-1-d2 (Score: 0.008):
+
+
+---
+
+[6] MTA-1951-s232F (Score: 0.008):
+
+
+---
+
+[7] MTA-1951-s45 (Score: 0.008):
+
+
+---
+
+[8] MTA-1951-s139B-4-d2 (Score: 0.008):
+",,,,,
+Q012,Do child passengers need special safety restraints in private cars?,in_scope,answer_with_citation,GAZ-1718-12-reg-2,not_found,The retrieved provisions do not contain specific information regarding the requirement for child passengers to use special safety restraints in private cars.,,"[1] GAZ-2054-09-reg-24 (Score: 0.016):
+
+
+---
+
+[2] GAZ-2054-09-reg-10 (Score: 0.015):
+
+
+---
+
+[3] MTA-1951-s178 (Score: 0.015):
+
+
+---
+
+[4] GAZ-1718-12-reg-4 (Score: 0.014):
+
+
+---
+
+[5] GAZ-2455-29-full (Score: 0.014):
+
+
+---
+
+[6] GAZ-2054-09-sched (Score: 0.013):
+
+
+---
+
+[7] GAZ-1718-12-reg-5 (Score: 0.008):
+
+
+---
+
+[8] GAZ-1718-12-reg-8 (Score: 0.008):
+",,,,,
+Q016,Are tinted front windshields legally allowed on personal cars?,in_scope,answer_with_citation,GAZ-1847-32-reg-3,not_found,The retrieved provisions do not contain information regarding the legality of tinted front windshields on personal cars.,,"[1] GAZ-2054-09-reg-24 (Score: 0.016):
+
+
+---
+
+[2] GAZ-2054-09-reg-10 (Score: 0.016):
+
+
+---
+
+[3] GAZ-1847-32-sched (Score: 0.015):
+
+
+---
+
+[4] GAZ-1738-37-reg-6 (Score: 0.013):
+
+
+---
+
+[5] GAZ-2287-28-sched (Score: 0.013):
+
+
+---
+
+[6] GAZ-2287-28-reg-4 (Score: 0.008):
+
+
+---
+
+[7] GAZ-0924-12-reg-7 (Score: 0.008):
+
+
+---
+
+[8] PROC-PG-DMT-5 (Score: 0.008):
+",,,,,
+Q017,What is the penalty for driving an unregistered motor vehicle on a public road?,in_scope,answer_with_citation,MTA-1951-s2,not_found,The retrieved provisions do not contain the answer regarding the penalty for driving an unregistered motor vehicle on a public road.,,"[1] MTA-1951-s215B (Score: 0.015):
+
+
+---
+
+[2] MTA-1951-s2-2 (Score: 0.014):
+
+
+---
+
+[3] MTA-1951-s145 (Score: 0.013):
+
+
+---
+
+[4] MTA-1951-s2-1-d3 (Score: 0.008):
+
+
+---
+
+[5] MTA-1951-s240 (Score: 0.008):
+
+
+---
+
+[6] MTA-1951-s225 (Score: 0.008):
+
+
+---
+
+[7] MTA-1951-s128A (Score: 0.008):
+
+
+---
+
+[8] MTA-1951-s220-1 (Score: 0.008):
+",,,,,
+Q020,What should a driver do immediately after being involved in a road traffic accident?,in_scope,answer_with_citation,MTA-1951-s161,answered,"If a driver is involved in a road traffic accident, they must take several immediate actions. According to Section 161(1), the driver shall: (i) ""immediately stop the vehicle""; (ii) provide their name and address, the owner's name and address, the vehicle's distinctive number, and other details if requested by the injured party or a police officer; (iii) if someone is injured and requests it, or if the injury appears life-threatening, the driver must take that person to a hospital and report the accident to the nearest police station ""forthwith""; (iv) in all other cases, report the accident to the police station immediately. Failure to report the accident can result in a fine of ""not less than three thousand rupees and not exceeding five thousand rupees"" (Rs. 3,000 to Rs. 5,000).","Motor Traffic Act, Section 161(1)","[1] MTA-1951-s161-1 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s161-4 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s161-2 (Score: 0.016):
+
+
+---
+
+[4] MTA-1951-s149 (Score: 0.016):
+
+
+---
+
+[5] MTA-1951-s167 (Score: 0.015):
+
+
+---
+
+[6] MTA-1951-s213B (Score: 0.015):
+
+
+---
+
+[7] MTA-1951-s224B (Score: 0.015):
+
+
+---
+
+[8] MTA-1951-s160A (Score: 0.015):
+",,,,,
+Q022,What is the fine if my car book is in the bank under a lease?,in_scope,answer_with_citation,MTA-1951-s9; PROC-DMT-TRANSFER,refused_out_of_scope,"I am specialized exclusively in Sri Lanka's Motor Traffic Act No. 14 of 1951 and its subsidiary traffic regulations (including vehicle registration, driving licences, traffic police fines, speed limits, noise limits, and road safety). Your question falls outside this domain. I cannot answer queries concerning general civil, criminal, labor, property, or tenancy law.",,None (No passages retrieved or confidence gate failed),,,,,
+Q024,How do I renew my driving book after it expires?,in_scope,answer_with_citation,MTA-1951-s126A; PROC-DMT-LICENCE,not_found,The retrieved provisions do not contain information regarding the process for renewing a driving book after it expires.,,"[1] MTA-1951-s126 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s126B (Score: 0.015):
+
+
+---
+
+[3] MTA-1951-s139K (Score: 0.015):
+
+
+---
+
+[4] MTA-1951-s137-5 (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s134 (Score: 0.014):
+
+
+---
+
+[6] MTA-1951-s124 (Score: 0.014):
+
+
+---
+
+[7] MTA-1951-s139E (Score: 0.014):
+
+
+---
+
+[8] MTA-1951-s224A (Score: 0.013):
+",,,,,
+Q026,Can I drive a manual transmission car if my licence only has an auto gear endorsement?,in_scope,answer_with_citation,MTA-1951-s124,not_found,The retrieved provisions do not contain specific information regarding whether you can drive a manual transmission car with only an automatic gear endorsement on your licence.,,"[1] MTA-1951-s135-1 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s123-1 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s136-5 (Score: 0.015):
+
+
+---
+
+[4] MTA-1951-s128C (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s123-2 (Score: 0.015):
+
+
+---
+
+[6] MTA-1951-s138-1 (Score: 0.015):
+
+
+---
+
+[7] MTA-1951-s125-1 (Score: 0.014):
+
+
+---
+
+[8] MTA-1951-s135-2 (Score: 0.014):
+",,,,,
+Q027,Is a bicycle rider subject to drunk driving breathalyser tests under traffic law?,in_scope,answer_with_citation,MTA-1951-s239,not_found,The retrieved provisions do not contain information regarding whether a bicycle rider is subject to drunk driving breathalyser tests under traffic law.,,"[1] MTA-1951-s216 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s188 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s178 (Score: 0.015):
+
+
+---
+
+[4] MTA-1951-s216B (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s224B (Score: 0.015):
+
+
+---
+
+[6] MTA-1951-s216A (Score: 0.015):
+
+
+---
+
+[7] MTA-1951-s217 (Score: 0.014):
+
+
+---
+
+[8] MTA-1951-s224A (Score: 0.014):
+",,,,,
+Q030,Can I contest a wrong traffic fine directly at the police station with the OIC?,in_scope,answer_with_citation,MTA-1951-s215A; PROC-POL-FINE-s4,answered,"You can contest a wrong traffic fine, but you cannot do so directly at the police station with the Officer-in-Charge (OIC). Instead, you must inform the issuing officer or the Traffic OIC that you intend to contest the charge and withhold payment during the 14-day settlement period. If you do not pay within this period, the Police Traffic Branch is required to file a formal plaint in the local Magistrate's Court. The procedure for contesting a roadside spot fine is outlined in the procedural guide, which states: ""A citizen is under no legal compulsion to accept a roadside spot fine if they dispute the allegation."" You will then need to attend the Magistrate's Court on the specified date to enter your plea.","Procedural Guide, PG-POL-4","[1] PROC-PG-POL-4 (Score: 0.016):
+
+
+---
+
+[2] PROC-PG-POL-2 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s215A (Score: 0.016):
+
+
+---
+
+[4] PROC-PG-POL-1 (Score: 0.016):
+
+
+---
+
+[5] PROC-PG-POL-3 (Score: 0.015):
+
+
+---
+
+[6] MTA-1951-s224A (Score: 0.014):
+
+
+---
+
+[7] MTA-1951-s213A-10 (Score: 0.014):
+
+
+---
+
+[8] MTA-1951-s213D (Score: 0.013):
+",,,,,
+Q032,"If my vehicle fails the vehicle emission test, how long do I have to re-test before my revenue licence expires?",in_scope,answer_with_citation,GAZ-1295-11-reg-4; GAZ-2083-03-reg-2,not_found,The retrieved provisions do not contain information regarding the time allowed for re-testing a vehicle after it fails the emission test before the revenue licence expires.,,"[1] GAZ-1295-11-full (Score: 0.016):
+
+
+---
+
+[2] GAZ-2083-03-reg-4 (Score: 0.016):
+
+
+---
+
+[3] PROC-PG-DMT-4 (Score: 0.016):
+
+
+---
+
+[4] GAZ-2083-03-sched (Score: 0.016):
+
+
+---
+
+[5] GAZ-2083-03-reg-3 (Score: 0.015):
+
+
+---
+
+[6] GAZ-1295-11-sched (Score: 0.015):
+
+
+---
+
+[7] MTA-1951-s196-2 (Score: 0.015):
+
+
+---
+
+[8] MTA-1951-s155A (Score: 0.015):
+",,,,,
+Q038,"If a traffic light is red but a police officer signals me to proceed, which instruction takes legal priority?",edge,answer_with_citation,GAZ-1940-21-reg-14; MTA-1951-s154,answered,"When a traffic light is red, it indicates that drivers shall not proceed beyond the stop line. However, if a police officer is directing traffic, their instructions take priority. According to Section 162, 'The driver of a motor vehicle shall obey all verbal directions or signals, given by a police officer in the execution of his duty.' Therefore, if a police officer signals you to proceed despite a red light, you must follow their direction.","Motor Traffic Act, Section 162","[1] MTA-1951-s153 (Score: 0.016):
+
+
+---
+
+[2] GAZ-1940-21-reg-30 (Score: 0.016):
+
+
+---
+
+[3] GAZ-1940-21-reg-34 (Score: 0.016):
+
+
+---
+
+[4] MTA-1951-s148-13 (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s167 (Score: 0.014):
+
+
+---
+
+[6] MTA-1951-s160 (Score: 0.013):
+
+
+---
+
+[7] MTA-1951-s162 (Score: 0.008):
+
+
+---
+
+[8] MTA-1951-s148-10 (Score: 0.008):
+",,,,,
+Q039,Can police impound a vehicle if the driver is caught driving without a valid driving licence?,edge,answer_with_citation,MTA-1951-s123; MTA-1951-s218,answered,"Yes, a police officer can impound a vehicle if the driver does not possess a valid driving licence. According to Section 232F(2)(b), 'a police officer may also detain a motor vehicle at any police station if the driver does not possess a valid driving licence.'","Motor Traffic Act, Section 232F","[1] MTA-1951-s232F (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s135-1 (Score: 0.015):
+
+
+---
+
+[3] MTA-1951-s123-4 (Score: 0.015):
+
+
+---
+
+[4] MTA-1951-s123-1 (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s123-3 (Score: 0.013):
+
+
+---
+
+[6] MTA-1951-s232A (Score: 0.008):
+
+
+---
+
+[7] MTA-1951-s232E (Score: 0.008):
+
+
+---
+
+[8] MTA-1951-s123-6 (Score: 0.008):
+",,,,,
+Q043,Can an owner be held criminally liable if their vehicle is driven by an unlicensed friend?,edge,answer_with_citation,MTA-1951-s123,answered,"Yes, an owner can be held criminally liable if their vehicle is driven by an unlicensed friend. According to Section 123(1)(b), 'no person shall employ or permit any other person to drive a motor vehicle of any class on a road unless the person so employed or permitted is the holder of an driving licence subject to a probation period which is valid for motor vehicles of that class.' Additionally, Section 214(2)(b) states that 'the driver and the owner of the motor vehicle shall also be guilty of an offence under this Act.' Therefore, if the vehicle is driven without a valid licence, both the driver and the owner can be held accountable.","Motor Traffic Act, Section 123(1); Motor Traffic Act, Section 214","[1] MTA-1951-s123-6 (Score: 0.016):
+
+
+---
+
+[2] MTA-1951-s214 (Score: 0.016):
+
+
+---
+
+[3] MTA-1951-s135-1 (Score: 0.015):
+
+
+---
+
+[4] MTA-1951-s123-5 (Score: 0.015):
+
+
+---
+
+[5] MTA-1951-s123-7 (Score: 0.014):
+
+
+---
+
+[6] MTA-1951-s145 (Score: 0.014):
+
+
+---
+
+[7] GAZ-2455-29-full (Score: 0.008):
+
+
+---
+
+[8] MTA-1951-s123-1 (Score: 0.008):
+",,,,,
+Q054,How do I write a Python function to sort a list using quicksort?,out_of_scope,refuse,,refused_out_of_scope,"I am specialized exclusively in Sri Lanka's Motor Traffic Act No. 14 of 1951 and its subsidiary traffic regulations (including vehicle registration, driving licences, traffic police fines, speed limits, noise limits, and road safety). Your question falls outside this domain. I cannot answer queries concerning general civil, criminal, labor, property, or tenancy law.",,None (No passages retrieved or confidence gate failed),,,,,
+Q058,What are the mandatory minimum wages for estate sector workers?,out_of_scope,refuse,,refused_out_of_scope,"I am specialized exclusively in Sri Lanka's Motor Traffic Act No. 14 of 1951 and its subsidiary traffic regulations (including vehicle registration, driving licences, traffic police fines, speed limits, noise limits, and road safety). Your question falls outside this domain. I cannot answer queries concerning general civil, criminal, labor, property, or tenancy law.",,None (No passages retrieved or confidence gate failed),,,,,
+Q060,What are the symptoms of dengue fever and when should I see a doctor?,out_of_scope,refuse,,refused_out_of_scope,"I am specialized exclusively in Sri Lanka's Motor Traffic Act No. 14 of 1951 and its subsidiary traffic regulations (including vehicle registration, driving licences, traffic police fines, speed limits, noise limits, and road safety). Your question falls outside this domain. I cannot answer queries concerning general civil, criminal, labor, property, or tenancy law.",,None (No passages retrieved or confidence gate failed),,,,,
