@@ -138,7 +138,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0d14] text-slate-100 font-sans animate-fade-up">
-      {/* Top Header matching photo layout */}
+      {/* Top Header matching photo layout with System Yellow theme */}
       <div className="px-5 py-4 border-b border-slate-800/80 bg-[#0c101a] flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <GoldenScaleLogo className="w-9 h-9 rounded-xl" iconSize="w-4 h-4" />
@@ -155,7 +155,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden sm:inline-block text-[11px] font-mono px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/25 font-medium">
+          <span className="hidden sm:inline-block text-[11px] font-mono px-3 py-1 rounded-full bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/30 font-medium">
             Gazette 2271/13 · 2026
           </span>
 
@@ -181,7 +181,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
 
       {/* Main Working Area: Left List + Right Calculated Summary */}
       <div className="flex-1 overflow-hidden flex flex-col xl:flex-row">
-        {/* Left / Center Section: Exact Layout from Photos */}
+        {/* Left / Center Section: Exact Layout from Photos with System Yellow Palette */}
         <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-8 space-y-6">
           {/* Vehicle Class Section */}
           <div className="space-y-2">
@@ -189,7 +189,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
               Vehicle class
             </h2>
 
-            {/* Pill Selectors matching photo */}
+            {/* Pill Selectors with System Yellow Active State */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {VEHICLE_CLASSES.map((vc) => {
                 const isSelected = selectedVehicleClass === vc.id;
@@ -199,7 +199,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                     onClick={() => setSelectedVehicleClass(vc.id)}
                     className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl border text-left transition select-none ${
                       isSelected
-                        ? 'border-blue-500/80 bg-blue-500/10 text-white shadow-sm ring-1 ring-blue-500/40'
+                        ? 'border-[#d4a843]/80 bg-[#d4a843]/10 text-white shadow-sm ring-1 ring-[#d4a843]/40'
                         : 'border-slate-800 bg-[#0e131e]/70 text-slate-300 hover:border-slate-700 hover:bg-[#111724]'
                     }`}
                   >
@@ -207,7 +207,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                     <div
                       className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center flex-shrink-0 transition ${
                         isSelected
-                          ? 'border-blue-400 bg-blue-500'
+                          ? 'border-[#f0c96a] bg-[#d4a843]'
                           : 'border-slate-600 bg-transparent'
                       }`}
                     >
@@ -252,7 +252,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
 
               return (
                 <div key={group} className="space-y-2.5">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-semibold px-0.5">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#d4a843] font-semibold px-0.5">
                     {group}
                   </div>
 
@@ -265,7 +265,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                           onClick={() => toggleFine(f.id)}
                           className={`rounded-2xl border p-3.5 sm:p-4 transition cursor-pointer flex items-start gap-3 select-none ${
                             isChecked
-                              ? 'border-blue-500/70 bg-blue-950/20 shadow-md ring-1 ring-blue-500/30'
+                              ? 'border-[#d4a843]/70 bg-[#d4a843]/10 shadow-md ring-1 ring-[#d4a843]/30'
                               : 'border-slate-800/80 bg-[#0e131f]/80 hover:border-slate-700/80 hover:bg-[#111726]'
                           }`}
                         >
@@ -273,7 +273,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                           <div
                             className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center flex-shrink-0 transition ${
                               isChecked
-                                ? 'bg-blue-500 border-blue-400 text-slate-950'
+                                ? 'bg-[#d4a843] border-[#f0c96a] text-slate-950'
                                 : 'border-slate-600 bg-transparent'
                             }`}
                           >
@@ -292,7 +292,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                                 className={`text-xs font-mono font-semibold whitespace-nowrap flex-shrink-0 ${
                                   f.is_court_only
                                     ? 'text-slate-400'
-                                    : 'text-[#38bdf8]'
+                                    : 'text-[#f0c96a]'
                                 }`}
                               >
                                 {f.amount_display || (f.spot_fine ? `Rs ${f.min_amount.toLocaleString()}` : 'court only')}
@@ -325,7 +325,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
         <div className="w-full xl:w-96 bg-[#0c101a] border-t xl:border-t-0 xl:border-l border-slate-800/80 p-5 flex flex-col justify-between flex-shrink-0 overflow-y-auto space-y-5">
           <div className="space-y-4">
             <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <Calculator className="w-4 h-4 text-[#38bdf8]" />
+              <Calculator className="w-4 h-4 text-[#d4a843]" />
               <span>Calculated Summary</span>
             </h2>
 
@@ -344,7 +344,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                   <span className="text-slate-200 font-medium">Spot Fines Total:</span>
                   <div className="text-[10px] text-slate-400">Payable at Post Office within 14 days</div>
                 </div>
-                <span className="text-base font-bold font-mono text-[#38bdf8]">
+                <span className="text-base font-bold font-mono text-[#f0c96a]">
                   Rs {calculation.spotTotal.toLocaleString()}
                 </span>
               </div>
@@ -376,7 +376,7 @@ export default function FineCalculatorView({ onLaunchRAGAction, onBackToChat }) 
                       className="text-[11px] p-2 rounded-xl bg-[#111726] border border-slate-800/80 flex items-center justify-between"
                     >
                       <span className="truncate text-slate-300 pr-2">{s.name}</span>
-                      <span className="text-[#38bdf8] font-mono flex-shrink-0 text-[10px]">
+                      <span className="text-[#f0c96a] font-mono flex-shrink-0 text-[10px]">
                         {s.amount_display || `Rs ${s.min_amount.toLocaleString()}`}
                       </span>
                     </div>
