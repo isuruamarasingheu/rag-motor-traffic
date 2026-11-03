@@ -2,7 +2,7 @@
 ## Citation-Grounded Legal Information Assistant for Sri Lanka Motor Traffic Law
 
 **Student / Researcher:** Individual Undergraduate Capstone Project  
-**Domain:** Artificial Intelligence / Natural Language Processing / Applied LegalTech  
+**Domain:** Artificial Intelligence / Natural Language Processing / Applied LegalTech  s
 **Subject Statute:** Motor Traffic Act No. 14 of 1951 (Consolidated to 2024), 18 Subsidiary Gazettes, & Official Procedural Guides  
 **Corpus Scale:** 991 Structured, Addressable, Verified Statutory Units  
 **Evaluation Benchmark:** 60 Stratified Citizen Questions (18 Dev / 42 Frozen; SHA-256 Verified)  
@@ -431,3 +431,5 @@ These defense questions and authoritative model answers prepare you for challeng
 | **FastAPI Backend Server** | [`src/api/main.py`](file:///c:/Users/Isuru/Desktop/FInal_Project/rag-motor-traffic/src/api/main.py) |
 | **React Frontend Application** | [`frontend/src/App.jsx`](file:///c:/Users/Isuru/Desktop/FInal_Project/rag-motor-traffic/frontend/src/App.jsx) |
 | **Full Project Tracking Plan** | [`PLAN.md`](file:///c:/Users/Isuru/Desktop/FInal_Project/rag-motor-traffic/PLAN.md) |
+
+
