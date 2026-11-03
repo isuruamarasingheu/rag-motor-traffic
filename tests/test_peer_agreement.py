@@ -119,3 +119,4 @@ def test_compute_peer_agreement(tmp_path: Path) -> None:
     assert "Almost Perfect" in metrics["interpretation"]
     assert out_md.exists()
     assert out_csv.exists()
+

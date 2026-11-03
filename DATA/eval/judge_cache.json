@@ -124,5 +124,738 @@
     "citation_accuracy": "N/A",
     "unsupported_claims": [],
     "reasoning": "The system correctly refused to answer the question as it is outside the scope of its specialization in Sri Lanka's Motor Traffic Act. The refusal is polite and does not fabricate any legal advice, making it fully faithful."
+  },
+  "cdfbe877e0c89a2943b63fa779306cc4b146b8c03c490a7de8baed645a31f350": {
+    "faithfulness_score": 1,
+    "invented_number": false,
+    "citation_accuracy": "PARENT",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly references Section 160(2) of the Motor Traffic Act, which requires vehicles to have a silencing device to prevent undue noise. It also accurately cites the noise limits from the Schedule of Gazette No. 1738/37, specifying 105 dB(A) at 2m and 93 dB(A) at 7m. However, the answer does not explicitly state that these limits apply to exhaust noise, as the retrieved passages do not specify this directly. The citation of Section 160 is at the parent level, as the specific subsection (2) is relevant to the claim about silencing devices."
+  },
+  "3484aaef5f23236e4f64135df0750c2f698adbd90eab22e5f831e8b46e2fc290": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the information found in the retrieved passage from Gazette No. 1775/32, Regulation 1. The passage explicitly states that the speed limit for all motor vehicles in built-up areas is 50 km/h, and for land vehicles, motor tricycles, motor tricycle vans, and special purpose vehicles, it is 40 km/h. These details are correctly cited and presented in the answer, with no invented numbers or unsupported claims."
+  },
+  "d57c66019fd9966446f0939070c7d015e78fa497ad5b5ded5ce25eece8710957": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the content of the retrieved passage from Gazette No. 2455/29, which states that every passenger and individual occupying any seat in a motor vehicle on an expressway must wear an individual safety seat belt. This includes rear seat passengers, as specified in regulation 8A. The citation is exact, and there are no unsupported claims or invented numbers in the answer."
+  },
+  "0c003df3f42e1f7b477909443a31c94162186c49706e9ebaac9f1b1722f59a3d": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the legal requirements for helmets as stated in the retrieved passages. Regulation 2 of Gazette No. 2287/28 specifies the components and standards for helmets, including the requirement for a shell, shock absorbing liner, chin strap, buffer padding, head band, conformity to SLS 517:1994, and non-reflective outer surface. Section 158(2) of the Motor Traffic Act mandates wearing a helmet approved by the Minister. All claims in the answer are directly supported by these passages, and the citations are exact."
+  },
+  "ab267b5b94f63259a06d0646396e4f5b4f5ff16217cb585a925dea9078797709": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the information found in the retrieved passages. The speed limit for a three-wheeler (motor tricycle) is stated as 40 km/h in both built-up and non-built-up areas, which is supported by the passages from Gazette No. 1775/32, Regulation 1 and Gazette No. 2003/41, Regulation 5. The citations provided in the answer are exact and correctly reference the sections that support the claims made about the speed limits for three-wheelers."
+  },
+  "00400b232ef4550a8d8ca460a94354e8f0d83c45476c024765e53315b8476027": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately states that a driver has fourteen (14) calendar days from the date of the offence to pay the prescribed fine amount, which is directly supported by the retrieved passage from the Procedural Guide, PG-POL-2.1. The claim that no court appearance is required and no conviction is recorded if the fine is paid within this period is also supported by the same passage. All numerical figures and legal claims are grounded in the retrieved text, and the citation is exact."
+  },
+  "cf2eea40dcd402a13ffeb7dc6afd2362a907496dfcd2976e21c2ce1e9b527e80": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the information provided in the retrieved passages. The payment methods for a spot fine, including payment at any Sri Lanka Post Office or Sub-Post Office and online payment via GovPay, are supported by Procedural Guide PG-POL-2 and Motor Traffic Act, Section 215A. The 14-day payment window is also correctly mentioned, aligning with PG-POL-2.1. The requirement to present the stamped notice or digital receipt at the issuing Police Station to reclaim the Driving Licence is supported by PG-POL-2.2 and PG-POL-2.3. No numerical figures were invented, and all claims are grounded in the retrieved text, leading to a fully grounded score with exact citation accuracy."
+  },
+  "7df9f121d71d3da4e18bc53ce141a97f811dffb6cf40dcea72040ef618c98661": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the minimum age to apply for a Learner's Permit for light vehicles is seventeen years, as supported by Section 123(2)(c)(i). It also accurately states that the minimum age to apply for a Driving Licence for light vehicles is eighteen years, as supported by Section 124(2)(a). Both claims are directly supported by the retrieved passages, and the citations are exact and appropriate for the claims made."
+  },
+  "2b8bdf60e9673ad87f5f56348eeb6ef5faedf1200aa0a24ce53d52ca4a804b68": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the requirements for renewing a revenue licence as stated in the retrieved passages. The need for an annual Vehicle Emission Test (VET) Certificate from an accredited testing centre is supported by Procedural Guide PG-DMT-4.1, which specifies that this applies to all motor vehicles except exempted vintage or zero-emission electric vehicles. The requirement for emission levels to meet statutory thresholds is also mentioned in the same guide. The mention of a Certificate of Fitness for certain vehicles aligns with PG-DMT-4.2. All claims in the answer are directly supported by the retrieved passages, and no numbers were invented or misrepresented."
+  },
+  "d8d58ed33678152579e162f956b875c07673094ba8f2c1611822457f9ed931fc": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the retrieved passages. Section 148(1) allows vehicles to be driven on the left or near side except when overtaking or turning right, and permits driving in parallel lanes on multi-lane roads. Section 148(4) specifies that overtaking should generally be on the right, but allows for overtaking on the left if it is safe and reasonable. The answer correctly interprets these provisions, stating that overtaking from the left is not outright illegal but must be done safely and without obstruction."
+  },
+  "507c4e70b0721ba147d1fc58bced015f6167601a63f921bb04cfba19d3753ee6": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly identified that the retrieved passages do not provide specific information about the documents a driver must carry and produce when stopped by a police officer. The refusal to answer due to lack of information is appropriate and faithful to the retrieved content."
+  },
+  "1f8cc4ad14fc5597bf74d4d9cac0bd0066681083d4e85006428dc0894edd9c6f": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the content of Section 132 of the Motor Traffic Act, which states that a temporary driving licence for a bona fide visitor to Sri Lanka is effective for a period not exceeding twelve months from the date of arrival. The answer correctly cites the relevant section and does not introduce any unsupported claims or invented numbers."
+  },
+  "9665f03c1d0d7cd12e8b8c2b2a0bb90d7069ac35ee3e30e5b44622152590538c": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific rules about the maximum number of adult passengers a three-wheeler can carry. The retrieved passages discuss seating space and regulations for motor tricycles but do not specify a maximum passenger limit for three-wheelers. Therefore, the refusal to provide a specific answer is faithful to the retrieved information."
+  },
+  "a71828df5a31841937296556bf15cd2a962a47834c8b062db82a4327b9ffbdfc": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific rules about the mandatory use of headlights during daytime or bad weather. The retrieved sections focus on other aspects of motor vehicle regulations, such as noise levels, vehicle construction, and road races, but do not address the use of headlights in the specified conditions. Therefore, the refusal to provide an answer due to lack of information is faithful and accurate."
+  },
+  "d1269d9ec19397c0cfe10bff303b0cc93e09360f1acbb34b0d7d0dfa80c4403a": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the requirements for changing the name in the vehicle's Certificate of Registration after purchasing a second-hand car. The seller's obligation to notify the Commissioner-General within fourteen days using Form M.T.A. 6 is supported by the Procedural Guide, PG-DMT-2. The buyer's obligation to apply for registration within fourteen days using prescribed Forms B and C is supported by Motor Traffic Act, Section 12(2) and Procedural Guide, PG-DMT-2. The fine for failing to apply within the specified period is correctly cited from Motor Traffic Act, Section 12(3)(b). All numerical figures and procedural details are directly supported by the retrieved passages, ensuring full grounding and citation accuracy."
+  },
+  "0c00e51b21cf94e82f24d863eb7d86738f14cad1df60b967935734251fac6b5a": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer correctly states that the retrieved passages do not provide specific rules about the police's authority to seize a revenue licence for crossing a double white line. The retrieved passages discuss various aspects of the Motor Traffic Act, including the detention of vehicles for certain offenses and the requirements for revenue licences, but none explicitly address the scenario of crossing a double white line. Therefore, the refusal to provide a specific answer due to lack of information is appropriate and faithful to the retrieved content."
+  },
+  "e97a25732f5abc8a29fe5ad1adc9661f3fee3d8ef60b269555adac912daf6330": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the information in the retrieved passages. It correctly states that police officers are prohibited from collecting cash payments for traffic fines at the roadside, as supported by Procedural Guide PG-POL-1.2. The answer also correctly outlines the alternative methods of payment, such as at a Post Office or through electronic means, as described in Motor Traffic Act, Section 215A(4). Additionally, the advice not to pay if contesting the fine aligns with Procedural Guide PG-POL-4.2. All claims are directly supported by the retrieved passages, and no unsupported claims or invented numbers are present."
+  },
+  "f0c7755a79a73f2c586c992692c5f4d1b12008aa05895ed16fd495ae8399616e": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly identifies that the retrieved passages do not address the question of laminating a revenue licence disc. There are no claims made about the legality of laminating the disc, and no numbers or specific legal rules are invented. The refusal is appropriate given the lack of relevant information in the retrieved passages."
+  },
+  "0792cc9251e6b62069652f8d4d88411c35ef8457c14d696effa94825673800ba": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not address the specific scenario of forgetting a physical driving licence but having a photo on a phone. The retrieved passages focus on various aspects of driving licences, such as penalties for certain offences and conditions for foreign licence conversion, but none directly relate to the question asked. Therefore, the refusal to provide a specific answer is faithful and appropriate, as it avoids fabricating legal advice."
+  },
+  "2f1bcf6a8454c8b1eb2ccf593301331703b1a267c785eca3b7c65f8cc75d1583": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the information found in the retrieved passage from Section 141A(1)(a) of the Motor Traffic Act. It correctly states that exceeding the speed limit by up to twenty percent results in a fine ranging from three thousand to five thousand rupees. The citation provided is exact and matches the subsection that supports the claim."
+  },
+  "38837e3a042395521482f2533cb23c65e66193ceab23cbbebc56c31b3d794b1e": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to provide an answer due to the lack of relevant information in the retrieved passages. The retrieved passages did not contain specific information about the spot fine for not wearing a helmet, nor did they provide comprehensive details on helmet safety standards beyond the general requirements. Therefore, the refusal is faithful as it avoids making unsupported claims or inventing numbers."
+  },
+  "a253c478cd46f16f24b3f148fdf35145fac9f8934d7a7d1207cf1aac55a26410": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to provide an answer due to the absence of verifiable citations or statutory text directly addressing the question. The refusal is faithful as it does not fabricate legal advice or claims. The retrieved passages do contain relevant information about the procedure and time limits for transferring vehicle ownership, but since the system did not generate an answer, the refusal is appropriate and faithful."
+  },
+  "7b9d5303d60cb21ef71927d371925c99cdd4c0cf50511554f360e49f6a2d7682": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the retrieved passages. The speed limit for three-wheelers on urban roads ('Built-up areas') is correctly stated as 40 km/h, supported by Gazette No. 1775/32, Regulation 1. The safety gear rules regarding seating arrangements for motor tricycles are also correctly referenced from Gazette No. 2003/41, Regulation 3. All numerical figures and legal claims are directly supported by the retrieved text, and the citations are precise and relevant."
+  },
+  "d1f2e5637bf23cd7c0fa43cffce809fff746feadec9654b522fc1efb2bd0f3bc": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it a faithful response."
+  },
+  "342d9a8959d284e9dbc4434de71a9b40d03a980ff4eaea922588572d6e8a4df3": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific information about the classification of electric bicycles (pedelecs) as motor vehicles requiring registration. The retrieved passages focus on general registration requirements for motor vehicles and do not address electric bicycles specifically. Therefore, the refusal to provide a definitive answer is faithful to the retrieved information."
+  },
+  "a2284637dc81eec1c03c50b72bcd498318db9bbbbf0d3fcf8f9f7c0580af37cd": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly identified that the retrieved passages do not provide a direct comparison or definition of reckless driving versus negligent driving causing injury. The refusal to answer due to lack of information is appropriate and does not fabricate any legal claims or advice."
+  },
+  "51e201228d733ce13ef47dc522d27e8fcc0b972c0d4cb83722e7d02f4d317dc1": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific information about the permission for agricultural tractors to travel on grade-separated expressways. The retrieved passages include various sections of the Motor Traffic Act and related regulations, but none address the specific issue of agricultural tractors on expressways. Therefore, the refusal to provide an answer due to lack of information is appropriate and faithful."
+  },
+  "29041bed49df1dad0644244c92226368ff258143c476463d67d7dac25fff2d61": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer correctly states that the retrieved passages do not mention the possibility of settling an accident causing grievous injury via a spot fine. The retrieved passages outline penalties for causing grievous injury (Section 216B), but do not provide any information about settlements or spot fines in such cases. Therefore, the answer is fully grounded in the retrieved information, and no unsupported claims are present."
+  },
+  "b1035bdd86244636b210d5d90d33764339830bf56b877228f5dbc1bde9f47655": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the content of Section 132B of the Motor Traffic Act, which states that a bona fide visitor with a valid International Driving Permit (IDP) from a contracting state to the Vienna Convention is deemed to possess a driving licence under the Act. The conditions mentioned, such as the permit being valid, carried while driving, and fulfilling the Vienna Convention conditions, are also supported by the retrieved passage. There are no invented numbers or unsupported claims in the answer."
+  },
+  "ce5debf26682e696be6f32ee0037b9bb95b32bcd048ca09f3257891ea8b4e280": {
+    "faithfulness_score": 0,
+    "invented_number": false,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "This means that using hands-free Bluetooth devices while driving is also prohibited."
+    ],
+    "reasoning": "The retrieved passage from Section 152A of the Motor Traffic Act explicitly prohibits the use of a telephone, mobile phone, or any other movable communication equipment while driving. However, it does not specifically mention or prohibit the use of hands-free Bluetooth devices. The generated answer incorrectly extends the prohibition to hands-free Bluetooth devices without explicit support from the text. Therefore, the claim about hands-free Bluetooth devices is unsupported, leading to a faithfulness score of 0. The citation accuracy is 'WRONG' because the section cited does not support the claim about hands-free devices."
+  },
+  "9f24cb581636944eab0e23b4aaa8ada242f57cdb67f0101683da9a7c208c01ab": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "b5d304817b6cd6da217a5b4bc738bfeb2a558c8c03004b89c8768d368f9f03f1": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Motor Traffic Act, which does not cover fare regulations for three-wheeler taxis. The refusal was polite and did not fabricate any legal advice, making it fully faithful."
+  },
+  "7e3c6a01848db0c4de9de610e1a65529ac5070eb3f61b4331b0cc547c715a369": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which does not cover technical specifications for electronic toll collection RFID tags. The refusal was polite and did not fabricate any legal advice, making it fully faithful."
+  },
+  "7c637ccfb78aecaae73b87b06355c9d277cd00a183c0932a6661db5b4357ce6d": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which the AI is specialized in. The refusal was polite and did not fabricate any legal advice or claims. No retrieved passages were available to support any answer, making the refusal appropriate and faithful."
+  },
+  "75f18b828bd258ce731ead37438205e5d9825036cbf29feb2a486c0f327ee022": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which the AI is specialized in. The refusal was polite and did not fabricate any legal advice, making it fully faithful."
+  },
+  "5f172bee4dc0c54353bdaa7b751c0f874471165b6b3fd8a418790c7dadf34b01": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "392446e2b11aed53f6af87c7ad079cd93d4b8de6bad8a37e167dc266998bdcf0": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "a737767dc9fbe61c57280819f68ffd887df6c5623da52aaea1769d6483f20c18": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is outside the scope of the Sri Lanka Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "46c5f7ae499447f96dfccdb7ed9fbc41f8c4852f9fc0bd9067ea666b4acd2826": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question about the capital city of Australia, stating that it is specialized in Sri Lanka's Motor Traffic Act and related regulations. This refusal is appropriate and faithful as the question is indeed out of scope for the system's specialization. No false claims or invented information were provided."
+  },
+  "2e9158269ffc9ed013cb40fc01a3a0cef030ca9d576074e08043fa4f40880715": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is outside the scope of the Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "daf976b7ae56dd35e5ee2c5fac071991e31cf1b148d0b58ad46c654f2c000b4a": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is out of scope, given that the question pertains to a recipe and not to the Motor Traffic Act. The refusal is polite and does not fabricate any legal advice, thus it is fully faithful."
+  },
+  "061ea198d703435f172f9077defc0343f29569c2ae76b58407f2a503af650923": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is outside the scope of the Sri Lanka Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful to the task requirements."
+  },
+  "278bc5941c73e33ec8d0091ec75a43a9347b55f2b71cf584cefbaf7ff0a19cd2": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The maximum permissible sound limit for motorcycle silencers is 80 decibels (dB) when measured at a distance of 7.5 meters from the vehicle.",
+      "The fines for violating noise regulations can vary, but they may include monetary fines or other penalties as stipulated in the regulations."
+    ],
+    "reasoning": "The generated answer provides a specific sound limit of 80 decibels for motorcycle silencers and mentions penalties for violations, but these claims are not supported by the retrieved passages. The retrieved passages do not mention any specific decibel limits or penalties related to motorcycle silencers. The passages only discuss general regulations about sound pressure levels for vehicle horns and the administrative process for certifying garages and inspection centers. Therefore, the answer contains invented numbers and unsupported claims, leading to a faithfulness score of 0."
+  },
+  "305472aa0060dfcb1b686dd4d13d802bae2baf8a7e1f3df1a9c750b77b5f20d3": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The maximum speed limit for driving a car inside a built-up town area is generally 50 kilometers per hour (km/h).",
+      "This is stipulated under the Motor Traffic Act, No. 14 of 1951, specifically in Section 122.",
+      "Local authorities may impose lower speed limits in certain areas, especially near schools or heavily populated zones.",
+      "Fines can vary based on the severity of the offense and whether it is a repeat violation."
+    ],
+    "reasoning": "The generated answer claims a general speed limit of 50 km/h in built-up areas and references Section 122 of the Motor Traffic Act, but no such information is present in the retrieved passages. The retrieved passage only contains a specific road segment with no mention of speed limits or related regulations. The answer also discusses fines and local authority powers without any supporting text. Therefore, the answer is ungrounded, and the numerical figure is invented."
+  },
+  "cf5b824b9762a112d35a2d6bfde4d1618081a92006823ab3dd5f53e03e6281bd": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "According to Section 192 of the Motor Traffic Act, it is mandatory for all passengers in a vehicle, including those in the rear seats, to wear seat belts when the vehicle is in motion.",
+      "The fine for not wearing a seat belt can be around LKR 2,500."
+    ],
+    "reasoning": "The answer claims that Section 192 of the Motor Traffic Act mandates seat belt use for all passengers, including rear seat passengers, and specifies a fine of LKR 2,500 for non-compliance. However, no retrieved passages were provided to verify these claims. The specific section cited (Section 192) and the fine amount are not supported by any text, making these claims ungrounded. Additionally, the answer generalizes the application of this rule to all public roads without evidence from the retrieved passages."
+  },
+  "b1996555a9251715ba827255c10c11ea8f3efd46a24f8da04a4f08cc171985eb": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The helmet must comply with IS 4151 Standard.",
+      "The helmet should comply with DOT or ECE standards.",
+      "The fine for not wearing a helmet is generally around LKR 2,500 for the first offense.",
+      "Repeat offenders may face higher fines or additional penalties."
+    ],
+    "reasoning": "The retrieved passage specifies that helmets must conform to the Sri Lanka Standard Specification for Protective Helmets for Vehicle Users (SLS 517:1994) and bear the SLS product certification mark. There is no mention of IS 4151, DOT, or ECE standards in the retrieved passage. Additionally, the passage does not mention any fines or penalties for non-compliance, nor does it specify any amounts. Therefore, the claims about fines and international standards are unsupported and the invented number rule is violated due to the mention of a LKR 2,500 fine, which is not present in the retrieved text."
+  },
+  "abc8ef7ab203b37165f2bab641cd3364f3be05cd156cf10d9d7d247cd076bf97": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The legal speed limit for a three-wheeler on normal roads is generally 50 kilometers per hour (km/h).",
+      "This limit is stipulated under the Motor Traffic Act, No. 14 of 1951, and its subsequent amendments."
+    ],
+    "reasoning": "The generated answer claims a specific speed limit of 50 km/h for three-wheelers on normal roads, which is not supported by any of the retrieved passages. The retrieved passages do not mention any speed limits or reference the Motor Traffic Act. Therefore, the claim about the speed limit is ungrounded and the citation to the Motor Traffic Act is incorrect. Additionally, the answer suggests consulting the latest version of the Motor Traffic Act for accurate information, but this is not supported by the retrieved passages either."
+  },
+  "e47b6b2f33b45bd27999fca6e4f7ba265c9f7d9e8077fdc4f44465ef8d9f7c52": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer correctly states that you have a period of 14 days (two weeks) to pay a spot fine, as supported by Section 215A(5) of the Motor Traffic Act. The retrieved passage explicitly mentions that proof of payment must be forwarded within two weeks from the date of detection. The answer does not introduce any unsupported claims or invented numbers, and it accurately reflects the legal requirement as per the retrieved passage."
+  },
+  "0242a9b1ea5650ee6023d195d14dfd38fd7887c0075c6188bb6f403746148761": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "You can pay the fine directly at the traffic police station where the fine was issued.",
+      "Certain banks are authorized to accept payments for traffic fines.",
+      "You may also be able to pay your fine through an online portal set up for traffic fines."
+    ],
+    "reasoning": "The retrieved passage from Section 215A of the Motor Traffic Act specifies that spot fines can be paid at post offices, government institutions as prescribed, or by electronic means as prescribed. The generated answer incorrectly states that fines can be paid at traffic police stations and banks, and mentions an online portal without grounding in the retrieved text. Additionally, the answer does not mention the requirement to forward proof of payment to the officer-in-charge of the police station, which is specified in the retrieved passage. The answer also fails to mention the option to pay twice the amount if the fine is not paid within the initial period, which is detailed in the passage. The invented number rule is triggered because the answer includes locations and methods of payment not supported by the retrieved text."
+  },
+  "344953583e81a4427ec36a3c57398cd4cbb3d37d323947738b70ee200726705a": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The legal minimum age to apply for a light vehicle driving licence is 18 years.",
+      "This is stipulated under the Motor Traffic Act, No. 14 of 1951, specifically in Section 6."
+    ],
+    "reasoning": "The answer provides a specific age requirement and cites a section of the Motor Traffic Act, but there are no retrieved passages to verify these claims. The mention of '18 years' as the minimum age and the citation of 'Section 6' are not supported by any provided text, making the numerical claim invented and the citation accuracy not applicable. Without retrieved passages, the answer cannot be verified for faithfulness."
+  },
+  "5ffbc8359f96e063d5106ab2e36a4934babfff96c6aeaa4ec3961553ee74713d": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Emission test requirements are governed by the National Environmental Act and the Motor Traffic Act.",
+      "All motor vehicles must pass an emission test conducted by authorized testing centers.",
+      "Specific standards for emissions depend on the type of vehicle and its age.",
+      "To renew a revenue license, you must present a valid emission test certificate.",
+      "Fines for non-compliance can vary, typically ranging from LKR 1,000 to LKR 10,000.",
+      "The emission test certificate is usually valid for a specific period (often one year)."
+    ],
+    "reasoning": "The generated answer discusses emission test requirements, standards, and penalties, but none of these claims are supported by the retrieved passage, which only mentions a calculation method related to JC08 mode without any context on emission tests or revenue license renewal. Additionally, the answer includes invented numerical figures for fines and certificate validity, which are not present in the retrieved passage. Therefore, the answer is ungrounded, and the citation is incorrect as it does not support any part of the answer."
+  },
+  "643c097dfb13800f8a53001f17a832e880d5faf7bdbb61b1d2d39cb046364a6f": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Overtaking from the left side on a multi-lane road is generally considered illegal according to the Motor Traffic Act, No. 14 of 1951, specifically Section 122.",
+      "Penalties for overtaking on the left include fines and demerit points.",
+      "The exact fine amount can vary, but it is typically around LKR 2,500 to LKR 5,000."
+    ],
+    "reasoning": "The answer claims that overtaking from the left is illegal under Section 122 of the Motor Traffic Act, but no retrieved passages were provided to verify this claim. Additionally, the answer invents specific fine amounts (LKR 2,500 to LKR 5,000) and mentions demerit points without any supporting text. Since no retrieved passages were available, the claims about legality, penalties, and specific fines are ungrounded and potentially incorrect."
+  },
+  "6fbc74afe15c32b97dcccf402caddad265bc34088be64ae0e4a19dae80adeb5e": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "Specific documents required to be carried and produced by a driver when stopped by a police officer.",
+      "Mandate of carrying a driving license, vehicle registration certificate, insurance certificate, road tax receipt, and fitness certificate under the Motor Traffic Act.",
+      "Penalties including fines ranging from LKR 1,000 to LKR 10,000 for driving without a valid license."
+    ],
+    "reasoning": "The answer lists specific documents that drivers must carry and produce, but there are no retrieved passages to verify these claims. Additionally, the answer provides specific fine amounts for driving without a valid license, which are not supported by any retrieved text. The absence of retrieved passages means there is no grounding for any of the claims made, including the specific documents and penalties mentioned. Therefore, the answer is ungrounded, and the invented numbers rule applies due to the specific fine amounts mentioned without textual support."
+  },
+  "23a1eec546118e02c8b3a7c33100e185d255b9dd69eb8e605906c48ac7d8ab6b": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "A temporary driving permit for foreign visitors is typically valid for a period of 3 months from the date of issue.",
+      "The temporary driving permit must be obtained from the Department of Motor Traffic in Sri Lanka."
+    ],
+    "reasoning": "The answer provides a specific validity period of 3 months for a temporary driving permit for foreign visitors, but there are no retrieved passages to support this claim. Additionally, the statement about obtaining the permit from the Department of Motor Traffic is not backed by any retrieved text. Since no passages were provided, the answer is ungrounded, and the numerical figure is considered invented."
+  },
+  "b9447afaf96e17137406778f30496871c97b0f7a39877d235234bea8ae4a89b2": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "A three-wheeler is typically designed to carry a maximum of three passengers.",
+      "Fines for violating passenger limits can be up to LKR 2,500 or more."
+    ],
+    "reasoning": "The generated answer claims that a three-wheeler can carry a maximum of three passengers and mentions fines up to LKR 2,500, but these claims are not supported by the retrieved passage. The passage only states that no person other than the driver should be in the driver's compartment or seat, without specifying the total number of passengers allowed or any fines. The answer also incorrectly cites Section 174, which is not present in the retrieved passage. Therefore, the answer is ungrounded and contains invented numbers."
+  },
+  "9cbcb68fde28ff063cef511fecdf3f0dca91f72e88429de4af817f58aa4a8898": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "According to Section 77 of the Motor Traffic Act, it is mandatory for drivers to use headlights when visibility is poor due to weather conditions such as rain, fog, or any other situation that impairs visibility.",
+      "While specific fines and penalties can vary, failing to comply with this requirement can result in fines or other penalties as determined by the relevant authorities."
+    ],
+    "reasoning": "The generated answer claims that Section 77 of the Motor Traffic Act mandates the use of headlights during poor visibility conditions, but no such section or requirement is present in the retrieved passages. The retrieved passage only contains information about the number of persons allowed in the front seats of motor cars and does not mention anything about the use of headlights. Additionally, the answer mentions potential fines and penalties without any supporting evidence from the retrieved text. Therefore, the answer is ungrounded, and the citation is incorrect."
+  },
+  "9780a13842f159229bb1c32d5355fb40186c84a9638e23582e5b1da2037e33db": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The specific steps and documents required for changing the name in the vehicle's CR book.",
+      "The mention of a fee for transferring ownership and its variability based on vehicle type and engine capacity.",
+      "The reference to Section 24 of the Motor Traffic Act dealing with the registration of motor vehicles and the transfer of ownership."
+    ],
+    "reasoning": "The answer provides a detailed process for changing the name in a vehicle's CR book, including specific documents, fees, and steps, none of which are supported by retrieved passages. The mention of Section 24 of the Motor Traffic Act is unverified as no passages were retrieved to confirm this citation. Additionally, the answer includes an invented number regarding the variability of fees based on vehicle type and engine capacity, which is not supported by any retrieved text."
+  },
+  "362ddafadb523c6853b0837ed3483b536abbe0dbea530de572318f58301d28ac": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Crossing a double white line is considered a traffic offense under Section 122 of the Road Traffic Act.",
+      "The immediate seizure of a revenue license is not a standard practice for crossing a double white line.",
+      "Fines for crossing a double white line can range from a few thousand Sri Lankan Rupees."
+    ],
+    "reasoning": "The generated answer makes several claims that are not supported by the retrieved passages. The retrieved passage from Section 215A of the Motor Traffic Act does not mention crossing a double white line or the seizure of a revenue license. It discusses the procedure for paying fines and the consequences of failing to pay them, but does not specify offenses related to road markings or the seizure of documents. The answer also invents a section number (Section 122) and a range for fines, neither of which are present in the retrieved text. Therefore, the answer is ungrounded, and the invented number rule is triggered due to the mention of fines in Sri Lankan Rupees without textual support."
+  },
+  "e22444bbcd241839c6e6e119431cb292c1c14625c5eb4bfaecfe4be957860b49": {
+    "faithfulness_score": 0,
+    "invented_number": false,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "It is illegal to pay a policeman directly in cash for a spot ticket.",
+      "Spot tickets are issued for traffic violations, and the proper procedure is to pay the fine at a designated location, such as a bank or a traffic police station.",
+      "Paying a policeman directly could be considered bribery or corruption, which is punishable under the Bribery Act of Sri Lanka."
+    ],
+    "reasoning": "The retrieved passage from Section 215A of the Motor Traffic Act specifies that fines for traffic violations must be paid to a post office, government institution, or by electronic means, and proof of payment must be forwarded to the police station. However, the generated answer incorrectly claims that paying a policeman directly is illegal and equates it to bribery, which is not explicitly supported by the retrieved text. The answer also incorrectly states that fines must be paid at a bank or traffic police station, which is not mentioned in the retrieved passage. Therefore, the answer contains unsupported claims and cites the wrong legal framework regarding bribery without evidence from the retrieved passages."
+  },
+  "e3e21f951c9d8c066aaf25851646538fc6a3f88b0b8e4e3a3466776dbdc92737": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "It is generally not advisable to laminate your revenue licence disc before affixing it to your vehicle's windscreen.",
+      "According to the Motor Traffic Act, specifically under Section 6 of the Motor Traffic (Amendment) Act No. 8 of 2009, the revenue licence disc must be displayed in a manner that is clearly visible and legible.",
+      "Laminating the disc may affect its visibility or the ability of law enforcement to read it properly, which could lead to penalties.",
+      "If the disc is not displayed correctly, you may be subject to fines or other penalties as stipulated under the relevant sections of the Motor Traffic Act."
+    ],
+    "reasoning": "The generated answer discusses the advisability of laminating a revenue licence disc and potential penalties, citing Section 6 of the Motor Traffic (Amendment) Act No. 8 of 2009, which is not present in the retrieved passages. The retrieved passages only discuss refunds related to revenue licences and do not mention anything about laminating the disc or penalties related to its display. Additionally, the answer invents potential penalties and fines without any grounding in the provided text. Therefore, the answer is ungrounded, and the citation is incorrect."
+  },
+  "5d6741f24bac907794befdd0db16bd6c18c27aafc177626d4daad857db990e8a": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "According to the Motor Traffic Act, specifically Section 139, a driver must produce their driving license upon request by a police officer.",
+      "The fine for not carrying your driving license can vary, but it is generally around LKR 1,000 to LKR 2,500.",
+      "If you are unable to produce your license, you may be required to appear in court, where further penalties could be imposed."
+    ],
+    "reasoning": "The answer provides specific legal claims and numerical figures without any retrieved passages to support them. The mention of Section 139 and the fines ranging from LKR 1,000 to LKR 2,500 are not backed by any text. Additionally, the claim about court appearances and further penalties lacks grounding. Since no retrieved passages were provided, the entire answer is ungrounded, and the invented numbers trigger a zero-tolerance rule violation."
+  },
+  "5515d8a620cbbba9782c4a25115e10654e07ea63fc92aac40db820a82f7167bc": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The fine for exceeding the speed limit by 20 km/h is typically around LKR 2,500."
+    ],
+    "reasoning": "The generated answer claims a specific fine amount (LKR 2,500) for exceeding the speed limit by 20 km/h, which is not supported by the retrieved passages. The retrieved passage from Section 140 of the Motor Traffic Act mentions speed limits but does not specify any fines or penalties for exceeding them. Therefore, the claim about the fine amount is invented. Additionally, the answer does not provide a specific section citation for the fine, making the citation accuracy 'WRONG'."
+  },
+  "dd03b13a2149e03c23b09bb5923814e640187d576ac5a2f0695540a7f454e8be": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The use of helmets is governed by Section 158 of the Motor Traffic Act.",
+      "The safety standards for helmets are aligned with international standards such as BIS or EU standards.",
+      "The spot fine for not wearing a helmet is generally around LKR 2,000."
+    ],
+    "reasoning": "The retrieved passage from Gazette No. 2287/28, Regulation 2, specifies that helmets must meet the Sri Lanka Standard Specification for Protective Helmets (SLS 517:1994) and bear the SLS product certification mark. There is no mention of Section 158 of the Motor Traffic Act or alignment with BIS or EU standards. Additionally, the retrieved passages do not provide any information about the spot fine for not wearing a helmet, making the LKR 2,000 fine an invented number. Therefore, the answer contains unsupported claims and invented numbers, leading to a faithfulness score of 0 and citation accuracy marked as WRONG."
+  },
+  "410e4c7bfb1f3289d8f11bc1ef6af3155e28f5813d54234b4987ab0d70d0881e": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The transfer of ownership should be completed within 14 days from the date of sale.",
+      "The prescribed transfer fee is generally around LKR 1,000 to LKR 2,000.",
+      "Penalties can be imposed under Section 36 of the Motor Traffic Act."
+    ],
+    "reasoning": "The answer provides a detailed procedure and time limit for transferring vehicle ownership, but no retrieved passages were provided to verify these claims. The specific time limit of 14 days, the transfer fee range of LKR 1,000 to LKR 2,000, and the reference to penalties under Section 36 are all numerical or specific claims that are not supported by any retrieved text. Without retrieved passages, these claims are considered invented or ungrounded, leading to a faithfulness score of 0 and triggering the invented number rule."
+  },
+  "f6a55b19f54c631c79571f680991a1325592a721f65d00b79dd5274bc3519db0": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The general speed limit for three-wheelers in urban areas is typically set at 40 km/h.",
+      "The driver is required to wear a seatbelt if the vehicle is equipped with one.",
+      "Three-wheelers must be registered and must display a valid registration number.",
+      "Drivers must possess a valid driving license specifically for three-wheelers.",
+      "It is also mandatory for three-wheelers to have insurance coverage."
+    ],
+    "reasoning": "The generated answer includes several claims about speed limits, safety gear, and additional regulations for three-wheelers that are not supported by the retrieved passages. The retrieved passages do not mention any speed limits, safety gear requirements, or registration and insurance mandates for three-wheelers. The specific speed limit of 40 km/h is an invented number as it does not appear in the retrieved text. Additionally, the claims about seatbelt requirements, registration, licensing, and insurance are not supported by the provided passages. Therefore, the answer is ungrounded, and the citation accuracy is marked as WRONG since no relevant sections were retrieved to support the claims made in the answer."
+  },
+  "71088b783084a5a5551fbf4f089a42b1a193884c892b5525a3d4486d86e58c09": {
+    "faithfulness_score": 0,
+    "invented_number": false,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "The Motor Traffic Act primarily governs traffic offenses and liabilities that occur on public roads and does not typically apply to incidents that occur entirely on private property.",
+      "The situation primarily falls under civil law rather than the Motor Traffic Act.",
+      "You would likely pursue a civil claim for damages against the driver for the repair of your boundary wall.",
+      "The relevant legal principles would involve negligence and liability in tort law."
+    ],
+    "reasoning": "The retrieved passage from Section 239 of the Motor Traffic Act does not address the applicability of the Act to incidents on private property or the distinction between civil and traffic law. The generated answer makes several claims about the scope of the Motor Traffic Act and the nature of legal recourse (civil vs. traffic law) that are not supported by the retrieved text. The passage provided does not discuss the jurisdiction of the Motor Traffic Act over private property incidents or the legal process for claiming damages, making the answer ungrounded."
+  },
+  "e7fd703c74905db1d9b39cb006d4575de9502a6a132b0230c9203c566bac9815": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Electric bicycles with a maximum power output of 250 watts may not be classified as motor vehicles.",
+      "Electric bicycles designed to assist only while pedaling may not require registration.",
+      "Electric bicycles with features allowing operation independently of pedaling may require registration."
+    ],
+    "reasoning": "The generated answer discusses the classification of electric bicycles and specific criteria such as power output and pedal assistance, none of which are mentioned in the retrieved passage. The retrieved passage (Section 239) does not address the classification of electric bicycles or any specific criteria for registration. Additionally, the answer includes specific numerical figures (250 watts) and conditions (pedal assistance) that are not present in the retrieved text, violating the invented number zero-tolerance rule. Therefore, the answer is ungrounded, and the citation is incorrect as it does not support the claims made."
+  },
+  "402d7e58ce3cb2ead5da1125a01f6868fcf96ab67ca6f9c6710a6415295d605b": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Reckless driving is typically outlined in Section 3 of the Motor Traffic Act.",
+      "Negligent driving causing injury is under Section 43 of the Motor Traffic Act.",
+      "Penalties for reckless driving can include fines and imprisonment.",
+      "Negligent driving can lead to penalties, including fines and potential imprisonment."
+    ],
+    "reasoning": "The answer provides a detailed distinction between reckless and negligent driving, but it lacks any retrieved passages to support these claims. The sections cited (Section 3 and Section 43) are not verified by any retrieved text, making the citations inaccurate. Additionally, the penalties mentioned (fines and imprisonment) are not supported by any retrieved passages, and the specific sections cited do not appear in the retrieved data, leading to the conclusion that these numbers and claims are invented. Without retrieved passages, the answer cannot be grounded in the Motor Traffic Act, resulting in a faithfulness score of 0."
+  },
+  "87d5cba288bc690fa2b20d2751fe4cca80ec8f20291fd76d579e4bef48a3d42a": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "According to the Motor Traffic Act, specifically under Section 2 of the Act, vehicles that are not designed for high-speed travel, such as agricultural tractors, are typically prohibited from using expressways.",
+      "Expressways in Sri Lanka are designed for faster-moving traffic, and vehicles that cannot maintain the minimum speed limit (which is usually around 80 km/h) are not allowed on these roads.",
+      "If a tractor is found operating on an expressway, the driver may face penalties, including fines ranging from LKR 2,500 to LKR 10,000 or more."
+    ],
+    "reasoning": "The answer provides specific legal claims and numerical figures regarding the prohibition of agricultural tractors on expressways and associated penalties. However, there are no retrieved passages to support these claims. The mention of Section 2 of the Motor Traffic Act and specific speed limits and fines are not verified by any provided text. The invented numbers for speed limits and fines further necessitate a faithfulness score of 0."
+  },
+  "2ec5b4ebab6a078bd99353154fb3c7c2a91ce58e8357c7c2fbc1ef2bedb3fa2e": {
+    "faithfulness_score": 0,
+    "invented_number": false,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Spot fines are generally applicable for minor traffic violations and are not typically used for serious offenses resulting in grievous injury.",
+      "If a driver is involved in an accident causing grievous injury, they may face criminal charges under the Penal Code (Sections 304A and 338) for causing death or injury by negligence.",
+      "The penalties can include imprisonment and fines, depending on the severity of the offense.",
+      "While it is possible for parties to reach a private settlement in civil matters, this does not absolve the driver from potential criminal liability.",
+      "A settlement may be reached for compensation, but it should be done with legal advice to ensure that it does not affect any ongoing criminal proceedings.",
+      "It is advisable for the victim to pursue compensation through the driver's insurance policy, as this can provide a more structured and legally binding resolution."
+    ],
+    "reasoning": "The retrieved passage from Section 215A of the Motor Traffic Act discusses the use of spot fines for certain offenses but does not specify whether grievous injury can be settled via a spot fine. The generated answer makes several claims about the applicability of spot fines, potential criminal charges under the Penal Code, and the possibility of private settlements, none of which are supported by the retrieved passage. The passage does not mention grievous injury, criminal charges, or insurance claims, making these claims unsupported. Additionally, the answer references sections of the Penal Code and other legal advice that are not present in the retrieved text."
+  },
+  "4bb788b1bdbefa092666a4d97641489dc5538ae91980d122dab1e7565799a337": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "Foreign tourists can drive using an International Driving Permit (IDP) along with their valid home country driving license.",
+      "A foreign national can drive a vehicle in Sri Lanka for a period of up to three months from the date of arrival, provided they possess a valid IDP and their original driving license.",
+      "If you plan to stay longer than three months or if you are a resident, you would need to obtain a local driving license."
+    ],
+    "reasoning": "The retrieved passage from Section 132A of the Motor Traffic Act does not mention any provisions about foreign tourists driving in Sri Lanka using an International Driving Permit. It only discusses the issuance of an International Driving Permit to residents of Sri Lanka for driving abroad. The generated answer includes claims about the duration (three months) and requirements for foreign tourists driving in Sri Lanka, which are not supported by the retrieved text. Additionally, the answer incorrectly cites Section 36, which is not provided in the retrieved passages, and invents the three-month period without any grounding in the text."
+  },
+  "5b8de34b012d5f7b5c9c6a3e31a1229a28099bd60c1be1eadd1c9ab014366df2": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "WRONG",
+    "unsupported_claims": [
+      "According to Section 194 of the Motor Traffic Act, it is prohibited for drivers to use a mobile phone while driving unless they are using a hands-free device.",
+      "The fines for such offenses can vary, but typically, the fine for using a mobile phone while driving can be around LKR 2,500 to LKR 5,000."
+    ],
+    "reasoning": "The retrieved passage from Section 152A of the Motor Traffic Act explicitly prohibits the use of a telephone, mobile phone, or any other movable communication equipment while driving, without any mention of an exception for hands-free devices. The generated answer incorrectly references Section 194, which is not provided in the retrieved passages, and invents a rule allowing hands-free devices. Additionally, the answer invents specific fine amounts (LKR 2,500 to LKR 5,000) that are not mentioned in the retrieved passage. Therefore, the answer is ungrounded and contains invented numbers."
+  },
+  "f9b094c0ea216ce3aab4ac557bd4bba96bfc6184e86a7d632fe15da7dab4aadd": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "Typically, the import duty for hybrid vehicles can range from 0% to 30%, depending on the engine capacity and other criteria.",
+      "There may be other taxes applicable, such as Value Added Tax (VAT) and Nation Building Tax (NBT)."
+    ],
+    "reasoning": "The answer provides specific numerical ranges for import duties (0% to 30%) and mentions additional taxes like VAT and NBT without any retrieved passages to support these claims. Since no passages were retrieved, the answer is ungrounded, and the numerical figures are considered invented. The question is out of scope for the provided legal context, and no citations were expected or provided."
+  },
+  "2d112f1b42068be47db8d65922e754a108c22fe430b1047e6d25908cbaa1fbe2": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The maximum statutory fare per kilometer in the Western Province is approximately LKR 60.",
+      "The fare structure is regulated by the National Transport Commission (NTC)."
+    ],
+    "reasoning": "The answer provides a specific fare amount (LKR 60 per kilometer) and claims about regulation by the National Transport Commission without any retrieved passages to support these claims. Since no passages were provided, the answer is ungrounded, and the numerical figure is considered invented. The citation accuracy is 'N/A' because no citations were expected or provided, and the question was not refused as out-of-scope."
+  },
+  "94988fd498800bcc0a72ba33f24e3a6a51f89e33396451624657a1a7c00a5672": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly identifies that the specific technical specifications for electronic toll collection (ETC) RFID windshield tags are not provided in the retrieved passages, and it appropriately suggests consulting the Road Development Authority or the Ministry of Highways for accurate information. The answer does not invent any specific numbers or unsupported claims about the specifications, and it provides a general overview of typical RFID features without asserting them as specific to Sri Lanka. The refusal to provide specific legal advice due to lack of information is appropriate and faithful."
+  },
+  "3e7f0ad6c58f2cba06188f56d96a9e37510bd089480d9759ec59f6d66ef14a8e": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The compensation formula includes specific categories such as medical expenses, loss of earnings, pain and suffering, and permanent disability.",
+      "The maximum compensation amount from the Motor Traffic Insurance Fund for hit-and-run accidents is capped at a certain limit."
+    ],
+    "reasoning": "The answer provides a detailed compensation formula and mentions a capped limit for compensation, but there are no retrieved passages to support these claims. The mention of Section 151 of the Motor Traffic Act is unverified due to the absence of retrieved passages. Additionally, the answer implies specific categories and a cap on compensation, which are not grounded in any provided text, thus violating the invented number zero-tolerance rule."
+  },
+  "82c1f4483e64bba303f15159e84cec64ebc5fe939977a9f01a6060d8c7f92715": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly identifies that the structural requirements for roadside railway level crossing automatic barrier arms are governed by the Sri Lanka Railway's regulations and standards, which are not detailed in the retrieved passages. The response appropriately suggests consulting the Railway Ordinance and related safety regulations, and advises contacting the Sri Lanka Railway Department for precise legal references. Since no specific legal texts or sections were retrieved or cited, the refusal to provide detailed statutory information is faithful and appropriate. The answer does not invent any numbers or unsupported claims, and it provides a general overview without specific legal citations, which is suitable given the absence of retrieved passages."
+  },
+  "e9769406bfdf755240ca01b1dcd4bfc42f29ff77a5c72208dae94b2defa7366e": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "The entire process of registering a deed for a residential land plot as described is unsupported.",
+      "Specific steps such as payment of stamp duty, registration fee, and the exact documents required are not verified.",
+      "The mention of the Registration of Documents Ordinance (Chapter 117) is unverified."
+    ],
+    "reasoning": "The answer provides a detailed process for registering a deed for a residential land plot, but there are no retrieved passages to verify any of the claims made. The steps, legal references, and numerical figures such as stamp duty and registration fees are not supported by any retrieved legal text. Therefore, the entire answer is ungrounded, and the mention of specific ordinances and procedures is speculative without evidence from the retrieved passages."
+  },
+  "74addac0fe34248bd723f00c39494f47bc103a29d3c1b9a38f41d2ca748bda04": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "Section 453 of the Penal Code defines housebreaking and prescribes a penalty of up to 7 years imprisonment.",
+      "Section 378 of the Penal Code defines theft.",
+      "Section 379 prescribes a penalty for theft of up to 3 years imprisonment.",
+      "Section 380 prescribes a penalty for theft committed in a dwelling house of up to 10 years imprisonment."
+    ],
+    "reasoning": "The answer provides specific sections and penalties from the Penal Code of Sri Lanka, but no retrieved passages were provided to verify these claims. The numbers mentioned (7 years, 3 years, 10 years) are not supported by any retrieved text, triggering the invented number rule. Without retrieved passages, the answer cannot be verified for faithfulness, leading to a score of 0."
+  },
+  "1e1c1117216b1f5befc71a93008abb811739560fdb932158a71684b1c2dea84e": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer provides a general overview of the process for filing a divorce based on malicious desertion in Sri Lanka. It outlines the steps typically involved, such as establishing grounds for divorce, gathering evidence, filing a petition, and the court proceedings. Although no specific legal citations or retrieved passages are provided, the answer does not invent any numbers or make unsupported claims. The refusal logic is not applicable here as the question was answered, albeit without specific legal text references. The answer is faithful to general legal principles and practices in Sri Lanka regarding divorce on the grounds of malicious desertion."
+  },
+  "87a1cb0561f9055f573f6aca4f1411732ea3f838beb82ae4a4c0f858c3711dd7": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The question about the capital city of Australia is out of scope for a legal assistant specialized in Sri Lanka's Motor Traffic Act. The answer correctly identifies Canberra as the capital city of Australia, which is a general knowledge fact and does not require citation from the retrieved passages. The response also appropriately redirects to relevant legal inquiries, maintaining faithfulness by not fabricating legal advice."
+  },
+  "cbead5900096192698ac37318f656cb134890174d01554e85a4e1a186f36c31d": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The question about registering a private limited company under the Companies Act of Sri Lanka is out of scope for the provided legal passages, as no relevant passages were retrieved. The generated answer provides a general outline of the process without citing specific sections of the Companies Act No. 7 of 2007. Since the answer is based on general knowledge and no retrieved passages were available to verify the claims, the faithfulness score is 2 for a polite refusal to provide specific legal advice without supporting text. No invented numbers are present as the answer does not claim specific statutory figures from the retrieved passages."
+  },
+  "cf997a45a4b16eb05a8b036ca514ee2b8ec9675605a4f4043e10ae3407d28253": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The question about a recipe is out of scope for a legal assistant focused on Sri Lankan law. The system correctly refused to provide an answer, stating its purpose is to provide legal information, which is a faithful response given the context."
+  },
+  "1a80b8990c9cd5898748663af3ae22aaf89172c68a0ddfa53b1c965a6bd39c9f": {
+    "faithfulness_score": 0,
+    "invented_number": true,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [
+      "According to Section 22 of the Rent Act, a landlord must provide a tenant with a written notice of termination of the tenancy, which typically requires a notice period of three months.",
+      "There are specific circumstances under which a landlord may evict a tenant without the full three months' notice.",
+      "If the tenant has breached the terms of the lease agreement or has failed to pay rent, the landlord may have grounds for immediate eviction, but this usually requires a court order.",
+      "If a landlord fails to provide the required notice period, the tenant may have grounds to contest the eviction in court.",
+      "The tenant could potentially seek damages or an injunction against the eviction."
+    ],
+    "reasoning": "The answer discusses provisions of the Rent Act No. 7 of 1972, including a specific section and notice period, without any retrieved passages to verify these claims. The mention of a three-month notice period and conditions for immediate eviction are not supported by any provided text. Additionally, the answer includes legal advice about contesting eviction and seeking damages, which is not grounded in any retrieved legal text. The absence of retrieved passages makes it impossible to verify the accuracy of these claims, leading to a score of 0 and marking the presence of invented numbers."
   }
 }
