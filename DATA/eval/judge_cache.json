@@ -1,0 +1,128 @@
+{
+  "9cefdfb0e0d6ec40e7b2b499953cc79677eddf0882a2d488bd9b629a0b6579c2": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the content of Section 155(3) of the Motor Traffic Act, which prohibits the use of multi-tone horns or sound-producing devices that emit harsh, shrill, loud, or alarming noises on private vehicles, except for emergency services. The retrieved passage explicitly supports this claim, and the citation is exact, matching the section referenced in the answer."
+  },
+  "50e69a7c1137501720ac1ffb661bb1ae621476305b14ad9025130ade0a6edc6c": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the legal requirement from Section 123(2)(e)(ii) of the Motor Traffic Act, which states that a learner driver must be accompanied by a holder of a valid driving licence who is at least 21 years old. The answer correctly interprets this to mean that a learner driver cannot drive alone, even with 'L' plates displayed. There are no unsupported claims or invented numbers in the answer."
+  },
+  "34296f48f0e53ee473d8576fd154fb578c07064460e83ee561f8e266d1a34a3f": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not contain specific information about special safety restraints for child passengers in private cars. The retrieved passages primarily discuss general seat belt regulations and the carriage of persons but do not address child safety restraints specifically. Therefore, the refusal to provide an answer due to lack of information is faithful and appropriate."
+  },
+  "8e2010cb7a84ee2d44c95ba2ea162c02ebab63ae56c7113d329b8b5c4b57a87b": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific information about the legality of tinted front windshields on personal cars. The retrieved passages focus on other aspects of vehicle regulations, such as signal lights, noise levels, and vehicle modifications, but do not address tinted windshields. Therefore, the refusal to provide an answer due to lack of information is faithful and accurate."
+  },
+  "dead2e17ed8d481324cc2de41adc1f59962c0373422b9502b80540c2147d6623": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly identified that the retrieved passages do not provide information on the penalty for driving an unregistered motor vehicle on a public road. The refusal to answer due to lack of information is appropriate and does not fabricate any legal claims or figures. Therefore, the response is fully faithful to the retrieved content."
+  },
+  "23a659a150a3ee8b2acf018d94325f311df6c89edd3c9efc65c954a20e797226": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the requirements outlined in Section 161(1) of the Motor Traffic Act. It correctly states that the driver must immediately stop the vehicle, provide necessary personal and vehicle information, assist injured persons by taking them to a hospital if needed, and report the accident to the nearest police station. The fine for failing to report the accident is also correctly cited as between Rs. 3,000 and Rs. 5,000, which matches the retrieved passage. All claims are directly supported by the text from the retrieved passage, and the citation is precise."
+  },
+  "1cc49009818335b90914b12d346027c50daa27adc68059a8c812486a62e0523d": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Sri Lanka Motor Traffic Act, which the AI is specialized in. The refusal was polite and did not fabricate any legal advice or claims. No retrieved passages were available, and no citations were expected or provided."
+  },
+  "09647c6d49f23d0c4a2816eef17d72b749a48e3d570ba86aa2c42b326244574d": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly identified that the retrieved passages do not provide information on the process for renewing a driving book after it expires. The refusal is appropriate as the relevant details are not found in the provided text, and no false claims or invented information were made."
+  },
+  "04c1fb0359919ca8011f065f9b652db86a8b3653820c4d78bb0d2760ba4ea7fb": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide specific information about driving a manual transmission car with an automatic gear endorsement. The retrieved sections focus on general driving licence requirements and offences but do not address the specific query about transmission types. Therefore, the refusal to provide an answer due to lack of information is faithful and appropriate."
+  },
+  "03e2c94a9ad5da4514b6c2309300d842851064c21916dba240e85f5c76a44eba": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly identified that the retrieved passages do not provide information on whether a bicycle rider is subject to drunk driving breathalyser tests under traffic law. The refusal to answer due to lack of information is appropriate and does not fabricate any legal claims or advice."
+  },
+  "2c9f7f112898aa40264e5d81d37c92e78acf040110f5be230c30cfcb8f6b89c4": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The generated answer accurately reflects the information provided in the retrieved passages. It correctly states that a citizen cannot contest a traffic fine directly at the police station with the OIC but must inform the issuing officer or the Traffic OIC of their intention to contest and withhold payment during the 14-day period. This is supported by PG-POL-4.1 and PG-POL-4.2, which outline the procedure for contesting a spot fine, including the requirement for the Police Traffic Branch to file a formal plaint in the Magistrate's Court if the fine is not paid within the specified period. No invented numbers are present, and the citations are exact and relevant to the claims made in the answer."
+  },
+  "343a54d1d65d4a3a0210e913096bca89e5fe6b9857d5b668853a0315a3a5c99f": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that the retrieved passages do not provide information about the time frame for re-testing a vehicle after it fails the emission test before the revenue licence expires. The retrieved passages focus on emission standards and testing procedures but do not address the specific question about the re-testing period. Therefore, the refusal to provide an answer due to lack of information is appropriate and faithful."
+  },
+  "07a2a8a6efd0739aacc652822c64c253987dc69a01a90e1c38d3a234b7f6c507": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer correctly states that a police officer's signal takes legal priority over a traffic light, which is supported by Section 162 of the Motor Traffic Act. This section explicitly states that drivers must obey all verbal directions or signals given by a police officer in the execution of their duty. The retrieved passage from Section 162 directly supports the claim made in the answer, and there are no invented numbers or unsupported claims present."
+  },
+  "8e8ab2073ee6e3acf7be5d8b16e1a4ce1cff52e7ecb72f7a80fb0ab2f14ce360": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately states that police can impound a vehicle if the driver does not possess a valid driving licence, which is directly supported by Section 232F(2)(b) of the Motor Traffic Act. The citation is exact, and there are no unsupported claims or invented numbers in the answer."
+  },
+  "7630abd8daea3926bcfeb894c0ebc3088632b183bb59ac5ed623ccaef5376677": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "EXACT",
+    "unsupported_claims": [],
+    "reasoning": "The answer accurately reflects the content of Section 214(2)(b) of the Motor Traffic Act, which states that both the driver and the owner of a motor vehicle can be held liable for offences committed with the vehicle, even if the liability is not expressly imposed on them. The answer also correctly notes the owner's defense options, as outlined in the proviso of Section 214(2)(b), which allows the owner to avoid liability by proving lack of consent or involvement. All claims in the answer are directly supported by the retrieved passage."
+  },
+  "415b510877a0bbfea281c770ebfdc87eea846bc982c834230b4b2bd20a1f03bc": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is out of scope, focusing on its specialization in Sri Lanka's Motor Traffic Act. The refusal is polite and does not fabricate any legal advice, making it fully faithful."
+  },
+  "101e7bc62cc3d3f3f92dd677a92eeef5d85999cddfa7d5a13607254f4e4853c2": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it falls outside the scope of the Motor Traffic Act, which is the specialized domain of the AI. The refusal was polite and did not fabricate any legal advice, making it fully faithful."
+  },
+  "c0fd1472e2173ae1b43272ee31579b657943214953ca2f4e52a29aa55391ef06": {
+    "faithfulness_score": 2,
+    "invented_number": false,
+    "citation_accuracy": "N/A",
+    "unsupported_claims": [],
+    "reasoning": "The system correctly refused to answer the question as it is outside the scope of its specialization in Sri Lanka's Motor Traffic Act. The refusal is polite and does not fabricate any legal advice, making it fully faithful."
+  }
+}

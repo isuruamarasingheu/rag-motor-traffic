@@ -77,10 +77,11 @@ def format_retrieved_passages(hits: list[dict[str, Any]]) -> str:
     blocks = []
     for idx, hit in enumerate(hits, 1):
         sec_id = hit.get("id", "UNKNOWN")
-        citation = hit.get("citation", sec_id)
-        text = hit.get("text", "").strip()
+        metadata = hit.get("metadata", {}) or {}
+        citation = hit.get("citation") or metadata.get("citation", sec_id)
+        text = hit.get("document", "") or hit.get("text", "") or metadata.get("text", "")
         score = hit.get("score", 0.0)
-        blocks.append(f"[{idx}] {citation} (Score: {score:.3f}):\n{text}")
+        blocks.append(f"[{idx}] {citation} (Score: {score:.3f}):\n{text.strip()}")
 
     return "\n\n---\n\n".join(blocks)
 
