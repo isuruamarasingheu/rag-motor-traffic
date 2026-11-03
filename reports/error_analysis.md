@@ -90,3 +90,4 @@ To rigorously address Research Questions **RQ1**, **RQ2**, and **RQ3**, every in
   - The structure-aware hierarchy parser implemented in Phase 4 (`src/chunking/parser.py`) prevented subsection dismemberment. All parent titles, headings, and cross-references were maintained intact.
 - **OCR Numeric Errors: 0 Errors.**
   - The multi-stage verification protocol in Phase 3 (`src/ingest/number_report.py` and manual verification index) completely neutralized digit errors in the underlying corpus.
+
