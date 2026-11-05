@@ -216,7 +216,7 @@ export default function ResponseCard({
               <button
                 type="button"
                 onClick={onToggleSource}
-                className={`p-2 rounded-xl border transition flex items-center justify-center ${
+                className={`p-1.5 rounded-lg border transition flex items-center justify-center ${
                   isSourceOpen
                     ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/50 shadow-sm'
                     : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-[#f0c96a] border-slate-800'
@@ -227,7 +227,7 @@ export default function ResponseCard({
                     : `View source citations in right sidebar (${citations.length})`
                 }
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
