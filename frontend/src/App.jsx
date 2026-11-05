@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import QueryHero from './components/QueryHero';
 import ResponseCard from './components/ResponseCard';
@@ -13,15 +13,20 @@ import { ArrowUp, Scale, BookOpen, Calculator } from 'lucide-react';
 export default function App() {
   const [currentView, setCurrentView] = useState('chat'); // 'chat' | 'library' | 'calculator' | 'saved'
   const [question, setQuestion] = useState('');
-  const [currentQuestion, setCurrentQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [result, setResult] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Chat conversation stream state (independent stateless queries presented as a flowing chat)
+  const [chatStream, setChatStream] = useState([]);
+  const [activeTurnId, setActiveTurnId] = useState(null);
   const [isSourceSidebarOpen, setIsSourceSidebarOpen] = useState(false);
 
-  // How it works modal (retained for explaining RAG methodology)
+  // How it works modal
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
+
+  // Scroll ref for chat stream
+  const messagesEndRef = useRef(null);
 
   // History & Saved Answers with LocalStorage persistence
   const [history, setHistory] = useState(() => {
@@ -61,6 +66,13 @@ export default function App() {
     }
   }, [savedAnswers]);
 
+  // Auto-scroll to latest message when new turn is added or updated
+  useEffect(() => {
+    if (chatStream.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatStream, loading]);
+
   const handleAsk = async (e, customQ = null) => {
     if (e && e.preventDefault) e.preventDefault();
     const cleanQ = (customQ !== null ? customQ : question).trim();
@@ -70,14 +82,27 @@ export default function App() {
       return;
     }
 
+    const turnId = Date.now().toString();
     setLoading(true);
     setError(null);
-    setResult(null); // Clear previous result so fresh query or error displays cleanly
-    setCurrentQuestion(cleanQ);
     setQuestion(''); // Immediately clear input field so follow-up bar is fresh
     setCurrentView('chat'); // Always ensure chat view is active when asking
 
+    // Append new turn to chat stream
+    setChatStream((prev) => [
+      ...prev,
+      {
+        id: turnId,
+        question: cleanQ,
+        result: null,
+        loading: true,
+        error: null,
+      },
+    ]);
+    setActiveTurnId(turnId);
+
     try {
+      // Independent, clean RAG retrieval from official corpus (stateless per turn)
       const response = await fetch('/ask', {
         method: 'POST',
         headers: {
@@ -100,7 +125,15 @@ export default function App() {
       }
 
       const data = await response.json();
-      setResult(data);
+
+      // Populate completed result for this specific turn
+      setChatStream((prev) =>
+        prev.map((turn) =>
+          turn.id === turnId
+            ? { ...turn, result: data, loading: false }
+            : turn
+        )
+      );
 
       // Add to recent history (unique, max 12)
       setHistory((prev) => {
@@ -108,7 +141,15 @@ export default function App() {
         return [{ question: cleanQ, status: data.status }, ...filtered].slice(0, 12);
       });
     } catch (err) {
-      setError(err.message || 'Failed to connect to the legal assistant backend.');
+      const errMsg = err.message || 'Failed to connect to the legal assistant backend.';
+      setError(errMsg);
+      setChatStream((prev) =>
+        prev.map((turn) =>
+          turn.id === turnId
+            ? { ...turn, loading: false, error: errMsg }
+            : turn
+        )
+      );
     } finally {
       setLoading(false);
     }
@@ -122,9 +163,9 @@ export default function App() {
 
   const handleNewQuestion = () => {
     setQuestion('');
-    setCurrentQuestion('');
-    setResult(null);
     setError(null);
+    setChatStream([]);
+    setActiveTurnId(null);
     setIsSourceSidebarOpen(false);
     setCurrentView('chat');
   };
@@ -138,7 +179,13 @@ export default function App() {
     }
   };
 
-  const isCurrentAnswerSaved = result && savedAnswers.some((item) => item.question === currentQuestion);
+  // Resolve active citations for the right sidebar from the selected or latest turn
+  const activeTurn =
+    chatStream.find((t) => t.id === activeTurnId) ||
+    chatStream[chatStream.length - 1] ||
+    null;
+
+  const hasChatMessages = chatStream.length > 0;
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0b0f17] text-slate-100 antialiased">
@@ -200,8 +247,8 @@ export default function App() {
         {/* View 4: Chat Assistant View */}
         {currentView === 'chat' && (
           <div className="flex-1 flex flex-col h-full overflow-hidden">
-            {/* Top Navbar if in answered view */}
-            {result && (
+            {/* Top Navbar if in active conversation stream */}
+            {hasChatMessages && (
               <header className="no-print px-6 py-3 border-b border-slate-800/80 bg-[#0e131d]/80 backdrop-blur-md flex items-center justify-between z-10 animate-fade-up">
                 <div className="flex items-center gap-3">
                   <button
@@ -245,8 +292,8 @@ export default function App() {
 
             {/* Scrollable Center Canvas */}
             <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-8 w-full relative z-10 flex flex-col justify-between">
-              {!result ? (
-                /* Hero Landing View - Stays in-place with animated scale on submit button while loading */
+              {!hasChatMessages ? (
+                /* Hero Landing View */
                 <QueryHero
                   question={question}
                   setQuestion={setQuestion}
@@ -258,30 +305,66 @@ export default function App() {
                   onOpenHowItWorks={() => setHowItWorksOpen(true)}
                 />
               ) : (
-                /* Answered Conversational View (Clean, open stream matching photo 2) */
-                <div className="max-w-3xl w-full mx-auto pt-4 pb-44 space-y-6">
-                  <ResponseCard
-                    result={result}
-                    currentQuestion={currentQuestion}
-                    onNewQuestion={handleNewQuestion}
-                    onSaveAnswer={handleSaveAnswer}
-                    isSaved={isCurrentAnswerSaved}
-                    isSourceOpen={isSourceSidebarOpen}
-                    onToggleSource={() => setIsSourceSidebarOpen((prev) => !prev)}
-                  />
+                /* Continuous Conversational Stream of Turns */
+                <div className="max-w-3xl w-full mx-auto pt-4 pb-44 space-y-8">
+                  {chatStream.map((turn, index) => (
+                    <div key={turn.id} className="space-y-4 animate-fade-up">
+                      {turn.loading && !turn.result && (
+                        <div className="space-y-3">
+                          {/* User question bubble immediately visible */}
+                          <div className="flex justify-end">
+                            <div className="max-w-2xl bg-[#141d2e] border border-slate-700/70 rounded-2xl rounded-tr-sm px-5 py-3 text-slate-100 text-sm sm:text-base font-medium shadow-md leading-relaxed">
+                              {turn.question}
+                            </div>
+                          </div>
 
-                  {loading && (
-                    <div className="text-center text-xs text-[#f0c96a] flex items-center justify-center gap-2 pt-4 animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-[#d4a843]" />
-                      <span>Consulting 991 sections & verifying statutory citations...</span>
+                          {/* Loading indicator for this turn */}
+                          <div className="p-4 rounded-2xl bg-[#101726]/60 border border-slate-800/80 text-center text-xs text-[#f0c96a] flex items-center justify-center gap-2.5 animate-pulse">
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#d4a843]" />
+                            <span>Consulting 991 sections & verifying statutory citations...</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {turn.error && (
+                        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300">
+                          {turn.error}
+                        </div>
+                      )}
+
+                      {turn.result && (
+                        <ResponseCard
+                          result={turn.result}
+                          currentQuestion={turn.question}
+                          onNewQuestion={handleNewQuestion}
+                          onSaveAnswer={handleSaveAnswer}
+                          isSaved={savedAnswers.some((item) => item.question === turn.question)}
+                          isSourceOpen={isSourceSidebarOpen && activeTurnId === turn.id}
+                          onToggleSource={() => {
+                            if (isSourceSidebarOpen && activeTurnId === turn.id) {
+                              setIsSourceSidebarOpen(false);
+                            } else {
+                              setActiveTurnId(turn.id);
+                              setIsSourceSidebarOpen(true);
+                            }
+                          }}
+                        />
+                      )}
+
+                      {index < chatStream.length - 1 && (
+                        <div className="pt-2 border-b border-slate-800/40" />
+                      )}
                     </div>
-                  )}
+                  ))}
+
+                  {/* Ref to automatically scroll into view */}
+                  <div ref={messagesEndRef} />
                 </div>
               )}
             </main>
 
-            {/* Fixed Floating Bottom Capsule Prompt Bar (Centered with working panel) */}
-            {result && (
+            {/* Fixed Floating Bottom Capsule Prompt Bar for Follow-up Questions */}
+            {hasChatMessages && (
               <div className="no-print absolute bottom-0 left-0 right-0 p-4 pb-5 bg-gradient-to-t from-[#0b0f17] via-[#0b0f17]/95 to-transparent z-20 pointer-events-none">
                 <div className="max-w-3xl w-full mx-auto pointer-events-auto">
                   <div className="bg-[#121824]/95 backdrop-blur-md border border-slate-700/80 hover:border-[#d4a843]/50 focus-within:border-[#d4a843] rounded-full pl-5 pr-2 py-2 shadow-2xl flex items-center gap-3 transition">
@@ -303,11 +386,10 @@ export default function App() {
                       <button
                         onClick={handleAsk}
                         disabled={loading || !question.trim()}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition shadow-md ${
-                          loading
+                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition shadow-md ${loading
                             ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
                             : 'bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95'
-                        }`}
+                          }`}
                         title={loading ? "Consulting the law..." : "Ask Question"}
                       >
                         {loading ? (
@@ -338,8 +420,8 @@ export default function App() {
 
       {/* Right-Side Source Citation Sidebar (Mirrors left navigation sidebar) */}
       <SourceSidebar
-        isOpen={isSourceSidebarOpen && currentView === 'chat' && !!result}
-        citations={result?.citations || []}
+        isOpen={isSourceSidebarOpen && currentView === 'chat' && (activeTurn?.result?.citations?.length > 0)}
+        citations={activeTurn?.result?.citations || []}
         onClose={() => setIsSourceSidebarOpen(false)}
       />
 
