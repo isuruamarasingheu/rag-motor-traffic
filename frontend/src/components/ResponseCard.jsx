@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   CheckCircle2,
   AlertTriangle,
@@ -10,10 +10,68 @@ import {
   Printer,
   Languages,
   Loader2,
-  ChevronDown,
-  ChevronRight,
+  Scale,
+  FileText,
+  BookOpen,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
+import ResourceReaderModal from './ResourceReaderModal';
+
+function findResourceForCitation(citation, resources) {
+  if (!citation || !resources || resources.length === 0) return null;
+  const cid = (citation.id || '').toUpperCase();
+  const title = (citation.citation || '').toUpperCase();
+
+  // 1. Direct gazette number match (e.g. GAZ-2287-28 or 2287/28)
+  const gazMatch = cid.match(/GAZ-(\d+)-(\d+)/) || title.match(/(\d+)\/(\d+)/);
+  if (gazMatch) {
+    const num1 = gazMatch[1];
+    const num2 = gazMatch[2];
+    const targetGaz = `${num1}/${num2}`;
+    const targetId = `res-gazette-${num1}-${num2}`;
+    const match = resources.find(
+      (r) => r.id === targetId || (r.gazette_no && r.gazette_no.includes(targetGaz))
+    );
+    if (match) return match;
+  }
+
+  // 2. Amendment match (e.g. AMEND-2019-10)
+  const amendMatch = cid.match(/AMEND-(\d+)-(\d+)/);
+  if (amendMatch) {
+    const year = amendMatch[1];
+    const no = amendMatch[2];
+    const targetId = `res-amend-${year}-${no}`;
+    const match = resources.find((r) => r.id === targetId);
+    if (match) return match;
+  }
+
+  // 3. Procedural guide match
+  if (cid.startsWith('PROC-DMT-')) {
+    const match = resources.find((r) => r.id === 'res-guide-dmt-registration');
+    if (match) return match;
+  }
+  if (cid.startsWith('PROC-POLICE-')) {
+    const match = resources.find((r) => r.id === 'res-guide-police-spot-fine');
+    if (match) return match;
+  }
+
+  // 4. Principal Act (MTA-1951-...)
+  if (cid.startsWith('MTA-')) {
+    const match = resources.find((r) => r.id === 'res-act-1951-consolidated-2024');
+    if (match) return match;
+  }
+
+  // 5. Fallback: match by title keywords
+  const titleMatch = resources.find(
+    (r) =>
+      title.includes((r.short_title || '').toUpperCase()) ||
+      title.includes((r.gazette_no || '---').toUpperCase())
+  );
+  if (titleMatch) return titleMatch;
+
+  // 6. Default fallback to Consolidated Principal Act
+  return resources.find((r) => r.id === 'res-act-1951-consolidated-2024') || resources[0];
+}
 
 export default function ResponseCard({
   result,
@@ -22,9 +80,7 @@ export default function ResponseCard({
   onSaveAnswer,
   isSaved = false,
 }) {
-  const [copiedId, setCopiedId] = useState(null);
   const [answerCopied, setAnswerCopied] = useState(false);
-  const [expandedCitationId, setExpandedCitationId] = useState(null);
 
   // Multi-language translation state
   const [selectedLang, setSelectedLang] = useState('en'); // 'en' | 'si' | 'ta'
@@ -32,9 +88,47 @@ export default function ResponseCard({
   const [translating, setTranslating] = useState(false);
   const [translationError, setTranslationError] = useState(null);
 
+  // Resources state & Gazette / Statute Reader modal
+  const [resources, setResources] = useState([]);
+  const [selectedResourceForReader, setSelectedResourceForReader] = useState(null);
+  const [isReaderOpen, setIsReaderOpen] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/resources?limit=100')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load resources');
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted) setResources(data);
+      })
+      .catch((err) => {
+        console.error('Could not fetch resources for citations:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   if (!result) return null;
 
   const { status, answer, citations = [] } = result;
+
+  // Derive unique legal resources cited by the answer
+  const citedResources = useMemo(() => {
+    if (!citations || citations.length === 0 || resources.length === 0) return [];
+    const list = [];
+    const seenIds = new Set();
+    for (const c of citations) {
+      const res = findResourceForCitation(c, resources);
+      if (res && !seenIds.has(res.id)) {
+        seenIds.add(res.id);
+        list.push(res);
+      }
+    }
+    return list;
+  }, [citations, resources]);
 
   const handleCopyAnswer = () => {
     const textToCopy = selectedLang === 'en' ? answer : (translations[selectedLang] || answer);
@@ -42,13 +136,6 @@ export default function ResponseCard({
     navigator.clipboard.writeText(textToCopy);
     setAnswerCopied(true);
     setTimeout(() => setAnswerCopied(false), 2000);
-  };
-
-  const handleCopyCitation = (id, text, e) => {
-    if (e && e.stopPropagation) e.stopPropagation();
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
   };
 
   const handleLanguageChange = async (lang) => {
@@ -122,7 +209,12 @@ export default function ResponseCard({
   };
 
   const config = getConfig();
-  const activeExpandedCitation = citations.find((c) => c.id === expandedCitationId);
+
+  const handleOpenSourceModal = (res) => {
+    if (!res) return;
+    setSelectedResourceForReader(res);
+    setIsReaderOpen(true);
+  };
 
   return (
     <>
@@ -202,33 +294,57 @@ export default function ResponseCard({
           {displayedAnswer || 'No answer available.'}
         </div>
 
-        {/* BOTTOM ROW: Source Citations on Left, Action Icons on Right (Matching Sketch!) */}
-        <div className="pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3 flex-wrap">
-          {/* Left: Source Label and Citation Pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold text-slate-400 tracking-wide">Source</span>
-            {citations.length === 0 ? (
-              <span className="text-xs text-slate-500 font-mono">None cited</span>
+        {/* BOTTOM ROW: Source Icons on Left, Action Icons on Right (Matching User Sketch & Cropped Photo) */}
+        <div className="pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3">
+          {/* Left: Source (Clickable word or Icon, NO wide text buttons, ONLY icons matching right side) */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                if (citedResources.length > 0) {
+                  handleOpenSourceModal(citedResources[0]);
+                }
+              }}
+              className={`text-xs font-semibold tracking-wide transition flex items-center gap-1.5 ${
+                citedResources.length > 0
+                  ? 'text-slate-400 hover:text-[#f0c96a] cursor-pointer'
+                  : 'text-slate-500 cursor-default'
+              }`}
+              title={
+                citedResources.length > 0
+                  ? `View official gazette/act: ${citedResources[0].short_title || 'Document'} (PDF & text)`
+                  : 'No source document'
+              }
+            >
+              <span>Source</span>
+            </button>
+
+            {/* Source Icon Buttons (icon-only, matching right side icons) */}
+            {citedResources.length === 0 ? (
+              <span className="text-xs text-slate-600 font-mono">—</span>
             ) : (
-              citations.map((c, i) => {
-                const isExpanded = expandedCitationId === c.id;
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setExpandedCitationId(isExpanded ? null : c.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition border ${
-                      isExpanded
-                        ? 'bg-[#d4a843] text-slate-950 font-bold border-[#d4a843] shadow-md'
-                        : 'bg-slate-900/90 hover:bg-slate-800 text-[#f0c96a] border-slate-800 hover:border-[#d4a843]/60'
-                    }`}
-                    title="Click to view authentic statutory text"
-                  >
-                    <span>{c.citation || c.id}</span>
-                    {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-                  </button>
-                );
-              })
+              citedResources.map((res) => (
+                <button
+                  key={res.id}
+                  type="button"
+                  onClick={() => handleOpenSourceModal(res)}
+                  className="p-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-[#f0c96a] hover:border-[#d4a843]/50 border border-slate-800 transition relative group"
+                  title={`View official ${res.short_title || res.title} (PDF scan & legal text)`}
+                >
+                  {res.instrument_type === 'gazette_regulation' ? (
+                    <FileText className="w-4 h-4 text-[#d4a843]" />
+                  ) : res.instrument_type === 'amendment' ? (
+                    <FileText className="w-4 h-4 text-rose-400" />
+                  ) : (
+                    <Scale className="w-4 h-4 text-[#d4a843]" />
+                  )}
+
+                  {/* Clean hover tooltip showing gazette / statute name */}
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex px-2.5 py-1 text-[11px] font-sans font-medium text-slate-200 bg-[#0f172a] border border-slate-700 rounded-lg shadow-xl whitespace-nowrap z-30 pointer-events-none">
+                    {res.short_title || res.title}
+                  </span>
+                </button>
+              ))
             )}
           </div>
 
@@ -266,34 +382,20 @@ export default function ResponseCard({
             </button>
           </div>
         </div>
-
-        {/* Expanded Verbatim Passage Drawer (Smoothly opens below the bottom row if a citation is clicked) */}
-        {activeExpandedCitation && (
-          <div className="p-4 rounded-xl bg-[#090d16] border border-slate-800 text-xs text-slate-200 space-y-2 animate-fade-up">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] font-mono">
-              <span className="text-[#f0c96a] font-bold">
-                [{activeExpandedCitation.id}] {activeExpandedCitation.citation}
-              </span>
-              <button
-                type="button"
-                onClick={(e) => handleCopyCitation(activeExpandedCitation.id, activeExpandedCitation.text, e)}
-                className="flex items-center gap-1 text-slate-400 hover:text-white transition"
-              >
-                {copiedId === activeExpandedCitation.id ? (
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-                <span>{copiedId === activeExpandedCitation.id ? 'Copied' : 'Copy'}</span>
-              </button>
-            </div>
-
-            <div className="p-3 rounded-lg bg-[#060910] border-l-2 border-[#d4a843] font-mono leading-relaxed whitespace-pre-wrap text-slate-300">
-              "{activeExpandedCitation.text}"
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Official Gazette / Statute Viewer Modal (Opens with authentic Government PDF scan) */}
+      {isReaderOpen && selectedResourceForReader && (
+        <ResourceReaderModal
+          resource={selectedResourceForReader}
+          isOpen={isReaderOpen}
+          onClose={() => {
+            setIsReaderOpen(false);
+            setSelectedResourceForReader(null);
+          }}
+          initialTab="pdf"
+        />
+      )}
 
       {/* Printable Official Legal Extract Document (Shown only when printing to paper or PDF) */}
       <div className="print-only printable-document p-8 text-black bg-white max-w-4xl mx-auto font-serif">
@@ -305,7 +407,7 @@ export default function ResponseCard({
             Official Statutory Extract & Legal Summary
           </h1>
           <div className="text-xs text-gray-600 mt-1 font-sans">
-            Motor Traffic Act No. 14 of 1951 (Consolidated to 2024) & Subsidiary Gazette Regulations
+            Motor Traffic Act No. 14 of 1951 (Consolidated Edition 2024) & Subsidiary Gazette Regulations
           </div>
           <div className="text-[10px] text-gray-500 mt-2 font-mono">
             Extraction Date: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · Ref ID: MTA-RAG-{status.toUpperCase()}
@@ -323,7 +425,7 @@ export default function ResponseCard({
 
         <div className="mb-6">
           <div className="text-xs font-bold uppercase tracking-wider text-gray-700 font-sans mb-1">
-            Grounded Legal Information ({selectedLang === 'en' ? 'English (Official)' : selectedLang === 'si' ? 'සිංහල පරිවර්තනය' : 'தமிழ் மொழிபெයர்ப்பு'}):
+            Grounded Legal Information ({selectedLang === 'en' ? 'English (Official)' : selectedLang === 'si' ? 'සිංහල පරිවර්තනය' : 'தமிழ் மொழிபெயர்ப்பு'}):
           </div>
           <div className="text-sm leading-relaxed text-black whitespace-pre-line border-l-2 border-black pl-3 py-1 font-sans">
             {displayedAnswer}
