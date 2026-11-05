@@ -139,22 +139,24 @@ export default function App() {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0b0f17] text-slate-100 antialiased">
       {/* Left Persistent Navigation Sidebar across ALL views */}
-      <Sidebar
-        activeView={currentView}
-        onNavigate={(view) => setCurrentView(view)}
-        onSelectQuery={handleSelectQuery}
-        onNewQuestion={handleNewQuestion}
-        history={history}
-        savedCount={savedAnswers.length}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-      />
+      <div className="no-print h-full flex flex-shrink-0">
+        <Sidebar
+          activeView={currentView}
+          onNavigate={(view) => setCurrentView(view)}
+          onSelectQuery={handleSelectQuery}
+          onNewQuestion={handleNewQuestion}
+          history={history}
+          savedCount={savedAnswers.length}
+          collapsed={sidebarCollapsed}
+          setCollapsed={setSidebarCollapsed}
+        />
+      </div>
 
       {/* Main Working Panel */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Subtle background ambient glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#d4a843]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="no-print absolute top-0 right-1/4 w-96 h-96 bg-[#d4a843]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="no-print absolute bottom-0 left-1/3 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* View 1: Statute Library Page */}
         {currentView === 'library' && (
@@ -196,7 +198,7 @@ export default function App() {
           <div className="flex-1 flex flex-col h-full overflow-hidden">
             {/* Top Navbar if in answered view */}
             {result && (
-              <header className="px-6 py-3 border-b border-slate-800/80 bg-[#0e131d]/80 backdrop-blur-md flex items-center justify-between z-10 animate-fade-up">
+              <header className="no-print px-6 py-3 border-b border-slate-800/80 bg-[#0e131d]/80 backdrop-blur-md flex items-center justify-between z-10 animate-fade-up">
                 <div className="flex items-center gap-3">
                   <button
                     onClick={handleNewQuestion}
@@ -263,7 +265,7 @@ export default function App() {
                   />
 
                   {/* Follow-up / re-query bar with empty input and in-place loading scale */}
-                  <div className="bg-[#121824]/90 border border-slate-700/80 rounded-2xl p-3 shadow-xl flex items-center gap-3 animate-fade-up">
+                  <div className="no-print bg-[#121824]/90 border border-slate-700/80 rounded-2xl p-3 shadow-xl flex items-center gap-3 animate-fade-up">
                     <input
                       type="text"
                       value={question}
@@ -304,7 +306,7 @@ export default function App() {
 
               {/* Minimal Bottom Disclaimer */}
               {result && (
-                <footer className="mt-8 text-center text-[11px] text-slate-500 py-3 border-t border-slate-800/80 flex items-center justify-center gap-2">
+                <footer className="no-print mt-8 text-center text-[11px] text-slate-500 py-3 border-t border-slate-800/80 flex items-center justify-center gap-2">
                   <span>Legal information, not legal advice</span>
                   <span>·</span>
                   <button

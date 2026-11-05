@@ -60,10 +60,23 @@ COLLOQUIAL_LEGAL_MAPPINGS: dict[str, str] = {
     "unpaid spot fine": "fine penalty notice non payment court proceedings section 215A",
     "bought a second-hand car": "transfer of motor vehicle change of possession section 12",
     "second-hand car": "transfer of ownership change of possession section 12",
+    # Singlish & colloquial Sri Lankan terms
+    "helmet nathiwa": "failure to wear protective helmet motor cycle section 158 spot fine gazette 2054/09",
+    "helmet nathuwa": "failure to wear protective helmet motor cycle section 158 spot fine gazette 2054/09",
+    "keeyada": "penalty fine amount spot fine",
+    "danawada": "penalty offence prosecution",
+    "alluwama": "police detection stopped by police officer powers",
+    "police alluwama": "police officer powers examination detention section 215A",
+    "license nathiwa": "driving without driving licence section 123 penalty section 123 5",
+    "license nathuwa": "driving without driving licence section 123 penalty section 123 5",
+    "transfer karanna": "transfer of motor vehicle change of possession section 12",
+    "speed wadi": "exceeding speed limit speed regulation section 140 gazette 1775/32",
+    "nadu": "court prosecution court proceedings penalty notice",
+    "elawanna": "driving a motor vehicle on road",
 }
 
 REWRITE_SYSTEM_PROMPT = """You are a legal query rewriter and query decomposer for Sri Lanka's Motor Traffic Act and traffic regulations.
-A citizen has asked a plain-language question using colloquial, narrative, or situational terms.
+A citizen has asked a plain-language question using colloquial, narrative, situational, or Sri Lankan Singlish terms.
 Your job is to:
 1. Reformulate the overall question into statutory legal phrasing used in Sri Lankan legislation, combining statutory terms with key concepts from the query.
 2. Determine whether the citizen's query contains multiple distinct legal questions or issues (e.g. horn decibel limits vs. exhaust silencing requirements vs. procedures for contesting a spot-fine ticket).
@@ -72,10 +85,11 @@ Your job is to:
 
 Rules:
 1. Translate colloquial terms (e.g., 'car book' -> 'certificate of registration', 'driving book' -> 'driving licence', 'musical horn' -> 'harsh or musical sound horn', 'spot fine' -> 'fine penalty notice', 'drunk driving' -> 'driving under influence of intoxicating liquor').
-2. When police detention or vehicle seizure is mentioned, include Section 232F and Section 12 powers.
-3. When unpaid fines from a prior owner or seller are mentioned, include Section 215A offender liability and Section 12 ownership transfer.
-4. When a citizen asks about driving without a driving licence or the penalty for driving without a licence, explicitly include statutory search terms: 'contravenes Section 123 subsection 1 driving licence penalty under Section 123 subsection 5 fine not less than twenty five thousand rupees'.
-5. Output MUST be a valid JSON object in this exact schema:
+2. SINGLISH & PHONETIC CONCEPTS: When the citizen query is phrased in Sri Lankan 'Singlish' (Sinhala/Tamil terms written in Latin characters, e.g. 'helmet nathiwa giyoth fine eka keeyada', 'speed wadi unama police allanawada', 'transfer karanna one documents monada', 'license nathiwa elawanna puluwanda'), interpret the underlying legal intent and formulate all search queries strictly in standard formal English statutory language. Do NOT output Singlish search queries.
+3. When police detention or vehicle seizure is mentioned, include Section 232F and Section 12 powers.
+4. When unpaid fines from a prior owner or seller are mentioned, include Section 215A offender liability and Section 12 ownership transfer.
+5. When a citizen asks about driving without a driving licence or the penalty for driving without a licence, explicitly include statutory search terms: 'contravenes Section 123 subsection 1 driving licence penalty under Section 123 subsection 5 fine not less than twenty five thousand rupees'.
+6. Output MUST be a valid JSON object in this exact schema:
 {
   "rewritten_query": "Expanded query with statutory terminology",
   "sub_queries": ["Targeted sub-query 1", "Targeted sub-query 2"]

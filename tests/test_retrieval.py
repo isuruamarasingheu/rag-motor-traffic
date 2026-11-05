@@ -205,3 +205,12 @@ def test_query_rewriter_sub_queries_llm_json() -> None:
     assert res.sub_queries[0] == "horn limits"
     assert res.sub_queries[1] == "exhaust limits"
     assert res.sub_queries[2] == "contest fine"
+
+
+def test_query_rewriter_singlish_expansion() -> None:
+    """Verifies that common Singlish terms expand to formal statutory terms."""
+    rewriter = QueryRewriter(use_llm=False)
+    res = rewriter.rewrite("helmet nathiwa giyoth fine eka keeyada?")
+    assert "helmet nathiwa" in res.expanded_terms
+    assert "section 158" in res.rewritten_query.lower()
+    assert "gazette 2054/09" in res.rewritten_query.lower()

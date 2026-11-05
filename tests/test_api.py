@@ -115,3 +115,36 @@ def test_ask_validation_error() -> None:
     # Missing question field
     resp_missing = client.post("/ask", json={})
     assert resp_missing.status_code == 422
+
+
+def test_translate_endpoint_sinhala() -> None:
+    """POST /translate translates plain-language answer to Sinhala using mock client."""
+    client = TestClient(app)
+    mock_openai = MagicMock()
+    mock_resp = MagicMock()
+    mock_resp.choices = [
+        MagicMock(message=MagicMock(content="හෙල්මට් නොපැළඳ ධාවනය කිරීමේ දඩය රු. 1,000 කි."))
+    ]
+    mock_openai.chat.completions.create.return_value = mock_resp
+
+    from unittest.mock import patch
+    with patch("src.api.main.get_openai_client", return_value=mock_openai):
+        payload = {
+            "text": "The fine for driving without wearing a helmet is Rs. 1,000.",
+            "target_language": "si",
+        }
+        resp = client.post("/translate", json=payload)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["target_language"] == "si"
+        assert "රු. 1,000" in data["translated_text"]
+
+
+def test_translate_validation_error() -> None:
+    """POST /translate returns 422 for invalid language or empty text."""
+    client = TestClient(app)
+    resp = client.post("/translate", json={"text": "", "target_language": "si"})
+    assert resp.status_code == 422
+
+    resp_lang = client.post("/translate", json={"text": "Hello", "target_language": "fr"})
+    assert resp_lang.status_code == 422

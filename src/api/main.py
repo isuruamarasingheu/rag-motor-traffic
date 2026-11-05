@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
+from openai import OpenAI
 
 from src.api.schemas import (
     AskRequest,
@@ -15,6 +17,8 @@ from src.api.schemas import (
     FineItem,
     HealthResponse,
     SectionItem,
+    TranslateRequest,
+    TranslateResponse,
 )
 from src.generation.generator import LEGAL_DISCLAIMER
 from src.graph.builder import ask_legal_assistant, build_legal_rag_graph
@@ -93,6 +97,72 @@ def ask(request: AskRequest) -> AskResponse:
         answer=result.get("answer"),
         citations=result.get("citations", []),
         disclaimer=result.get("disclaimer", LEGAL_DISCLAIMER),
+    )
+
+
+_openai_client: OpenAI | None = None
+_translation_cache: dict[tuple[str, str], str] = {}
+
+
+def get_openai_client() -> OpenAI:
+    """Initialize or return cached OpenAI client."""
+    global _openai_client
+    if _openai_client is None:
+        _openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    return _openai_client
+
+
+@app.post("/translate", response_model=TranslateResponse)
+def translate(request: TranslateRequest) -> TranslateResponse:
+    """Translate verified English legal explanation to Sinhala or Tamil on demand."""
+    clean_text = request.text.strip()
+    if not clean_text:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="Text cannot be empty or whitespace.",
+        )
+
+    cache_key = (clean_text, request.target_language)
+    if cache_key in _translation_cache:
+        return TranslateResponse(
+            translated_text=_translation_cache[cache_key],
+            target_language=request.target_language,
+        )
+
+    target_lang = "Sinhala (සිංහල)" if request.target_language == "si" else "Tamil (தமிழ்)"
+    sys_prompt = (
+        f"You are a specialized legal translator for Sri Lanka's Motor Traffic Law.\n"
+        f"Translate the following plain-language legal explanation accurately into natural {target_lang} for Sri Lankan citizens.\n\n"
+        "RULES:\n"
+        "1. Preserve section numbers, gazette references, and statutory names with natural terminology.\n"
+        "2. Preserve all fine amounts and currency figures exactly (e.g. 'Rs. 1,000' -> 'රු. 1,000' in Sinhala, 'ரூ. 1,000' in Tamil).\n"
+        "3. Do not add outside commentary, disclaimers, or altered legal advice.\n"
+        "4. Output ONLY the translated text without code fences or conversational filler."
+    )
+
+    try:
+        client = get_openai_client()
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            temperature=0.0,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": clean_text},
+            ],
+        )
+        translated = (resp.choices[0].message.content or "").strip()
+        if not translated:
+            translated = clean_text
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Translation failed: {exc}",
+        ) from exc
+
+    _translation_cache[cache_key] = translated
+    return TranslateResponse(
+        translated_text=translated,
+        target_language=request.target_language,
     )
 
 

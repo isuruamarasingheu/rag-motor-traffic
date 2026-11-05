@@ -96,3 +96,25 @@ class FineItem(BaseModel):
     vehicle_classes: list[str] = Field(default_factory=list)
     points: int = 0
     description: str
+
+
+class TranslateRequest(BaseModel):
+    """Request payload to translate verified answer into Sinhala or Tamil."""
+
+    text: str = Field(
+        ...,
+        min_length=1,
+        max_length=10000,
+        description="Plain-language explanation to translate",
+    )
+    target_language: Literal["si", "ta"] = Field(
+        ...,
+        description="Target language: 'si' for Sinhala, 'ta' for Tamil",
+    )
+
+
+class TranslateResponse(BaseModel):
+    """Response payload containing translated plain-language text."""
+
+    translated_text: str = Field(..., description="Translated plain-language explanation")
+    target_language: str = Field(..., description="Target language code ('si' or 'ta')")
