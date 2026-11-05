@@ -6,6 +6,7 @@ import StatuteLibraryView from './components/StatuteLibraryView';
 import FineCalculatorView from './components/FineCalculatorView';
 import SavedAnswersView from './components/SavedAnswersView';
 import HowItWorksModal from './components/HowItWorksModal';
+import SourceSidebar from './components/SourceSidebar';
 import GoldenScaleLogo from './components/GoldenScaleLogo';
 import { ArrowUp, Scale, BookOpen, Calculator } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export default function App() {
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isSourceSidebarOpen, setIsSourceSidebarOpen] = useState(false);
 
   // How it works modal (retained for explaining RAG methodology)
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
@@ -123,6 +125,7 @@ export default function App() {
     setCurrentQuestion('');
     setResult(null);
     setError(null);
+    setIsSourceSidebarOpen(false);
     setCurrentView('chat');
   };
 
@@ -263,6 +266,8 @@ export default function App() {
                     onNewQuestion={handleNewQuestion}
                     onSaveAnswer={handleSaveAnswer}
                     isSaved={isCurrentAnswerSaved}
+                    isSourceOpen={isSourceSidebarOpen}
+                    onToggleSource={() => setIsSourceSidebarOpen((prev) => !prev)}
                   />
 
                   {loading && (
@@ -330,6 +335,13 @@ export default function App() {
           </div>
         )}
       </div>
+
+      {/* Right-Side Source Citation Sidebar (Mirrors left navigation sidebar) */}
+      <SourceSidebar
+        isOpen={isSourceSidebarOpen && currentView === 'chat' && !!result}
+        citations={result?.citations || []}
+        onClose={() => setIsSourceSidebarOpen(false)}
+      />
 
       {/* Methodology Explainer Modal */}
       <HowItWorksModal

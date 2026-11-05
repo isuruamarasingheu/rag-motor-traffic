@@ -16,10 +16,10 @@ export default function ResponseCard({
   onNewQuestion,
   onSaveAnswer,
   isSaved = false,
+  isSourceOpen = false,
+  onToggleSource,
 }) {
   const [answerCopied, setAnswerCopied] = useState(false);
-  const [copiedCitationId, setCopiedCitationId] = useState(null);
-  const [isSourceOpen, setIsSourceOpen] = useState(false);
 
   // Multi-language translation state
   const [selectedLang, setSelectedLang] = useState('en'); // 'en' | 'si' | 'ta'
@@ -37,12 +37,6 @@ export default function ResponseCard({
     navigator.clipboard.writeText(textToCopy);
     setAnswerCopied(true);
     setTimeout(() => setAnswerCopied(false), 2000);
-  };
-
-  const handleCopyCitation = (id, text) => {
-    navigator.clipboard.writeText(text);
-    setCopiedCitationId(id);
-    setTimeout(() => setCopiedCitationId(null), 2000);
   };
 
   const handleLanguageChange = async (lang) => {
@@ -195,13 +189,13 @@ export default function ResponseCard({
           {displayedAnswer || 'No answer available.'}
         </div>
 
-        {/* BOTTOM ROW: Source Icon on Left, Action Icons on Right (Matching User Sketch) */}
+        {/* BOTTOM ROW: Source on Left (Toggles Right Sidebar), Action Icons on Right */}
         <div className="pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3">
-          {/* Left: Source Button & Icon (Toggles inline citation view, NO popup modal) */}
+          {/* Left: Source Button & Icon */}
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => citations.length > 0 && setIsSourceOpen((prev) => !prev)}
+              onClick={onToggleSource}
               className={`text-xs font-semibold tracking-wide transition flex items-center gap-1.5 ${
                 citations.length > 0
                   ? 'text-slate-400 hover:text-[#f0c96a] cursor-pointer'
@@ -209,7 +203,7 @@ export default function ResponseCard({
               }`}
               title={
                 citations.length > 0
-                  ? `${isSourceOpen ? 'Hide' : 'Show'} verified statutory citation (${citations.length})`
+                  ? `${isSourceOpen ? 'Close' : 'Open'} right-side source citations panel`
                   : 'No citation available'
               }
             >
@@ -221,7 +215,7 @@ export default function ResponseCard({
             ) : (
               <button
                 type="button"
-                onClick={() => setIsSourceOpen((prev) => !prev)}
+                onClick={onToggleSource}
                 className={`p-2 rounded-xl border transition flex items-center justify-center ${
                   isSourceOpen
                     ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/50 shadow-sm'
@@ -229,8 +223,8 @@ export default function ResponseCard({
                 }`}
                 title={
                   isSourceOpen
-                    ? 'Click to collapse citation'
-                    : `View verified citation: ${citations[0].citation || citations[0].id}`
+                    ? 'Close right-side citations sidebar'
+                    : `View source citations in right sidebar (${citations.length})`
                 }
               >
                 <FileText className="w-4 h-4" />
@@ -272,42 +266,6 @@ export default function ResponseCard({
             </button>
           </div>
         </div>
-
-        {/* INLINE CITATIONS DRAWER (Expands directly inside the card when Source is clicked; NO popup modal) */}
-        {isSourceOpen && citations.length > 0 && (
-          <div className="pt-2 space-y-2.5 animate-fade-up">
-            {citations.map((c, i) => (
-              <div
-                key={i}
-                className="rounded-xl bg-[#090d16] border border-slate-800/90 p-3.5 space-y-2 text-xs"
-              >
-                <div className="flex items-center justify-between pb-1.5 border-b border-slate-800/70 text-[11px] font-mono">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[#f0c96a] font-bold">[{c.id}]</span>
-                    <span className="text-slate-200 font-sans font-semibold">{c.citation}</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopyCitation(c.id, c.text)}
-                    className="flex items-center gap-1 text-slate-400 hover:text-white transition"
-                    title="Copy statutory excerpt"
-                  >
-                    {copiedCitationId === c.id ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
-                    <span>{copiedCitationId === c.id ? 'Copied' : 'Copy'}</span>
-                  </button>
-                </div>
-
-                <div className="p-3 rounded-lg bg-[#060910] border-l-2 border-[#d4a843] font-mono leading-relaxed whitespace-pre-wrap text-slate-300 text-xs">
-                  "{c.text}"
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Printable Official Legal Extract Document (Shown only when printing to paper or PDF) */}

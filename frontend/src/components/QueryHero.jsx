@@ -137,8 +137,8 @@ export default function QueryHero({
                 onClick={() => setActiveTab('ask')}
                 disabled={loading}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition ${activeTab === 'ask'
-                    ? 'bg-slate-200 text-slate-950 font-semibold shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-slate-200 text-slate-950 font-semibold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
                   }`}
               >
                 Ask
@@ -175,8 +175,8 @@ export default function QueryHero({
                 onClick={handleMicToggle}
                 disabled={loading}
                 className={`p-2 rounded-xl transition ${isListening
-                    ? 'bg-rose-500/20 text-rose-400 border border-rose-500 animate-pulse'
-                    : 'bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500 animate-pulse'
+                  : 'bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
                   }`}
                 title="Voice Query"
               >
@@ -188,8 +188,8 @@ export default function QueryHero({
                 type="submit"
                 disabled={loading || !question.trim()}
                 className={`w-9 h-9 rounded-xl text-slate-950 flex items-center justify-center font-bold shadow-lg transition active:scale-95 ${loading
-                    ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
-                    : 'bg-[#d4a843] hover:bg-[#e4b952] shadow-[#d4a843]/20 disabled:opacity-40 disabled:cursor-not-allowed'
+                  ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
+                  : 'bg-[#d4a843] hover:bg-[#e4b952] shadow-[#d4a843]/20 disabled:opacity-40 disabled:cursor-not-allowed'
                   }`}
                 title={loading ? 'Consulting the law...' : 'Submit Question'}
               >
@@ -226,10 +226,10 @@ export default function QueryHero({
         >
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-200 group-hover:text-white mb-1">
             <Search className="w-3.5 h-3.5 text-[#10b981]" />
-            <span>Ask in plain English</span>
+            <span>Ask in Your Own Words</span>
           </div>
           <p className="text-[11px] text-slate-400 group-hover:text-slate-300 leading-relaxed">
-            Describe your situation in everyday words. You get the authentic passage of the Act that covers it.
+            Describe your situation in English, Singlish, සිංහල, or தமிழ். Get the verified legal sections and fines that apply.
           </p>
         </div>
 
@@ -253,39 +253,7 @@ export default function QueryHero({
         </div>
       </div>
 
-      {/* Quick Questions Pills & Statute Library pill */}
-      <div className="w-full mt-6 pt-5 border-t border-slate-800/80 text-left">
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-[#d4a843]" />
-            <span>Popular Citizen Questions:</span>
-          </div>
-          <button
-            onClick={onOpenStatuteLibrary}
-            className="text-[11px] text-[#f0c96a] hover:text-white flex items-center gap-1 transition"
-          >
-            <BookOpen className="w-3 h-3" />
-            <span>Browse 991 Chunks in Library →</span>
-          </button>
-        </div>
 
-        <div className="flex flex-wrap gap-2">
-          {POPULAR_QUESTIONS.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={idx}
-                onClick={() => setQuestion(item.query)}
-                disabled={loading}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white text-xs transition active:scale-95 disabled:opacity-50"
-              >
-                <Icon className="w-3.5 h-3.5 text-[#d4a843]" />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       {/* Footer */}
       <div className="mt-8 text-xs text-slate-500 flex items-center justify-center gap-2">
