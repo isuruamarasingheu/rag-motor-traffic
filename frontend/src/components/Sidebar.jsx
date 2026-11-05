@@ -78,11 +78,10 @@ export default function Sidebar({
         <nav className="flex flex-col items-center gap-4 flex-1">
           <button
             onClick={() => onNavigate('chat')}
-            className={`p-2.5 rounded-xl transition ${
-              activeView === 'chat'
-                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-            }`}
+            className={`p-2.5 rounded-xl transition ${activeView === 'chat'
+              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+              }`}
             title="Chat Assistant"
           >
             <MessageSquare className="w-4 h-4" />
@@ -90,11 +89,10 @@ export default function Sidebar({
 
           <button
             onClick={() => onNavigate('library')}
-            className={`p-2.5 rounded-xl transition ${
-              activeView === 'library'
-                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-            }`}
+            className={`p-2.5 rounded-xl transition ${activeView === 'library'
+              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+              }`}
             title="Statute Library (Data Explorer)"
           >
             <BookOpen className="w-4 h-4" />
@@ -102,11 +100,10 @@ export default function Sidebar({
 
           <button
             onClick={() => onNavigate('calculator')}
-            className={`p-2.5 rounded-xl transition ${
-              activeView === 'calculator'
-                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-            }`}
+            className={`p-2.5 rounded-xl transition ${activeView === 'calculator'
+              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+              }`}
             title="Fine Calculator"
           >
             <Calculator className="w-4 h-4 text-[#d4a843]" />
@@ -114,11 +111,10 @@ export default function Sidebar({
 
           <button
             onClick={() => onNavigate('saved')}
-            className={`p-2.5 rounded-xl transition relative ${
-              activeView === 'saved'
-                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-            }`}
+            className={`p-2.5 rounded-xl transition relative ${activeView === 'saved'
+              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+              }`}
             title="Saved Answers"
           >
             <Bookmark className="w-4 h-4" />
@@ -185,61 +181,53 @@ export default function Sidebar({
       <div className="px-2 space-y-1">
         <button
           onClick={() => onNavigate('chat')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
-            activeView === 'chat'
-              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-          }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'chat'
+            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
         >
           <div className="flex items-center gap-2.5">
             <MessageSquare
-              className={`w-3.5 h-3.5 transition ${
-                activeView === 'chat'
-                  ? 'text-[#f0c96a]'
-                  : 'text-slate-400 group-hover:text-[#d4a843]'
-              }`}
+              className={`w-3.5 h-3.5 transition ${activeView === 'chat'
+                ? 'text-[#f0c96a]'
+                : 'text-slate-400 group-hover:text-[#d4a843]'
+                }`}
             />
             <span>Chat Assistant</span>
           </div>
-          <span className="text-[10px] text-emerald-400 font-mono">Online</span>
+
         </button>
 
         <button
           onClick={() => onNavigate('library')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
-            activeView === 'library'
-              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-          }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'library'
+            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
         >
           <div className="flex items-center gap-2.5">
             <BookOpen
-              className={`w-3.5 h-3.5 transition ${
-                activeView === 'library'
-                  ? 'text-[#f0c96a]'
-                  : 'text-slate-400 group-hover:text-[#d4a843]'
-              }`}
+              className={`w-3.5 h-3.5 transition ${activeView === 'library'
+                ? 'text-[#f0c96a]'
+                : 'text-slate-400 group-hover:text-[#d4a843]'
+                }`}
             />
             <span>Statute Library</span>
           </div>
-          <span className="text-[10px] font-mono text-slate-500 group-hover:text-slate-400">
-            991 Chunks
-          </span>
+
         </button>
 
         <button
           onClick={() => onNavigate('calculator')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
-            activeView === 'calculator'
-              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-          }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'calculator'
+            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
         >
           <div className="flex items-center gap-2.5">
             <Calculator
-              className={`w-3.5 h-3.5 text-[#d4a843] ${
-                activeView === 'calculator' ? 'scale-110' : ''
-              }`}
+              className={`w-3.5 h-3.5 text-[#d4a843] ${activeView === 'calculator' ? 'scale-110' : ''
+                }`}
             />
             <span>Fine Calculator</span>
           </div>
@@ -250,19 +238,17 @@ export default function Sidebar({
 
         <button
           onClick={() => onNavigate('saved')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
-            activeView === 'saved'
-              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-          }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'saved'
+            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
         >
           <div className="flex items-center gap-2.5">
             <Bookmark
-              className={`w-3.5 h-3.5 transition ${
-                activeView === 'saved'
-                  ? 'text-[#f0c96a]'
-                  : 'text-slate-400 group-hover:text-[#d4a843]'
-              }`}
+              className={`w-3.5 h-3.5 transition ${activeView === 'saved'
+                ? 'text-[#f0c96a]'
+                : 'text-slate-400 group-hover:text-[#d4a843]'
+                }`}
             />
             <span>Saved answers</span>
           </div>

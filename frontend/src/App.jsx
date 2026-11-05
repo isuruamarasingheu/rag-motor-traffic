@@ -194,56 +194,61 @@ export default function App() {
           />
         )}
 
-        {/* View 4: Chat Assistant View */}
+        {/* View 4: Chat Assistant View (Gemini Style) */}
         {currentView === 'chat' && (
-          <div className="flex-1 flex flex-col h-full overflow-hidden">
-            {/* Top Navbar if in answered view */}
-            {result && (
-              <header className="no-print px-6 py-3 border-b border-slate-800/80 bg-[#0e131d]/80 backdrop-blur-md flex items-center justify-between z-10 animate-fade-up">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={handleNewQuestion}
-                    className="focus:outline-none"
-                    title="Return to Home"
-                  >
-                    <GoldenScaleLogo className="w-8 h-8 rounded-xl" iconSize="w-4 h-4" />
-                  </button>
-                  <span className="text-xs text-slate-400 hidden sm:inline">
-                    Sri Lanka Motor Traffic Act Legal Assistant
+          <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#131314]">
+            {/* Top Navbar */}
+            <header className="no-print px-6 py-3 border-b border-[#2d2f31] bg-[#131314]/90 backdrop-blur-md flex items-center justify-between z-10">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleNewQuestion}
+                  className="focus:outline-none flex items-center gap-2.5"
+                  title="Return to Home"
+                >
+                  <GoldenScaleLogo className="w-8 h-8 rounded-xl" iconSize="w-4 h-4" />
+                  <span className="text-sm font-semibold text-[#f1f3f4] tracking-tight">
+                    MagaNithi
                   </span>
-                </div>
+                </button>
+                <span className="text-xs text-[#9aa0a6] hidden sm:inline font-normal">
+                  · Sri Lanka Motor Traffic Act Legal Assistant
+                </span>
+              </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setCurrentView('calculator')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-[#f0c96a] hover:text-white hover:border-[#d4a843] transition"
-                  >
-                    <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
-                    <span className="hidden sm:inline">Calculator</span>
-                  </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentView('calculator')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1e1f20] hover:bg-[#282a2c] border border-[#333538] text-xs text-[#f0c96a] font-medium transition"
+                  title="Spot Fine Calculator"
+                >
+                  <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
+                  <span className="hidden sm:inline">Calculator</span>
+                </button>
 
-                  <button
-                    onClick={() => setCurrentView('library')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white hover:border-slate-700 transition"
-                  >
-                    <BookOpen className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="hidden sm:inline">Statute Library</span>
-                  </button>
+                <button
+                  onClick={() => setCurrentView('library')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1e1f20] hover:bg-[#282a2c] border border-[#333538] text-xs text-[#e3e3e3] font-medium transition"
+                  title="Statute Library"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+                  <span className="hidden sm:inline">Library</span>
+                </button>
 
-                  <button
-                    onClick={handleNewQuestion}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 font-semibold text-xs transition shadow-sm active:scale-95"
-                  >
-                    <span>New Question</span>
-                  </button>
-                </div>
-              </header>
-            )}
+                <button
+                  onClick={handleNewQuestion}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white hover:bg-slate-200 text-slate-950 font-semibold text-xs transition shadow-sm active:scale-95"
+                  title="New conversation"
+                >
+                  <ArrowUp className="w-3.5 h-3.5 rotate-45" />
+                  <span>New Chat</span>
+                </button>
+              </div>
+            </header>
 
             {/* Scrollable Center Canvas */}
             <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-8 w-full relative z-10 flex flex-col justify-between">
-              {!result ? (
-                /* Hero Landing View - Stays in-place with animated scale on submit button while loading */
+              {!result && !loading ? (
+                /* Gemini Landing View */
                 <QueryHero
                   question={question}
                   setQuestion={setQuestion}
@@ -255,70 +260,101 @@ export default function App() {
                   onOpenHowItWorks={() => setHowItWorksOpen(true)}
                 />
               ) : (
-                /* Answered View */
-                <div className="max-w-3xl w-full mx-auto space-y-6">
-                  <ResponseCard
-                    result={result}
-                    currentQuestion={currentQuestion}
-                    onNewQuestion={handleNewQuestion}
-                    onSaveAnswer={handleSaveAnswer}
-                    isSaved={isCurrentAnswerSaved}
-                  />
-
-                  {/* Follow-up / re-query bar with empty input and in-place loading scale */}
-                  <div className="no-print bg-[#121824]/90 border border-slate-700/80 rounded-2xl p-3 shadow-xl flex items-center gap-3 animate-fade-up">
-                    <input
-                      type="text"
-                      value={question}
-                      onChange={(e) => setQuestion(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleAsk(e);
-                      }}
-                      disabled={loading}
-                      placeholder={loading ? "Consulting the law..." : "Ask a follow-up question or search another traffic topic..."}
-                      className="flex-1 bg-transparent px-3 py-1 text-sm text-slate-100 placeholder:text-slate-500 outline-none disabled:opacity-60"
-                    />
-                    <button
-                      onClick={handleAsk}
-                      disabled={loading || !question.trim()}
-                      className={`w-9 h-9 rounded-xl text-slate-950 flex items-center justify-center font-bold transition shadow-lg ${
-                        loading
-                          ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
-                          : 'bg-[#d4a843] hover:bg-[#e4b952] shadow-[#d4a843]/20 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95'
-                      }`}
-                      title={loading ? "Consulting the law..." : "Ask Question"}
-                    >
-                      {loading ? (
-                        <Scale className="w-4 h-4 stroke-[2.5] text-slate-950 animate-scale-weigh" />
-                      ) : (
-                        <ArrowUp className="w-4 h-4 stroke-[2.8]" />
-                      )}
-                    </button>
-                  </div>
-
-                  {loading && (
-                    <div className="text-center text-[11px] text-[#f0c96a] flex items-center justify-center gap-2 animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-[#d4a843]" />
-                      <span>Consulting 991 sections & verifying statutory citations...</span>
+                /* Conversation Stream View */
+                <div className="max-w-3xl w-full mx-auto space-y-6 pb-20">
+                  {/* User query bubble */}
+                  {currentQuestion && (
+                    <div className="flex justify-end">
+                      <div className="bg-[#1e1f20] border border-[#333538] text-[#f1f3f4] rounded-3xl rounded-tr-sm px-5 py-3 max-w-xl text-sm sm:text-base leading-relaxed shadow-sm">
+                        {currentQuestion}
+                      </div>
                     </div>
+                  )}
+
+                  {/* Loading State (Pulsing Gemini Dots & Status) */}
+                  {loading && !result && (
+                    <div className="flex items-start gap-3.5 pt-2 animate-fade-up">
+                      <div className="w-8 h-8 rounded-full bg-[#1e1f20] border border-slate-700/80 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <GoldenScaleLogo className="w-7 h-7 rounded-full" iconSize="w-4 h-4" />
+                      </div>
+                      <div className="space-y-2 pt-1">
+                        <div className="flex items-center gap-2 text-xs text-[#8ab4f8] font-mono">
+                          <span className="w-2 h-2 rounded-full bg-[#8ab4f8] animate-ping" />
+                          <span>Consulting Sri Lanka Motor Traffic Act & Gazette Regulations...</span>
+                        </div>
+                        <div className="text-sm text-[#9aa0a6] animate-pulse">
+                          Verifying statutory section citations against primary corpus...
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Render Answered Response */}
+                  {result && (
+                    <ResponseCard
+                      result={result}
+                      currentQuestion=""
+                      onNewQuestion={handleNewQuestion}
+                      onSaveAnswer={handleSaveAnswer}
+                      isSaved={isCurrentAnswerSaved}
+                    />
                   )}
                 </div>
               )}
-
-              {/* Minimal Bottom Disclaimer */}
-              {result && (
-                <footer className="no-print mt-8 text-center text-[11px] text-slate-500 py-3 border-t border-slate-800/80 flex items-center justify-center gap-2">
-                  <span>Legal information, not legal advice</span>
-                  <span>·</span>
-                  <button
-                    onClick={() => setHowItWorksOpen(true)}
-                    className="text-slate-400 hover:text-[#d4a843] underline underline-offset-2 transition"
-                  >
-                    How answers are found
-                  </button>
-                </footer>
-              )}
             </main>
+
+            {/* Floating Gemini-style Pill Input Bar (Visible in Answered View) */}
+            {(result || loading) && (
+              <div className="no-print w-full max-w-3xl mx-auto px-4 pb-4 pt-1 z-20">
+                <form
+                  onSubmit={handleAsk}
+                  className="relative rounded-full bg-[#1e1f20] border border-[#3c4043] focus-within:border-[#8ab4f8] focus-within:bg-[#222426] shadow-2xl px-4 py-2.5 sm:py-3 flex items-center gap-3 transition-all duration-200"
+                >
+                  <button
+                    type="button"
+                    onClick={handleNewQuestion}
+                    className="p-1.5 rounded-full text-[#9aa0a6] hover:text-white transition flex-shrink-0"
+                    title="Start new conversation"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+
+                  <input
+                    type="text"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    disabled={loading}
+                    placeholder={loading ? "MagaNithi is consulting the law..." : "Ask a follow-up question or search another traffic topic..."}
+                    className="flex-1 bg-transparent text-sm sm:text-base text-[#f1f3f4] placeholder:text-[#8e918f] outline-none font-normal"
+                  />
+
+                  <div className="hidden sm:flex items-center gap-1 px-3 py-1 rounded-full bg-[#2c2d30] text-xs text-[#c4c7c5] font-mono select-none">
+                    <span>MTA 2024</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading || !question.trim()}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition flex-shrink-0 ${
+                      loading
+                        ? 'bg-slate-700 text-white cursor-wait animate-pulse'
+                        : 'bg-white text-slate-950 hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed shadow-md active:scale-95'
+                    }`}
+                    title="Send question"
+                  >
+                    {loading ? (
+                      <Scale className="w-4 h-4 stroke-[2.5] text-slate-950 animate-scale-weigh" />
+                    ) : (
+                      <ArrowUp className="w-4 h-4 stroke-[2.8]" />
+                    )}
+                  </button>
+                </form>
+
+                <div className="text-center text-[11px] text-[#8e918f] mt-2">
+                  MagaNithi provides citation-grounded legal information, not formal legal advice.
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

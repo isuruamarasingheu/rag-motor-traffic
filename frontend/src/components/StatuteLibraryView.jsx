@@ -111,15 +111,12 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
       {/* Top Page Header */}
       <div className="p-4 sm:p-5 border-b border-slate-800 bg-[#0c101a] flex flex-col md:flex-row md:items-center justify-between gap-3 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <GoldenScaleLogo className="w-10 h-10 rounded-xl" iconSize="w-5 h-5" />
+
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-base sm:text-lg font-bold text-slate-100 tracking-tight">
                 Statute Library & Legal Resources Viewer
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/30">
-                23 Official Acts & Gazettes
-              </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
               Browse official consolidated Acts, amending legislation, and extraordinary gazettes with zero hallucination.

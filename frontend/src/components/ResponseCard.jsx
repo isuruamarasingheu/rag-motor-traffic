@@ -6,7 +6,6 @@ import {
   FileText,
   Copy,
   Check,
-  Code,
   ShieldCheck,
   Bookmark,
   Plus,
@@ -14,7 +13,11 @@ import {
   Printer,
   Languages,
   Loader2,
+  ChevronDown,
+  BookOpen,
+  Share2,
 } from 'lucide-react';
+import GoldenScaleLogo from './GoldenScaleLogo';
 
 export default function ResponseCard({
   result,
@@ -23,9 +26,9 @@ export default function ResponseCard({
   onSaveAnswer,
   isSaved = false,
 }) {
-  const [activeTab, setActiveTab] = useState('answer');
   const [copiedId, setCopiedId] = useState(null);
   const [answerCopied, setAnswerCopied] = useState(false);
+  const [expandedCitationIdx, setExpandedCitationIdx] = useState(null);
 
   // Multi-language translation state
   const [selectedLang, setSelectedLang] = useState('en'); // 'en' | 'si' | 'ta'
@@ -68,11 +71,9 @@ export default function ResponseCard({
           body: JSON.stringify({ text: answer, target_language: lang }),
         });
       } catch {
-        // Network fallback
         resp = null;
       }
 
-      // If proxied route failed or returned 404, fallback directly to backend port 8005
       if (!resp || !resp.ok) {
         resp = await fetch('http://127.0.0.1:8005/translate', {
           method: 'POST',
@@ -100,312 +101,199 @@ export default function ResponseCard({
 
   const displayedAnswer = selectedLang === 'en' ? answer : (translations[selectedLang] || answer);
 
-  const getConfig = () => {
-    switch (status) {
-      case 'answered':
-        return {
-          title: 'Grounded Legal Information',
-          subtitle: `${citations.length} ${citations.length === 1 ? 'section' : 'sections'} verified · Strict Grounding`,
-          icon: CheckCircle2,
-          iconBg: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30',
-          statusBadge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-          statusText: 'ANSWERED · VERIFIED CITATION',
-        };
-      case 'refused_out_of_scope':
-        return {
-          title: 'Out of Scope — Motor Traffic Act Only',
-          subtitle: 'Query does not pertain to Sri Lankan Motor Traffic Law',
-          icon: AlertTriangle,
-          iconBg: 'bg-amber-500/10 text-amber-400 border border-amber-500/30',
-          statusBadge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-          statusText: 'REFUSED · OUT OF SCOPE',
-        };
-      case 'not_found':
-      default:
-        return {
-          title: 'No Matching Provision Found',
-          subtitle: 'In-scope query, but no statutory provision was retrieved with sufficient confidence',
-          icon: HelpCircle,
-          iconBg: 'bg-slate-800 text-slate-400 border border-slate-700',
-          statusBadge: 'bg-slate-800 text-slate-300 border-slate-700',
-          statusText: 'NOT FOUND IN CORPUS',
-        };
-    }
-  };
-
-  const config = getConfig();
-  const IconComp = config.icon;
-
   return (
     <>
-      {/* Interactive Screen UI (Hidden during Print) */}
-      <div className="no-print w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-6 animate-fade-up">
-        {/* Top Bar with Question and Status */}
-      <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${config.iconBg}`}>
-            <IconComp className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${config.statusBadge}`}>
-                {config.statusText}
-              </span>
+      {/* Interactive Screen UI - Gemini Modern Streamlined Style */}
+      <div className="no-print w-full max-w-3xl mx-auto space-y-6 animate-fade-up">
+        {/* User Prompt Message Bubble (Top Right) */}
+        {currentQuestion && (
+          <div className="flex justify-end">
+            <div className="bg-[#1e1f20] border border-[#333538] text-[#f1f3f4] rounded-3xl rounded-tr-sm px-5 py-3 max-w-xl text-sm sm:text-base leading-relaxed shadow-sm">
+              {currentQuestion}
             </div>
-            <h2 className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">
-              {currentQuestion || config.title}
-            </h2>
           </div>
-        </div>
+        )}
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-1.5 self-end sm:self-center">
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/60 transition"
-            title="Download / Print Official Legal Extract (PDF)"
-          >
-            <Printer className="w-3.5 h-3.5 text-[#d4a843]" />
-            <span className="hidden sm:inline">Export PDF</span>
-          </button>
+        {/* MagaNithi Assistant Response Flow (Spacious, Clean, Gemini Style) */}
+        <div className="flex items-start gap-3.5 sm:gap-4 pt-2">
+          {/* Assistant Avatar */}
+          <div className="w-8 h-8 rounded-full bg-[#1e1f20] border border-slate-700/80 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+            <GoldenScaleLogo className="w-7 h-7 rounded-full" iconSize="w-4 h-4" />
+          </div>
 
-          <button
-            onClick={handleCopyAnswer}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/60 transition"
-            title="Copy Answer"
-          >
-            {answerCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{answerCopied ? 'Copied' : 'Copy'}</span>
-          </button>
+          {/* Main Response Content */}
+          <div className="flex-1 min-w-0 space-y-4">
+            {/* Header Meta: Status & Multi-Language Pills */}
+            <div className="flex items-center justify-between gap-2 flex-wrap pb-1">
+              <div className="flex items-center gap-1.5 text-xs text-[#9aa0a6] font-medium">
+                {status === 'answered' ? (
+                  <span className="flex items-center gap-1.5 text-emerald-400">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Citation Grounded</span>
+                  </span>
+                ) : status === 'refused_out_of_scope' ? (
+                  <span className="flex items-center gap-1.5 text-amber-400">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Out of Scope Refusal</span>
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-slate-400">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                    <span>No Provision Retrieved</span>
+                  </span>
+                )}
+                <span>·</span>
+                <span>Motor Traffic Act</span>
+              </div>
 
-          <button
-            onClick={() => onSaveAnswer && onSaveAnswer(currentQuestion, answer, citations)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition ${
-              isSaved
-                ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/40'
-                : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-700/60'
-            }`}
-            title="Bookmark this answer"
-          >
-            <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f0c96a]' : ''}`} />
-            <span>{isSaved ? 'Saved' : 'Save'}</span>
-          </button>
-
-          <button
-            onClick={onNewQuestion}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/60 transition"
-            title="Ask new question"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>New</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex items-center px-4 bg-slate-900/40 border-b border-slate-800 text-xs font-medium gap-2">
-        <button
-          onClick={() => setActiveTab('answer')}
-          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-            activeTab === 'answer'
-              ? 'border-[#d4a843] text-[#f0c96a]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <FileText className="w-3.5 h-3.5" />
-          <span>Legal Answer</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('citations')}
-          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-            activeTab === 'citations'
-              ? 'border-[#d4a843] text-[#f0c96a]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Verified Citations</span>
-          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
-            {citations.length}
-          </span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('raw')}
-          className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-            activeTab === 'raw'
-              ? 'border-[#d4a843] text-[#f0c96a]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Code className="w-3.5 h-3.5" />
-          <span>Statute View</span>
-        </button>
-      </div>
-
-      {/* Tab Panes */}
-      <div className="p-5 sm:p-6">
-        {/* Pane 1: Answer */}
-        {activeTab === 'answer' && (
-          <div className="space-y-4">
-            {/* Language Selector Pills */}
-            <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-800/80 flex-wrap">
-              <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-lg border border-slate-800">
-                <Languages className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-0.5" />
+              {/* Minimalist Multi-Language Pills */}
+              <div className="flex items-center gap-1 bg-[#1e1f20] p-0.5 rounded-full border border-[#333538] text-xs">
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('en')}
-                  className={`px-2.5 py-1 text-xs rounded-md transition font-medium ${
+                  className={`px-2.5 py-0.5 rounded-full transition font-medium ${
                     selectedLang === 'en'
-                      ? 'bg-[#d4a843] text-slate-950 font-semibold shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-slate-950 font-bold shadow-sm'
+                      : 'text-[#9aa0a6] hover:text-white'
                   }`}
                 >
-                  English (Official)
+                  EN
                 </button>
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('si')}
-                  className={`px-2.5 py-1 text-xs rounded-md transition font-medium flex items-center gap-1 ${
+                  className={`px-2.5 py-0.5 rounded-full transition font-medium flex items-center gap-1 ${
                     selectedLang === 'si'
-                      ? 'bg-[#d4a843] text-slate-950 font-semibold shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-slate-950 font-bold shadow-sm'
+                      : 'text-[#9aa0a6] hover:text-white'
                   }`}
                 >
-                  <span>සිංහල</span>
-                  {translating && selectedLang === 'si' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
+                  <span>සිං</span>
+                  {translating && selectedLang === 'si' && <Loader2 className="w-3 h-3 animate-spin" />}
                 </button>
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('ta')}
-                  className={`px-2.5 py-1 text-xs rounded-md transition font-medium flex items-center gap-1 ${
+                  className={`px-2.5 py-0.5 rounded-full transition font-medium flex items-center gap-1 ${
                     selectedLang === 'ta'
-                      ? 'bg-[#d4a843] text-slate-950 font-semibold shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-slate-950 font-bold shadow-sm'
+                      : 'text-[#9aa0a6] hover:text-white'
                   }`}
                 >
-                  <span>தமிழ்</span>
-                  {translating && selectedLang === 'ta' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
+                  <span>த</span>
+                  {translating && selectedLang === 'ta' && <Loader2 className="w-3 h-3 animate-spin" />}
                 </button>
               </div>
-
-              <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
-                {selectedLang === 'en' ? 'Authentic Grounding' : 'Civic Translation (Sources in English)'}
-              </span>
             </div>
 
             {translationError && (
-              <div className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded p-2">
+              <div className="text-xs text-amber-300 bg-amber-950/40 border border-amber-800/60 rounded-xl p-2.5">
                 {translationError} (Showing original English text)
               </div>
             )}
 
-            <div className="text-sm leading-relaxed text-slate-200 font-normal whitespace-pre-line space-y-3">
-              {displayedAnswer || 'No answer available.'}
+            {/* Answer Text - Clean Typography with natural line height */}
+            <div className="text-[15px] sm:text-base leading-relaxed text-[#e3e3e3] whitespace-pre-line font-normal">
+              {displayedAnswer || 'No response available.'}
             </div>
 
-            {/* Citations Preview Footer */}
+            {/* Gemini-style Interactive Source Chips */}
             {citations.length > 0 && (
-              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Statutory Source:
-                  </span>
-                  {citations.map((c, i) => (
-                    <span
-                      key={i}
-                      onClick={() => setActiveTab('citations')}
-                      className="cursor-pointer text-xs font-mono font-medium px-2 py-0.5 rounded-md bg-[#d4a843]/10 text-[#f0c96a] border border-[#d4a843]/20 hover:border-[#d4a843] transition"
-                    >
-                      {c.citation || c.id}
-                    </span>
-                  ))}
+              <div className="pt-3 border-t border-[#2d2f31] space-y-2.5">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-[#9aa0a6] flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#d4a843]" />
+                  <span>Verified Statutory Citations ({citations.length}):</span>
                 </div>
-                <button
-                  onClick={() => setActiveTab('citations')}
-                  className="text-[11px] font-semibold text-[#f0c96a] hover:text-white flex items-center gap-1 transition"
-                >
-                  <span>View verbatim text</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
-              </div>
-            )}
-          </div>
-        )}
 
-        {/* Pane 2: Citations */}
-        {activeTab === 'citations' && (
-          <div className="space-y-4">
-            {citations.length === 0 ? (
-              <div className="text-xs text-slate-400 py-6 text-center">
-                No citations retrieved for this response.
-              </div>
-            ) : (
-              citations.map((c, idx) => (
-                <div
-                  key={c.id || idx}
-                  className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60 hover:border-slate-700 transition"
-                >
-                  <div className="bg-slate-950/60 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#d4a843] flex-shrink-0" />
-                      <span className="font-mono text-xs font-semibold text-[#f0c96a]">
-                        {c.id}
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium">
-                        · {c.citation}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(e) => handleCopyCitation(c.id, c.text, e)}
-                      className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
-                      title="Copy verbatim passage"
-                    >
-                      {copiedId === c.id ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="p-4 text-xs text-slate-300 leading-relaxed font-serif-legal italic border-l-2 border-[#d4a843] m-3 bg-[#0a0e17]/80 rounded-r">
-                    "{c.text}"
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {citations.map((c, i) => {
+                    const isExpanded = expandedCitationIdx === i;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setExpandedCitationIdx(isExpanded ? null : i)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-mono transition shadow-sm ${
+                          isExpanded
+                            ? 'bg-[#d4a843]/20 border-[#d4a843] text-[#f0c96a]'
+                            : 'bg-[#1e1f20] hover:bg-[#282a2c] border-[#333538] hover:border-slate-600 text-slate-200'
+                        }`}
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-[#d4a843]" />
+                        <span>{c.citation || c.id}</span>
+                        <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      </button>
+                    );
+                  })}
                 </div>
-              ))
-            )}
-          </div>
-        )}
 
-        {/* Pane 3: Raw Statute View */}
-        {activeTab === 'raw' && (
-          <div>
-            {citations.length === 0 ? (
-              <div className="text-xs text-slate-400 py-6 text-center">
-                No raw statutory text available.
-              </div>
-            ) : (
-              <div className="bg-[#090d15] rounded-xl p-4 font-mono text-xs text-slate-300 overflow-x-auto space-y-3 border border-slate-800">
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold pb-1 border-b border-slate-800">
-                  Verbatim Primary Corpus Records
-                </div>
-                {citations.map((c, idx) => (
-                  <div key={idx} className="p-3 rounded bg-slate-900/50 border-l-2 border-[#d4a843]">
-                    <div className="text-[#f0c96a] font-bold text-xs mb-1">
-                      [{c.id}] {c.citation}
+                {/* Expanded Verbatim Passage Drawer */}
+                {expandedCitationIdx !== null && citations[expandedCitationIdx] && (
+                  <div className="p-3.5 rounded-2xl bg-[#1e1f20] border border-[#333538] text-xs space-y-2 animate-fade-up">
+                    <div className="flex items-center justify-between font-mono text-[#f0c96a] font-semibold">
+                      <span>[{citations[expandedCitationIdx].id}] {citations[expandedCitationIdx].citation}</span>
+                      <button
+                        type="button"
+                        onClick={(e) => handleCopyCitation(citations[expandedCitationIdx].id, citations[expandedCitationIdx].text, e)}
+                        className="p-1 rounded text-slate-400 hover:text-white transition flex items-center gap-1"
+                        title="Copy verbatim passage"
+                      >
+                        {copiedId === citations[expandedCitationIdx].id ? (
+                          <Check className="w-3 h-3 text-emerald-400" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                        <span>{copiedId === citations[expandedCitationIdx].id ? 'Copied' : 'Copy'}</span>
+                      </button>
                     </div>
-                    <div className="text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
-                      {c.text}
+                    <div className="text-slate-300 font-mono italic leading-relaxed pl-3 border-l-2 border-[#d4a843] bg-[#141517] p-2.5 rounded-r-xl">
+                      "{citations[expandedCitationIdx].text}"
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             )}
+
+            {/* Gemini Minimalist Action Bar */}
+            <div className="pt-2 flex items-center gap-1 text-[#9aa0a6]">
+              <button
+                type="button"
+                onClick={handleCopyAnswer}
+                className="p-2 rounded-full hover:bg-[#1e1f20] hover:text-white transition"
+                title="Copy response"
+              >
+                {answerCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrint}
+                className="p-2 rounded-full hover:bg-[#1e1f20] hover:text-[#d4a843] transition"
+                title="Export Official PDF Extract"
+              >
+                <Printer className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onSaveAnswer && onSaveAnswer(currentQuestion, answer, citations)}
+                className="p-2 rounded-full hover:bg-[#1e1f20] hover:text-white transition"
+                title="Bookmark answer"
+              >
+                <Bookmark className={`w-4 h-4 ${isSaved ? 'text-[#f0c96a] fill-[#f0c96a]' : ''}`} />
+              </button>
+
+              <button
+                type="button"
+                onClick={onNewQuestion}
+                className="p-2 rounded-full hover:bg-[#1e1f20] hover:text-white transition ml-1"
+                title="Start a new conversation"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        )}
-      </div>
+        </div>
       </div>
 
       {/* Printable Official Legal Extract Document (Shown only when printing to paper or PDF) */}
@@ -436,7 +324,7 @@ export default function ResponseCard({
 
         <div className="mb-6">
           <div className="text-xs font-bold uppercase tracking-wider text-gray-700 font-sans mb-1">
-            Grounded Legal Information ({selectedLang === 'en' ? 'English (Official)' : selectedLang === 'si' ? 'සිංහල පරිවර්තනය' : 'தமிழ் மொழிபெயர்ப்பு'}):
+            Grounded Legal Information ({selectedLang === 'en' ? 'English (Official)' : selectedLang === 'si' ? 'සිංහල පරිවර්තනය' : 'தமிழ் மொழிபெයர்ப்பு'}):
           </div>
           <div className="text-sm leading-relaxed text-black whitespace-pre-line border-l-2 border-black pl-3 py-1 font-sans">
             {displayedAnswer}
