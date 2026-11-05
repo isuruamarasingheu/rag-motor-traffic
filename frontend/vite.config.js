@@ -13,6 +13,8 @@ export default defineConfig({
       '/fines': 'http://127.0.0.1:8005',
       '/translate': 'http://127.0.0.1:8005',
       '/resources': 'http://127.0.0.1:8005',
+      '/pdf': 'http://127.0.0.1:8005',
+      '/pdf-file': 'http://127.0.0.1:8005',
     },
   },
 })

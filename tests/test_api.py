@@ -198,3 +198,32 @@ def test_get_resource_detail_endpoint() -> None:
     resp_404 = client.get("/resources/res-non-existent-xyz")
     assert resp_404.status_code == 404
 
+
+def test_view_resource_pdf_endpoint() -> None:
+    """GET /pdf/{resource_id} streams authentic legal PDF document."""
+    client = TestClient(app)
+    resp = client.get("/pdf/res-gazette-2054-09")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"] == "application/pdf"
+    assert "Gazette_2054-09" in resp.headers.get("content-disposition", "")
+    assert len(resp.content) > 1000
+
+    # 404 for non-existent
+    resp_404 = client.get("/pdf/res-does-not-exist")
+    assert resp_404.status_code == 404
+
+
+def test_view_raw_file_security() -> None:
+    """GET /pdf-file allows accessing raw legal documents but blocks path traversal."""
+    client = TestClient(app)
+
+    # Valid file in repository
+    resp = client.get("/pdf-file?path=gazettes/Gazette_1738-37_2011_Horn_Decibel_Limits.pdf")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"] == "application/pdf"
+
+    # Directory traversal attempt
+    resp_bad = client.get("/pdf-file?path=../../configs/base.yaml")
+    assert resp_bad.status_code in (403, 404)
+
+

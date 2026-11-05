@@ -165,6 +165,21 @@ export default function LegalResourceCoverCard({
             <span>Read Resource</span>
           </button>
 
+          {(resource.source_file || '').endsWith('.pdf') && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(`/pdf/${resource.id}`, '_blank');
+              }}
+              className="w-full max-w-[190px] py-1.5 px-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-[#f0c96a] text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+              title="Open authentic official PDF scan"
+            >
+              <FileText className="w-3.5 h-3.5 text-[#d4a843]" />
+              <span>View Official PDF</span>
+            </button>
+          )}
+
           <button
             type="button"
             onClick={(e) => {
@@ -202,3 +217,4 @@ export default function LegalResourceCoverCard({
     </div>
   );
 }
+

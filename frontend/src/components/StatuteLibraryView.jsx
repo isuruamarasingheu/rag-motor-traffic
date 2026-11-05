@@ -16,6 +16,7 @@ import {
   LayoutGrid,
   ListFilter,
   Eye,
+  ExternalLink,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 import LegalResourceCoverCard from './LegalResourceCoverCard';
@@ -422,6 +423,21 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
                       </div>
 
                       <div className="flex items-center gap-2 flex-shrink-0 self-end lg:self-center">
+                        {item.source_file && item.source_file.endsWith('.pdf') && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.open(`/pdf-file?path=${item.source_file.replace('data/raw/', '')}`, '_blank');
+                            }}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-[#f0c96a] text-xs font-medium transition border border-slate-700/60"
+                            title="Open authentic government PDF scan in new tab"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Source PDF</span>
+                          </button>
+                        )}
+
                         <button
                           onClick={() => toggleExpandSection(item.id)}
                           className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition border border-slate-700/60"

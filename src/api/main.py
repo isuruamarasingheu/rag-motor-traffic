@@ -9,6 +9,7 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from openai import OpenAI
 
 from src.api.schemas import (
@@ -364,5 +365,66 @@ def get_resource(resource_id: str) -> ResourceDetail:
         **match,
         sections=matching_sections,
     )
+
+
+@app.get("/pdf/{resource_id}")
+def view_resource_pdf(resource_id: str) -> FileResponse:
+    """Stream official raw PDF source document for an authentic legal resource."""
+    resources = get_all_resources()
+    match = next((r for r in resources if r.get("id") == resource_id), None)
+    if not match:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Resource '{resource_id}' not found.",
+        )
+
+    rel_path = match.get("source_file", "")
+    file_path = Path(rel_path)
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Source file '{rel_path}' does not exist on disk.",
+        )
+
+    media_type = "application/pdf" if file_path.suffix.lower() == ".pdf" else "text/plain"
+    return FileResponse(
+        path=str(file_path),
+        media_type=media_type,
+        filename=file_path.name,
+        headers={"Content-Disposition": f"inline; filename=\"{file_path.name}\""},
+    )
+
+
+@app.get("/pdf-file")
+def view_raw_file(path: str = Query(..., description="Relative path in data/raw")) -> FileResponse:
+    """Stream any raw PDF document from the data/raw legal repository."""
+    clean_path = Path(path).as_posix().lstrip("/\\")
+    if not clean_path.startswith("data/raw/"):
+        clean_path = f"data/raw/{clean_path}"
+
+    target = Path(clean_path).resolve()
+    base = Path("data/raw").resolve()
+    try:
+        target.relative_to(base)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access outside legal repository boundary is prohibited.",
+        ) from exc
+
+    if not target.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"File '{path}' not found in legal repository.",
+        )
+
+    media_type = "application/pdf" if target.suffix.lower() == ".pdf" else "text/plain"
+    return FileResponse(
+        path=str(target),
+        media_type=media_type,
+        filename=target.name,
+        headers={"Content-Disposition": f"inline; filename=\"{target.name}\""},
+    )
+
 
 

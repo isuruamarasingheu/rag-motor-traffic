@@ -446,3 +446,4 @@ def build_resources_json() -> None:
 
 if __name__ == "__main__":
     build_resources_json()
+
