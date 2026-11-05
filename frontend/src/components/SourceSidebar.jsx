@@ -6,7 +6,6 @@ import {
   Check,
   ShieldCheck,
   Scale,
-  ExternalLink,
 } from 'lucide-react';
 
 export default function SourceSidebar({
@@ -27,24 +26,26 @@ export default function SourceSidebar({
   return (
     <aside
       aria-label="Source Citations Sidebar"
-      className="no-print w-80 sm:w-96 flex-shrink-0 bg-[#0e131d] border-l border-slate-800 flex flex-col h-full z-30 animate-fade-in shadow-2xl transition-all duration-300 select-none"
+      className="no-print w-80 sm:w-96 flex-shrink-0 bg-[#090d15] border-l border-slate-800/80 flex flex-col h-full z-30 animate-fade-in shadow-2xl transition-all duration-300 select-none"
     >
-      {/* Top Header */}
-      <div className="p-4 px-5 border-b border-slate-800/80 flex items-center justify-between gap-3 bg-[#0a0e17]">
+      {/* Top Header (Same size, padding, and styling as Left Sidebar) */}
+      <div className="p-3.5 border-b border-slate-800/80 flex items-center justify-between">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-[#d4a843] flex-shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-[#d4a843] flex-shrink-0">
             <FileText className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-              <span>Source Citations</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/30">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-slate-200 tracking-tight block truncate">
+                Source Citations
+              </span>
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/30 flex-shrink-0">
                 {citations.length} {citations.length === 1 ? 'Section' : 'Sections'}
               </span>
-            </h3>
-            <p className="text-[11px] text-slate-400 truncate">
-              Verified Sri Lankan Statutory Provisions
-            </p>
+            </div>
+            <span className="text-[10px] text-slate-500 font-sans block truncate">
+              Verified Legal Provisions
+            </span>
           </div>
         </div>
 
@@ -54,7 +55,7 @@ export default function SourceSidebar({
           className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 transition"
           title="Close source sidebar"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5" />
         </button>
       </div>
 
