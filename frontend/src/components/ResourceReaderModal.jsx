@@ -135,19 +135,6 @@ export default function ResourceReaderModal({
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                const query = `Explain ${resource.short_title || resource.title} in plain English for a citizen, including who it affects, main penalties, and practical rules.`;
-                onAskAI(query);
-                onClose();
-              }}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#d4a843] to-[#e4b952] hover:brightness-105 text-slate-950 text-xs font-semibold shadow-md active:scale-95 transition"
-              title="Explain this full document with MagaNithi AI"
-            >
-              <Sparkles className="w-3.5 h-3.5 fill-slate-950/20" />
-              <span>Explain with AI</span>
-            </button>
-
-            <button
               onClick={onClose}
               className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition"
               title="Close viewer (Esc)"
@@ -170,7 +157,7 @@ export default function ResourceReaderModal({
               }`}
             >
               <FileText className="w-3.5 h-3.5" />
-              <span>Sections & Chunks ({sections.length || resource.sections_count})</span>
+              <span>Statute Provisions ({sections.length || resource.sections_count})</span>
             </button>
 
             {isPdf && (
@@ -326,21 +313,6 @@ export default function ResourceReaderModal({
                             ) : (
                               <Copy className="w-3.5 h-3.5" />
                             )}
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const query = `Explain ${sec.citation} (${sec.heading}) from ${resource.short_title} in plain English, with obligations and penalties.`;
-                              onAskAI(query);
-                              onClose();
-                            }}
-                            className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[#f0c96a] text-[11px] font-medium border border-slate-700 transition"
-                            title="Explain this section in MagaNithi AI"
-                          >
-                            <Sparkles className="w-3 h-3" />
-                            <span>Explain</span>
                           </button>
                         </div>
                       </div>

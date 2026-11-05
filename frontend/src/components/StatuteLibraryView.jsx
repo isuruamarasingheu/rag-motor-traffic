@@ -2,37 +2,19 @@ import React, { useState, useMemo, useEffect } from 'react';
 import {
   Search,
   BookOpen,
-  ChevronDown,
-  ChevronRight,
-  Copy,
-  Check,
-  FileText,
-  Sparkles,
-  Database,
-  ShieldCheck,
   ArrowLeft,
+  Database,
   Layers,
-  SlidersHorizontal,
   LayoutGrid,
-  ListFilter,
-  Eye,
-  ExternalLink,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
 import LegalResourceCoverCard from './LegalResourceCoverCard';
 import ResourceReaderModal from './ResourceReaderModal';
 
 export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
-  // Tab view: 'resources' (visual book covers) vs 'chunks' (991 granular sections)
-  const [activeTab, setActiveTab] = useState('resources');
-
   // Resources state
   const [resources, setResources] = useState([]);
   const [loadingResources, setLoadingResources] = useState(false);
-
-  // Sections state
-  const [sections, setSections] = useState([]);
-  const [loadingSections, setLoadingSections] = useState(false);
 
   // Search & Filters
   const [search, setSearch] = useState('');
@@ -44,10 +26,6 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
   // Reader Modal State
   const [selectedResourceForReader, setSelectedResourceForReader] = useState(null);
   const [isReaderOpen, setIsReaderOpen] = useState(false);
-
-  // Granular section explorer state
-  const [expandedId, setExpandedId] = useState(null);
-  const [copiedId, setCopiedId] = useState(null);
 
   // Load Resources Catalog
   useEffect(() => {
@@ -68,32 +46,6 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
       .catch((err) => {
         console.error('Failed to fetch resources:', err);
         if (isMounted) setLoadingResources(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // Load Granular Sections
-  useEffect(() => {
-    let isMounted = true;
-    setLoadingSections(true);
-
-    fetch('/sections?limit=150')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load statute records');
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted) {
-          setSections(data);
-          setLoadingSections(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to fetch sections:', err);
-        if (isMounted) setLoadingSections(false);
       });
 
     return () => {
@@ -149,44 +101,9 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
     return list;
   }, [resources, search, selectedType, selectedCategory, sortBy, showCount]);
 
-  // Filtered Granular Sections
-  const filteredSections = useMemo(() => {
-    return sections.filter((s) => {
-      const matchCat =
-        selectedCategory === 'all' ||
-        (s.regulation_category || '').toLowerCase() === selectedCategory.toLowerCase();
-      const q = search.toLowerCase().trim();
-      const matchText =
-        !q ||
-        (s.id || '').toLowerCase().includes(q) ||
-        (s.citation || '').toLowerCase().includes(q) ||
-        (s.heading || '').toLowerCase().includes(q) ||
-        (s.text || '').toLowerCase().includes(q) ||
-        (s.part || '').toLowerCase().includes(q) ||
-        (s.source_file || '').toLowerCase().includes(q);
-      return matchCat && matchText;
-    });
-  }, [sections, search, selectedCategory]);
-
   const handleOpenReader = (resource) => {
     setSelectedResourceForReader(resource);
     setIsReaderOpen(true);
-  };
-
-  const handleExplainWithAI = (resource) => {
-    const query = `Explain ${resource.short_title || resource.title} in plain English for a citizen, including who it affects, main penalties, and practical rules.`;
-    onExplainSection(query);
-  };
-
-  const handleCopySection = (id, text, e) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const toggleExpandSection = (id) => {
-    setExpandedId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -201,7 +118,7 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
                 Statute Library & Legal Resources Viewer
               </h1>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#d4a843]/15 text-[#f0c96a] border border-[#d4a843]/30">
-                23 Primary Instruments · 991 Verified Chunks
+                23 Official Acts & Gazettes
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -210,42 +127,14 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
           </div>
         </div>
 
-        {/* View Switcher Tabs & Back Button */}
-        <div className="flex items-center gap-2 self-start md:self-center">
-          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
-            <button
-              onClick={() => setActiveTab('resources')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-                activeTab === 'resources'
-                  ? 'bg-[#d4a843] text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Resources Catalog</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('chunks')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-                activeTab === 'chunks'
-                  ? 'bg-[#d4a843] text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Database className="w-3.5 h-3.5" />
-              <span>Section Chunks (991)</span>
-            </button>
-          </div>
-
-          <button
-            onClick={onBackToChat}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-white transition"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to Chat</span>
-          </button>
-        </div>
+        {/* Back to Chat Button */}
+        <button
+          onClick={onBackToChat}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-white transition self-start md:self-center"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to Chat</span>
+        </button>
       </div>
 
       {/* Top Filter & Sort Bar (Matching photo's toolbar) */}
@@ -257,11 +146,7 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={
-              activeTab === 'resources'
-                ? "Search by resource name, gazette number (e.g. 2054/09), topic..."
-                : "Search section chunks (e.g. 123, 215A, silencer, helmet)..."
-            }
+            placeholder="Search by resource title, act number, or gazette number (e.g. 2054/09)..."
             className="w-full pl-9 pr-3 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#d4a843] transition"
           />
         </div>
@@ -269,22 +154,20 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
         {/* Center & Right Controls */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Instrument Type Filter */}
-          {activeTab === 'resources' && (
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-[11px] text-slate-400 hidden xl:inline">Type:</span>
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-[#d4a843]"
-              >
-                <option value="all">All Types</option>
-                <option value="principal_act">Principal Act</option>
-                <option value="gazette_regulation">Extraordinary Gazettes</option>
-                <option value="amendment">Amending Acts</option>
-                <option value="procedural_guide">Citizen Guides</option>
-              </select>
-            </div>
-          )}
+          <div className="flex items-center gap-1.5 text-xs">
+            <span className="text-[11px] text-slate-400 hidden xl:inline">Type:</span>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-[#d4a843]"
+            >
+              <option value="all">All Types</option>
+              <option value="principal_act">Principal Act</option>
+              <option value="gazette_regulation">Extraordinary Gazettes</option>
+              <option value="amendment">Amending Acts</option>
+              <option value="procedural_guide">Citizen Guides</option>
+            </select>
+          </div>
 
           {/* Category Filter */}
           <div className="flex items-center gap-1.5 text-xs">
@@ -307,183 +190,56 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
           </div>
 
           {/* Sort By Dropdown (Mirroring photo) */}
-          {activeTab === 'resources' && (
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-[11px] text-slate-400">Sort By</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-[#f0c96a] font-medium outline-none focus:border-[#d4a843]"
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="title">Title (A-Z)</option>
-                <option value="sections">Most Chunks</option>
-              </select>
-            </div>
-          )}
+          <div className="flex items-center gap-1.5 text-xs">
+            <span className="text-[11px] text-slate-400">Sort By</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-[#f0c96a] font-medium outline-none focus:border-[#d4a843]"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="sections">Most Sections</option>
+            </select>
+          </div>
 
           {/* Show Count Dropdown (Mirroring photo 'Show [40 v]') */}
-          {activeTab === 'resources' && (
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-[11px] text-slate-400">Show</span>
-              <select
-                value={showCount}
-                onChange={(e) => setShowCount(e.target.value)}
-                className="bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1.5 text-xs text-slate-200 outline-none focus:border-[#d4a843]"
-              >
-                <option value="12">12</option>
-                <option value="24">24</option>
-                <option value="all">All</option>
-              </select>
-            </div>
-          )}
+          <div className="flex items-center gap-1.5 text-xs">
+            <span className="text-[11px] text-slate-400">Show</span>
+            <select
+              value={showCount}
+              onChange={(e) => setShowCount(e.target.value)}
+              className="bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1.5 text-xs text-slate-200 outline-none focus:border-[#d4a843]"
+            >
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="all">All</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Content Area: Visual Book Cover Grid (Matching photo) */}
       <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-        {/* VIEW 1: Visual Book Cover Grid (Matching photo) */}
-        {activeTab === 'resources' && (
-          <div>
-            {loadingResources ? (
-              <div className="text-center py-24 text-slate-400 text-xs space-y-2">
-                <Database className="w-8 h-8 mx-auto animate-pulse text-[#d4a843]" />
-                <div>Loading legal resources catalog from official sources...</div>
-              </div>
-            ) : filteredResources.length === 0 ? (
-              <div className="text-center py-20 text-slate-500 text-xs">
-                No legal resources found matching "{search}".
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-7">
-                {filteredResources.map((res) => (
-                  <LegalResourceCoverCard
-                    key={res.id}
-                    resource={res}
-                    onOpenReader={handleOpenReader}
-                    onExplainAI={handleExplainWithAI}
-                  />
-                ))}
-              </div>
-            )}
+        {loadingResources ? (
+          <div className="text-center py-24 text-slate-400 text-xs space-y-2">
+            <Database className="w-8 h-8 mx-auto animate-pulse text-[#d4a843]" />
+            <div>Loading legal resources catalog from official sources...</div>
           </div>
-        )}
-
-        {/* VIEW 2: Granular Section Chunks List (991 chunks) */}
-        {activeTab === 'chunks' && (
-          <div className="space-y-3">
-            {loadingSections ? (
-              <div className="text-center py-24 text-slate-400 text-xs space-y-2">
-                <Database className="w-8 h-8 mx-auto animate-pulse text-[#d4a843]" />
-                <div>Loading verified statutory records from corpus...</div>
-              </div>
-            ) : filteredSections.length === 0 ? (
-              <div className="text-center py-20 text-slate-500 text-xs">
-                No matching statutory sections found for "{search}".
-              </div>
-            ) : (
-              filteredSections.map((item) => {
-                const isExpanded = expandedId === item.id;
-                return (
-                  <div
-                    key={item.id}
-                    className="rounded-xl bg-[#121824]/80 border border-slate-800 hover:border-slate-700 transition overflow-hidden group shadow-md"
-                  >
-                    <div className="p-4 sm:p-5 flex flex-col lg:flex-row lg:items-start justify-between gap-3">
-                      <div className="space-y-1.5 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-[11px] font-semibold text-[#f0c96a] bg-[#d4a843]/10 px-2 py-0.5 rounded border border-[#d4a843]/20">
-                            {item.id}
-                          </span>
-                          <span className="text-xs font-semibold text-slate-200">
-                            {item.citation}
-                          </span>
-                          {item.part && (
-                            <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">
-                              {item.part}
-                            </span>
-                          )}
-                          {item.source_file && (
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950/80 text-slate-500 border border-slate-800">
-                              📁 {item.source_file.replace('data/raw/', '')}
-                            </span>
-                          )}
-                        </div>
-
-                        <h3 className="text-sm font-semibold text-slate-100 mt-1">
-                          {item.heading}
-                        </h3>
-
-                        {item.parent_context && (
-                          <p className="text-[11px] text-slate-400 font-mono italic">
-                            ↳ {item.parent_context}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2 flex-shrink-0 self-end lg:self-center">
-                        {item.source_file && item.source_file.endsWith('.pdf') && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              window.open(`/pdf-file?path=${item.source_file.replace('data/raw/', '')}`, '_blank');
-                            }}
-                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-[#f0c96a] text-xs font-medium transition border border-slate-700/60"
-                            title="Open authentic government PDF scan in new tab"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Source PDF</span>
-                          </button>
-                        )}
-
-                        <button
-                          onClick={() => toggleExpandSection(item.id)}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition border border-slate-700/60"
-                        >
-                          <FileText className="w-3.5 h-3.5 text-[#d4a843]" />
-                          <span>{isExpanded ? 'Hide Verbatim' : 'View Verbatim'}</span>
-                          {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            const query = `Explain ${item.citation} (${item.heading}) in plain English for a citizen, including obligations, exceptions, and penalties.`;
-                            onExplainSection(query);
-                          }}
-                          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#d4a843] to-[#e4b952] hover:brightness-105 text-slate-950 text-xs font-semibold transition shadow-md active:scale-95"
-                        >
-                          <Sparkles className="w-3.5 h-3.5 fill-slate-950/20" />
-                          <span>Explain in Plain English</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {isExpanded && (
-                      <div className="px-5 pb-5 pt-2 bg-slate-950/90 border-t border-slate-800/80 animate-fade-up">
-                        <div className="flex items-center justify-between py-2 text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                          <span className="flex items-center gap-1.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                            <span>Authentic Verbatim Statutory Passage</span>
-                          </span>
-                          <button
-                            onClick={(e) => handleCopySection(item.id, item.text, e)}
-                            className="flex items-center gap-1 text-[#f0c96a] hover:text-white transition"
-                          >
-                            {copiedId === item.id ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                            <span>{copiedId === item.id ? 'Copied' : 'Copy Text'}</span>
-                          </button>
-                        </div>
-                        <div className="p-4 rounded-lg bg-[#090d15] border-l-2 border-[#d4a843] font-mono text-xs text-slate-200 leading-relaxed whitespace-pre-wrap">
-                          {item.text}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
+        ) : filteredResources.length === 0 ? (
+          <div className="text-center py-20 text-slate-500 text-xs">
+            No legal resources found matching "{search}".
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-7">
+            {filteredResources.map((res) => (
+              <LegalResourceCoverCard
+                key={res.id}
+                resource={res}
+                onOpenReader={handleOpenReader}
+              />
+            ))}
           </div>
         )}
       </div>
@@ -495,9 +251,7 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
           <span>Data Provenance: Grounded on Sri Lanka Motor Traffic Act No. 14 of 1951 (Consolidated 2024)</span>
         </span>
         <span className="text-slate-400">
-          {activeTab === 'resources'
-            ? `Showing ${filteredResources.length} of ${resources.length} legal instruments`
-            : `Showing ${filteredSections.length} of ${sections.length} indexed chunks`}
+          Showing {filteredResources.length} of {resources.length} official legal instruments
         </span>
       </div>
 
@@ -506,10 +260,6 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
         resource={selectedResourceForReader}
         isOpen={isReaderOpen}
         onClose={() => setIsReaderOpen(false)}
-        onAskAI={(query) => {
-          setIsReaderOpen(false);
-          onExplainSection(query);
-        }}
       />
     </div>
   );

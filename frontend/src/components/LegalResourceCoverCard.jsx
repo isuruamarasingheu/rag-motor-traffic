@@ -179,18 +179,6 @@ export default function LegalResourceCoverCard({
               <span>View Official PDF</span>
             </button>
           )}
-
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onExplainAI(resource);
-            }}
-            className="w-full max-w-[190px] py-1.5 px-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#f0c96a]" />
-            <span>Explain with AI</span>
-          </button>
         </div>
       </div>
 
@@ -206,7 +194,7 @@ export default function LegalResourceCoverCard({
           </span>
           <span className="font-mono text-emerald-400 font-semibold flex items-center gap-1">
             <Layers className="w-3 h-3" />
-            {resource.sections_count} {resource.sections_count === 1 ? 'Chunk' : 'Chunks'}
+            {resource.sections_count} {resource.sections_count === 1 ? 'Section' : 'Sections'}
           </span>
         </div>
 
