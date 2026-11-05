@@ -76,7 +76,7 @@ COLLOQUIAL_LEGAL_MAPPINGS: dict[str, str] = {
 }
 
 REWRITE_SYSTEM_PROMPT = """You are a legal query rewriter and query decomposer for Sri Lanka's Motor Traffic Act and traffic regulations.
-A citizen has asked a plain-language question using colloquial, narrative, situational, or Sri Lankan Singlish terms.
+A citizen has asked a plain-language question using colloquial, narrative, situational, Sri Lankan Singlish, Sinhala script (සිංහල), or Tamil script (தமிழ்).
 Your job is to:
 1. Reformulate the overall question into statutory legal phrasing used in Sri Lankan legislation, combining statutory terms with key concepts from the query.
 2. Determine whether the citizen's query contains multiple distinct legal questions or issues (e.g. horn decibel limits vs. exhaust silencing requirements vs. procedures for contesting a spot-fine ticket).
@@ -85,7 +85,7 @@ Your job is to:
 
 Rules:
 1. Translate colloquial terms (e.g., 'car book' -> 'certificate of registration', 'driving book' -> 'driving licence', 'musical horn' -> 'harsh or musical sound horn', 'spot fine' -> 'fine penalty notice', 'drunk driving' -> 'driving under influence of intoxicating liquor').
-2. SINGLISH & PHONETIC CONCEPTS: When the citizen query is phrased in Sri Lankan 'Singlish' (Sinhala/Tamil terms written in Latin characters, e.g. 'helmet nathiwa giyoth fine eka keeyada', 'speed wadi unama police allanawada', 'transfer karanna one documents monada', 'license nathiwa elawanna puluwanda'), interpret the underlying legal intent and formulate all search queries strictly in standard formal English statutory language. Do NOT output Singlish search queries.
+2. MULTILINGUAL & SINGLISH INPUTS: When the citizen query is phrased in Sinhala script (සිංහල), Tamil script (தமிழ்), or Singlish (Sinhala/Tamil terms in Latin characters, e.g. 'helmet nathiwa giyoth fine eka keeyada', 'speed wadi unama police allanawada'), interpret the underlying legal intent and formulate all search queries and sub-queries STRICTLY IN FORMAL ENGLISH STATUTORY LANGUAGE. The statutory corpus is indexed in English, so all search terms must be English. Do NOT output Sinhala, Tamil, or Singlish search queries.
 3. When police detention or vehicle seizure is mentioned, include Section 232F and Section 12 powers.
 4. When unpaid fines from a prior owner or seller are mentioned, include Section 215A offender liability and Section 12 ownership transfer.
 5. When a citizen asks about driving without a driving licence or the penalty for driving without a licence, explicitly include statutory search terms: 'contravenes Section 123 subsection 1 driving licence penalty under Section 123 subsection 5 fine not less than twenty five thousand rupees'.

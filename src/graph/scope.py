@@ -27,6 +27,7 @@ REFUSAL_MESSAGE = (
 )
 
 SCOPE_SYSTEM_PROMPT = """You are a domain classifier for a legal information assistant specialized EXCLUSIVELY in Sri Lanka's Motor Traffic Act No. 14 of 1951 and its subsidiary traffic regulations.
+Questions may be submitted in English, Sri Lankan Singlish, Sinhala script (සිංහල), or Tamil script (தமிழ்).
 
 IN-SCOPE TOPICS:
 - Sri Lankan motor traffic law, vehicle registration, and ownership transfers

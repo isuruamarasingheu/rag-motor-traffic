@@ -16,6 +16,8 @@ from src.api.schemas import (
     AskResponse,
     FineItem,
     HealthResponse,
+    ResourceDetail,
+    ResourceItem,
     SectionItem,
     TranslateRequest,
     TranslateResponse,
@@ -168,6 +170,20 @@ def translate(request: TranslateRequest) -> TranslateResponse:
 
 _sections_cache: list[dict[str, Any]] | None = None
 _fines_cache: list[dict[str, Any]] | None = None
+_resources_cache: list[dict[str, Any]] | None = None
+
+
+def get_all_resources() -> list[dict[str, Any]]:
+    """Load and cache curated legal resources from data/processed/resources.json."""
+    global _resources_cache
+    if _resources_cache is None:
+        p = Path("data/processed/resources.json")
+        resources = []
+        if p.exists():
+            with open(p, encoding="utf-8") as f:
+                resources = json.load(f)
+        _resources_cache = resources
+    return _resources_cache
 
 
 def get_all_sections() -> list[dict[str, Any]]:
@@ -261,4 +277,92 @@ def list_fines(
         cat_lower = category.lower()
         fines = [f for f in fines if f.get("category", "").lower() == cat_lower]
     return [FineItem(**f) for f in fines]
+
+
+@app.get("/resources", response_model=list[ResourceItem])
+def list_resources(
+    q: str | None = Query(None, description="Search keyword, title, or gazette number"),
+    instrument_type: str | None = Query(None, description="Filter by instrument type"),
+    category: str | None = Query(None, description="Filter by subject category"),
+    sort_by: str | None = Query("newest", description="Sorting: newest, oldest, title, sections"),
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+) -> list[ResourceItem]:
+    """List and filter curated primary legal instruments for visual catalog."""
+    resources = get_all_resources()
+    filtered = resources
+
+    if instrument_type and instrument_type != "all":
+        t_lower = instrument_type.lower()
+        filtered = [r for r in filtered if r.get("instrument_type", "").lower() == t_lower]
+
+    if category and category != "all":
+        cat_lower = category.lower()
+        filtered = [r for r in filtered if r.get("category", "").lower() == cat_lower]
+
+    if q:
+        query_lower = q.lower().strip()
+        filtered = [
+            r for r in filtered
+            if query_lower in r.get("title", "").lower()
+            or query_lower in r.get("short_title", "").lower()
+            or query_lower in (r.get("gazette_no") or "").lower()
+            or query_lower in (r.get("act_no") or "").lower()
+            or query_lower in r.get("description", "").lower()
+            or any(query_lower in kp.lower() for kp in r.get("key_provisions", []))
+        ]
+
+    # Sorting
+    if sort_by == "newest":
+        filtered = sorted(filtered, key=lambda x: str(x.get("date_promulgated") or "0000"), reverse=True)
+    elif sort_by == "oldest":
+        filtered = sorted(filtered, key=lambda x: str(x.get("date_promulgated") or "9999"))
+    elif sort_by == "title":
+        filtered = sorted(filtered, key=lambda x: x.get("short_title", x.get("title", "")).lower())
+    elif sort_by == "sections":
+        filtered = sorted(filtered, key=lambda x: x.get("sections_count", 0), reverse=True)
+
+    paginated = filtered[offset : offset + limit]
+    return [ResourceItem(**r) for r in paginated]
+
+
+@app.get("/resources/{resource_id}", response_model=ResourceDetail)
+def get_resource(resource_id: str) -> ResourceDetail:
+    """Retrieve full details for a legal resource including all associated sections."""
+    resources = get_all_resources()
+    match = next((r for r in resources if r.get("id") == resource_id), None)
+    if not match:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Legal resource '{resource_id}' not found.",
+        )
+
+    # Find associated sections
+    source_file = match.get("source_file", "")
+    all_sections = get_all_sections()
+    matching_sections = [
+        SectionItem(
+            id=s.get("id", ""),
+            act=s.get("act", ""),
+            instrument_type=s.get("instrument_type", ""),
+            part=s.get("part"),
+            section=s.get("section"),
+            citation=s.get("citation", ""),
+            heading=s.get("heading", ""),
+            text=s.get("text", ""),
+            parent_context=s.get("parent_context"),
+            regulation_category=s.get("regulation_category"),
+            amendment_date=s.get("amendment_date"),
+            gazette_no=s.get("gazette_no"),
+            source_file=s.get("source_file"),
+        )
+        for s in all_sections
+        if s.get("source_file") == source_file
+    ]
+
+    return ResourceDetail(
+        **match,
+        sections=matching_sections,
+    )
+
 

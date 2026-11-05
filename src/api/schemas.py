@@ -118,3 +118,31 @@ class TranslateResponse(BaseModel):
 
     translated_text: str = Field(..., description="Translated plain-language explanation")
     target_language: str = Field(..., description="Target language code ('si' or 'ta')")
+
+
+class ResourceItem(BaseModel):
+    """Curated primary legal instrument or gazette regulation for visual library."""
+
+    id: str
+    title: str
+    short_title: str
+    instrument_type: str
+    category: str
+    act_no: str | None = None
+    gazette_no: str | None = None
+    date_promulgated: str | None = None
+    year: int | None = None
+    issuing_authority: str
+    source_file: str
+    badge_label: str
+    theme_color: str
+    description: str
+    sections_count: int = 0
+    key_provisions: list[str] = Field(default_factory=list)
+
+
+class ResourceDetail(ResourceItem):
+    """Detailed resource view containing its full list of verified sections."""
+
+    sections: list[SectionItem] = Field(default_factory=list)
+

@@ -70,6 +70,7 @@ export default function App() {
 
     setLoading(true);
     setError(null);
+    setResult(null); // Clear previous result so fresh query or error displays cleanly
     setCurrentQuestion(cleanQ);
     setQuestion(''); // Immediately clear input field so follow-up bar is fresh
     setCurrentView('chat'); // Always ensure chat view is active when asking

@@ -148,3 +148,53 @@ def test_translate_validation_error() -> None:
 
     resp_lang = client.post("/translate", json={"text": "Hello", "target_language": "fr"})
     assert resp_lang.status_code == 422
+
+
+def test_list_resources_endpoint() -> None:
+    """GET /resources returns curated legal instruments with metadata."""
+    client = TestClient(app)
+    resp = client.get("/resources")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, list)
+    assert len(data) >= 15
+    first = data[0]
+    assert "id" in first
+    assert "title" in first
+    assert "instrument_type" in first
+    assert "sections_count" in first
+
+
+def test_list_resources_filter_and_search() -> None:
+    """GET /resources filters by type, category and search term."""
+    client = TestClient(app)
+
+    # Filter by instrument type
+    resp_gaz = client.get("/resources?instrument_type=gazette_regulation")
+    assert resp_gaz.status_code == 200
+    for r in resp_gaz.json():
+        assert r["instrument_type"] == "gazette_regulation"
+
+    # Search keyword
+    resp_q = client.get("/resources?q=2054/09")
+    assert resp_q.status_code == 200
+    results = resp_q.json()
+    assert len(results) >= 1
+    assert any("2054/09" in r.get("gazette_no", "") for r in results)
+
+
+def test_get_resource_detail_endpoint() -> None:
+    """GET /resources/{resource_id} returns resource details and associated sections."""
+    client = TestClient(app)
+    resp = client.get("/resources/res-gazette-2054-09")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["id"] == "res-gazette-2054-09"
+    assert "Spot Fines" in data["title"]
+    assert "sections" in data
+    assert len(data["sections"]) > 0
+
+    # Non-existent ID returns 404
+    resp_404 = client.get("/resources/res-non-existent-xyz")
+    assert resp_404.status_code == 404
+

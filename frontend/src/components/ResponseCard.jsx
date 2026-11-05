@@ -137,8 +137,10 @@ export default function ResponseCard({
   const IconComp = config.icon;
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-6 animate-fade-up">
-      {/* Top Bar with Question and Status */}
+    <>
+      {/* Interactive Screen UI (Hidden during Print) */}
+      <div className="no-print w-full max-w-3xl mx-auto bg-[#121824]/95 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden mb-6 animate-fade-up">
+        {/* Top Bar with Question and Status */}
       <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${config.iconBg}`}>
@@ -404,6 +406,7 @@ export default function ResponseCard({
           </div>
         )}
       </div>
+      </div>
 
       {/* Printable Official Legal Extract Document (Shown only when printing to paper or PDF) */}
       <div className="print-only printable-document p-8 text-black bg-white max-w-4xl mx-auto font-serif">
@@ -467,6 +470,6 @@ export default function ResponseCard({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
