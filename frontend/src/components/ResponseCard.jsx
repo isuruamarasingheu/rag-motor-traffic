@@ -178,22 +178,20 @@ export default function ResponseCard({
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('en')}
-                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium ${
-                    selectedLang === 'en'
+                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium ${selectedLang === 'en'
                       ? 'bg-[#d4a843] text-slate-950 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
-                  }`}
+                    }`}
                 >
                   English
                 </button>
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('si')}
-                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium flex items-center gap-1 ${
-                    selectedLang === 'si'
+                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium flex items-center gap-1 ${selectedLang === 'si'
                       ? 'bg-[#d4a843] text-slate-950 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
-                  }`}
+                    }`}
                 >
                   <span>සිංහල</span>
                   {translating && selectedLang === 'si' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
@@ -201,11 +199,10 @@ export default function ResponseCard({
                 <button
                   type="button"
                   onClick={() => handleLanguageChange('ta')}
-                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium flex items-center gap-1 ${
-                    selectedLang === 'ta'
+                  className={`px-2.5 py-1 text-xs rounded-lg transition font-medium flex items-center gap-1 ${selectedLang === 'ta'
                       ? 'bg-[#d4a843] text-slate-950 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
-                  }`}
+                    }`}
                 >
                   <span>தமிழ்</span>
                   {translating && selectedLang === 'ta' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
@@ -227,15 +224,7 @@ export default function ResponseCard({
             {/* Citations & Evidence Section */}
             {citations.length > 0 && (
               <div className="pt-4 border-t border-slate-800/80 space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Statutory Authority & Evidence:</span>
-                  </span>
-                  <span className="text-[10px] text-slate-500 font-mono">
-                    Click to view verbatim text
-                  </span>
-                </div>
+
 
                 <div className="flex items-center gap-2 flex-wrap">
                   {citations.map((c, i) => {
@@ -245,11 +234,10 @@ export default function ResponseCard({
                         key={i}
                         type="button"
                         onClick={() => setExpandedCitationId(isExpanded ? null : c.id)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition border ${
-                          isExpanded
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition border ${isExpanded
                             ? 'bg-[#d4a843] text-slate-950 font-bold border-[#d4a843] shadow-md'
                             : 'bg-slate-900/90 hover:bg-slate-800 text-[#f0c96a] border-slate-800 hover:border-[#d4a843]/60'
-                        }`}
+                          }`}
                         title="Click to inspect authentic statutory passage"
                       >
                         <span>{c.citation || c.id}</span>
@@ -290,8 +278,8 @@ export default function ResponseCard({
               </div>
             )}
 
-            {/* Bottom Modern Action Toolbar (Like Gemini / Claude) */}
-            <div className="pt-2 flex items-center gap-1.5 text-slate-400 flex-wrap">
+            {/* Bottom Action Toolbar (Aligned to Right, New button removed) */}
+            <div className="pt-2 flex items-center justify-end gap-2 text-slate-400 flex-wrap">
               <button
                 type="button"
                 onClick={handleCopyAnswer}
@@ -324,16 +312,6 @@ export default function ResponseCard({
               >
                 <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f0c96a]' : ''}`} />
                 <span>{isSaved ? 'Saved' : 'Save'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={onNewQuestion}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium border border-slate-800 transition ml-auto"
-                title="Ask new question"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>New</span>
               </button>
             </div>
           </div>

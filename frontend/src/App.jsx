@@ -275,9 +275,9 @@ export default function App() {
               )}
             </main>
 
-            {/* Fixed Floating Bottom Capsule Prompt Bar (Matching Gemini layout in photo 2) */}
+            {/* Fixed Floating Bottom Capsule Prompt Bar (Centered with working panel) */}
             {result && (
-              <div className="no-print fixed bottom-0 left-0 right-0 p-4 pb-5 bg-gradient-to-t from-[#0b0f17] via-[#0b0f17]/95 to-transparent z-20 pointer-events-none">
+              <div className="no-print absolute bottom-0 left-0 right-0 p-4 pb-5 bg-gradient-to-t from-[#0b0f17] via-[#0b0f17]/95 to-transparent z-20 pointer-events-none">
                 <div className="max-w-3xl w-full mx-auto pointer-events-auto">
                   <div className="bg-[#121824]/95 backdrop-blur-md border border-slate-700/80 hover:border-[#d4a843]/50 focus-within:border-[#d4a843] rounded-full pl-5 pr-2 py-2 shadow-2xl flex items-center gap-3 transition">
                     <input
