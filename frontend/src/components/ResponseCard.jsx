@@ -143,22 +143,20 @@ export default function ResponseCard({
             <button
               type="button"
               onClick={() => handleLanguageChange('en')}
-              className={`px-2.5 py-1 text-xs font-medium transition ${
-                selectedLang === 'en'
-                  ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
+              className={`px-2.5 py-1 text-xs font-medium transition ${selectedLang === 'en'
+                ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+                }`}
             >
               Eng
             </button>
             <button
               type="button"
               onClick={() => handleLanguageChange('si')}
-              className={`px-2.5 py-1 text-xs font-medium transition flex items-center gap-1 ${
-                selectedLang === 'si'
-                  ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
+              className={`px-2.5 py-1 text-xs font-medium transition flex items-center gap-1 ${selectedLang === 'si'
+                ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+                }`}
             >
               <span>සිංහ</span>
               {translating && selectedLang === 'si' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
@@ -166,11 +164,10 @@ export default function ResponseCard({
             <button
               type="button"
               onClick={() => handleLanguageChange('ta')}
-              className={`px-2.5 py-1 text-xs font-medium transition flex items-center gap-1 ${
-                selectedLang === 'ta'
-                  ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
+              className={`px-2.5 py-1 text-xs font-medium transition flex items-center gap-1 ${selectedLang === 'ta'
+                ? 'bg-[#d4a843] text-slate-950 font-bold rounded-md shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+                }`}
             >
               <span>தமிழ்</span>
               {translating && selectedLang === 'ta' && <Loader2 className="w-3 h-3 animate-spin text-slate-950" />}
@@ -196,11 +193,10 @@ export default function ResponseCard({
             <button
               type="button"
               onClick={onToggleSource}
-              className={`text-xs font-semibold tracking-wide transition flex items-center gap-1.5 ${
-                citations.length > 0
-                  ? 'text-slate-400 hover:text-[#f0c96a] cursor-pointer'
-                  : 'text-slate-500 cursor-default'
-              }`}
+              className={`text-xs font-semibold tracking-wide transition flex items-center gap-1.5 ${citations.length > 0
+                ? 'text-slate-400 hover:text-[#f0c96a] cursor-pointer'
+                : 'text-slate-500 cursor-default'
+                }`}
               title={
                 citations.length > 0
                   ? `${isSourceOpen ? 'Close' : 'Open'} right-side source citations panel`
@@ -216,11 +212,10 @@ export default function ResponseCard({
               <button
                 type="button"
                 onClick={onToggleSource}
-                className={`p-1.5 rounded-lg border transition flex items-center justify-center ${
-                  isSourceOpen
-                    ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/50 shadow-sm'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-[#f0c96a] border-slate-800'
-                }`}
+                className={`p-1.5 rounded-lg border transition flex items-center justify-center ${isSourceOpen
+                  ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/50 shadow-sm'
+                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-[#f0c96a] border-slate-800'
+                  }`}
                 title={
                   isSourceOpen
                     ? 'Close right-side citations sidebar'
@@ -255,11 +250,10 @@ export default function ResponseCard({
             <button
               type="button"
               onClick={() => onSaveAnswer && onSaveAnswer(currentQuestion, answer, citations)}
-              className={`p-2 rounded-xl border transition ${
-                isSaved
-                  ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/40'
-                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
-              }`}
+              className={`p-2 rounded-xl border transition ${isSaved
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border-[#d4a843]/40'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+                }`}
               title="Bookmark this answer"
             >
               <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-[#f0c96a]' : ''}`} />

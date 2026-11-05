@@ -17,7 +17,18 @@ export default function App() {
   const [error, setError] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Chat conversation stream state (independent stateless queries presented as a flowing chat)
+  // Chat sessions state with LocalStorage persistence
+  const [sessions, setSessions] = useState(() => {
+    try {
+      const saved = localStorage.getItem('rag_mta_sessions');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [currentSessionId, setCurrentSessionId] = useState(null);
+
+  // Current session's active chat stream of turns
   const [chatStream, setChatStream] = useState([]);
   const [activeTurnId, setActiveTurnId] = useState(null);
   const [isSourceSidebarOpen, setIsSourceSidebarOpen] = useState(false);
@@ -28,19 +39,7 @@ export default function App() {
   // Scroll ref for chat stream
   const messagesEndRef = useRef(null);
 
-  // History & Saved Answers with LocalStorage persistence
-  const [history, setHistory] = useState(() => {
-    try {
-      const saved = localStorage.getItem('rag_mta_history');
-      return saved ? JSON.parse(saved) : [
-        { question: 'What is the penalty for driving a motor vehicle without a valid driving licence?' },
-        { question: 'What is the noise emission limit for a motorcycle silencer under the law?' },
-      ];
-    } catch {
-      return [];
-    }
-  });
-
+  // Saved answers bookmarks
   const [savedAnswers, setSavedAnswers] = useState(() => {
     try {
       const saved = localStorage.getItem('rag_mta_saved');
@@ -50,14 +49,16 @@ export default function App() {
     }
   });
 
+  // Sync sessions to LocalStorage
   useEffect(() => {
     try {
-      localStorage.setItem('rag_mta_history', JSON.stringify(history));
+      localStorage.setItem('rag_mta_sessions', JSON.stringify(sessions));
     } catch (e) {
-      console.error(e);
+      console.error('Failed to save sessions to localStorage:', e);
     }
-  }, [history]);
+  }, [sessions]);
 
+  // Sync saved answers bookmarks to LocalStorage
   useEffect(() => {
     try {
       localStorage.setItem('rag_mta_saved', JSON.stringify(savedAnswers));
@@ -82,27 +83,59 @@ export default function App() {
       return;
     }
 
+    let activeSessionId = currentSessionId;
+    if (!activeSessionId) {
+      activeSessionId = `sess_${Date.now()}`;
+      setCurrentSessionId(activeSessionId);
+    }
+
+    const shortTitle = cleanQ.length > 38 ? cleanQ.slice(0, 38).trim() + '...' : cleanQ;
     const turnId = Date.now().toString();
+
+    const newTurn = {
+      id: turnId,
+      question: cleanQ,
+      result: null,
+      loading: true,
+      error: null,
+    };
+
     setLoading(true);
     setError(null);
-    setQuestion(''); // Immediately clear input field so follow-up bar is fresh
-    setCurrentView('chat'); // Always ensure chat view is active when asking
+    setQuestion(''); // Immediately clear input field
+    setCurrentView('chat');
 
-    // Append new turn to chat stream
-    setChatStream((prev) => [
-      ...prev,
-      {
-        id: turnId,
-        question: cleanQ,
-        result: null,
-        loading: true,
-        error: null,
-      },
-    ]);
+    // Append new turn to active chatStream
+    setChatStream((prev) => [...prev, newTurn]);
     setActiveTurnId(turnId);
 
+    // Save new turn into sessions in LocalStorage
+    setSessions((prev) => {
+      const existing = prev.find((s) => s.id === activeSessionId);
+      if (existing) {
+        return prev.map((s) =>
+          s.id === activeSessionId
+            ? {
+                ...s,
+                updatedAt: Date.now(),
+                turns: [...s.turns, newTurn],
+              }
+            : s
+        );
+      } else {
+        const newSession = {
+          id: activeSessionId,
+          title: shortTitle,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          turns: [newTurn],
+        };
+        return [newSession, ...prev];
+      }
+    });
+
     try {
-      // Independent, clean RAG retrieval from official corpus (stateless per turn)
+      // Independent, clean RAG retrieval from official corpus (stateless per query)
       const response = await fetch('/ask', {
         method: 'POST',
         headers: {
@@ -126,7 +159,7 @@ export default function App() {
 
       const data = await response.json();
 
-      // Populate completed result for this specific turn
+      // Populate completed result for this specific turn in chatStream
       setChatStream((prev) =>
         prev.map((turn) =>
           turn.id === turnId
@@ -135,11 +168,22 @@ export default function App() {
         )
       );
 
-      // Add to recent history (unique, max 12)
-      setHistory((prev) => {
-        const filtered = prev.filter((item) => item.question !== cleanQ);
-        return [{ question: cleanQ, status: data.status }, ...filtered].slice(0, 12);
-      });
+      // Populate completed result for this specific turn in sessions
+      setSessions((prev) =>
+        prev.map((s) =>
+          s.id === activeSessionId
+            ? {
+                ...s,
+                updatedAt: Date.now(),
+                turns: s.turns.map((turn) =>
+                  turn.id === turnId
+                    ? { ...turn, result: data, loading: false }
+                    : turn
+                ),
+              }
+            : s
+        )
+      );
     } catch (err) {
       const errMsg = err.message || 'Failed to connect to the legal assistant backend.';
       setError(errMsg);
@@ -150,20 +194,47 @@ export default function App() {
             : turn
         )
       );
+      setSessions((prev) =>
+        prev.map((s) =>
+          s.id === activeSessionId
+            ? {
+                ...s,
+                turns: s.turns.map((turn) =>
+                  turn.id === turnId
+                    ? { ...turn, loading: false, error: errMsg }
+                    : turn
+                ),
+              }
+            : s
+        )
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSelectQuery = (q) => {
-    setQuestion('');
+  const handleSelectSession = (sessionId) => {
+    const target = sessions.find((s) => s.id === sessionId);
+    if (!target) return;
+    setCurrentSessionId(target.id);
+    setChatStream(target.turns || []);
+    const lastTurn = target.turns?.[target.turns.length - 1];
+    setActiveTurnId(lastTurn ? lastTurn.id : null);
+    setIsSourceSidebarOpen(false);
     setCurrentView('chat');
-    handleAsk(null, q);
+  };
+
+  const handleDeleteSession = (sessionId) => {
+    setSessions((prev) => prev.filter((s) => s.id !== sessionId));
+    if (currentSessionId === sessionId) {
+      handleNewQuestion();
+    }
   };
 
   const handleNewQuestion = () => {
     setQuestion('');
     setError(null);
+    setCurrentSessionId(null);
     setChatStream([]);
     setActiveTurnId(null);
     setIsSourceSidebarOpen(false);
@@ -194,9 +265,11 @@ export default function App() {
         <Sidebar
           activeView={currentView}
           onNavigate={(view) => setCurrentView(view)}
-          onSelectQuery={handleSelectQuery}
           onNewQuestion={handleNewQuestion}
-          history={history}
+          sessions={sessions}
+          activeSessionId={currentSessionId}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={handleDeleteSession}
           savedCount={savedAnswers.length}
           collapsed={sidebarCollapsed}
           setCollapsed={setSidebarCollapsed}
@@ -238,7 +311,7 @@ export default function App() {
             onRemove={(idx) => setSavedAnswers((prev) => prev.filter((_, i) => i !== idx))}
             onSelect={(q) => {
               setCurrentView('chat');
-              handleSelectQuery(q);
+              handleAsk(null, q);
             }}
             onBackToChat={() => setCurrentView('chat')}
           />
@@ -325,7 +398,7 @@ export default function App() {
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4a843]" />
                             </span>
                             <span className="tracking-wide">
-                              Consulting 991 sections & verifying statutory citations...
+                              Consulting 991 sections &amp; verifying statutory citations...
                             </span>
                           </div>
                         </div>

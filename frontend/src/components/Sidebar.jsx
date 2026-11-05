@@ -1,58 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Plus,
   BookOpen,
   Bookmark,
   Calculator,
-  ChevronDown,
-  ChevronRight,
   Search,
   PanelLeftClose,
-  Clock,
   MessageSquare,
+  Trash2,
 } from 'lucide-react';
 import GoldenScaleLogo from './GoldenScaleLogo';
-
-const TOPIC_PRESETS = [
-  {
-    title: 'Driving Licences (Part VII)',
-    query: 'What is the penalty for driving a motor vehicle without a valid driving licence?',
-  },
-  {
-    title: '2019 Fines (Act No. 10)',
-    query: 'What are the fines under Motor Traffic Amendment Act No 10 of 2019?',
-  },
-  {
-    title: 'Noise Limits (Gazette 1738/37)',
-    query: 'What is the noise emission limit for a motorcycle silencer under the law?',
-  },
-  {
-    title: 'Speed Limits (Section 141A)',
-    query: 'What are the penalties for speeding over the speed limit?',
-  },
-  {
-    title: 'Vehicle Seizure (Section 232F)',
-    query: 'Can a police officer seize or detain my vehicle on the road?',
-  },
-  {
-    title: 'Disputing Spot Fines (Police Guide)',
-    query: 'Can I contest or appeal a traffic fine issued by the police?',
-  },
-];
 
 export default function Sidebar({
   activeView = 'chat',
   onNavigate,
-  onSelectQuery,
   onNewQuestion,
-  history = [],
+  sessions = [],
+  activeSessionId = null,
+  onSelectSession,
+  onDeleteSession,
   savedCount = 0,
   collapsed,
   setCollapsed,
 }) {
-  const [topicsOpen, setTopicsOpen] = useState(true);
-  const [recentOpen, setRecentOpen] = useState(true);
-
   if (collapsed) {
     return (
       <aside className="w-16 bg-[#090d15] text-slate-300 flex flex-col h-full border-r border-slate-800/80 items-center py-4 space-y-6 flex-shrink-0 select-none">
@@ -78,10 +48,11 @@ export default function Sidebar({
         <nav className="flex flex-col items-center gap-4 flex-1">
           <button
             onClick={() => onNavigate('chat')}
-            className={`p-2.5 rounded-xl transition ${activeView === 'chat'
-              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-              }`}
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'chat'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Chat Assistant"
           >
             <MessageSquare className="w-4 h-4" />
@@ -89,21 +60,23 @@ export default function Sidebar({
 
           <button
             onClick={() => onNavigate('library')}
-            className={`p-2.5 rounded-xl transition ${activeView === 'library'
-              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-              }`}
-            title="Statute Library (Data Explorer)"
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'library'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
+            title="Statute Library"
           >
             <BookOpen className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => onNavigate('calculator')}
-            className={`p-2.5 rounded-xl transition ${activeView === 'calculator'
-              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-              }`}
+            className={`p-2.5 rounded-xl transition ${
+              activeView === 'calculator'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Fine Calculator"
           >
             <Calculator className="w-4 h-4 text-[#d4a843]" />
@@ -111,10 +84,11 @@ export default function Sidebar({
 
           <button
             onClick={() => onNavigate('saved')}
-            className={`p-2.5 rounded-xl transition relative ${activeView === 'saved'
-              ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
-              : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-              }`}
+            className={`p-2.5 rounded-xl transition relative ${
+              activeView === 'saved'
+                ? 'bg-[#d4a843]/20 text-[#f0c96a] border border-[#d4a843]/40'
+                : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+            }`}
             title="Saved Answers"
           >
             <Bookmark className="w-4 h-4" />
@@ -149,7 +123,7 @@ export default function Sidebar({
           <button
             onClick={() => onNavigate('library')}
             className="p-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition"
-            title="Explore 991 Sections"
+            title="Explore 991 Sections in Library"
           >
             <Search className="w-3.5 h-3.5" />
           </button>
@@ -177,57 +151,61 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Main Navigation Tabs: Chat, Statute Library, Fine Calculator, Saved Answers */}
+      {/* Main Navigation Tabs */}
       <div className="px-2 space-y-1">
         <button
           onClick={() => onNavigate('chat')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'chat'
-            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'chat'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
             <MessageSquare
-              className={`w-3.5 h-3.5 transition ${activeView === 'chat'
-                ? 'text-[#f0c96a]'
-                : 'text-slate-400 group-hover:text-[#d4a843]'
-                }`}
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'chat'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
             />
             <span>Chat Assistant</span>
           </div>
-
         </button>
 
         <button
           onClick={() => onNavigate('library')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'library'
-            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'library'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
             <BookOpen
-              className={`w-3.5 h-3.5 transition ${activeView === 'library'
-                ? 'text-[#f0c96a]'
-                : 'text-slate-400 group-hover:text-[#d4a843]'
-                }`}
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'library'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
             />
             <span>Statute Library</span>
           </div>
-
         </button>
 
         <button
           onClick={() => onNavigate('calculator')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'calculator'
-            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'calculator'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
             <Calculator
-              className={`w-3.5 h-3.5 text-[#d4a843] ${activeView === 'calculator' ? 'scale-110' : ''
-                }`}
+              className={`w-3.5 h-3.5 text-[#d4a843] ${
+                activeView === 'calculator' ? 'scale-110' : ''
+              }`}
             />
             <span>Fine Calculator</span>
           </div>
@@ -238,17 +216,19 @@ export default function Sidebar({
 
         <button
           onClick={() => onNavigate('saved')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${activeView === 'saved'
-            ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
-            : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition text-left group ${
+            activeView === 'saved'
+              ? 'bg-slate-800 text-white font-semibold border-l-2 border-[#d4a843]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+          }`}
         >
           <div className="flex items-center gap-2.5">
             <Bookmark
-              className={`w-3.5 h-3.5 transition ${activeView === 'saved'
-                ? 'text-[#f0c96a]'
-                : 'text-slate-400 group-hover:text-[#d4a843]'
-                }`}
+              className={`w-3.5 h-3.5 transition ${
+                activeView === 'saved'
+                  ? 'text-[#f0c96a]'
+                  : 'text-slate-400 group-hover:text-[#d4a843]'
+              }`}
             />
             <span>Saved answers</span>
           </div>
@@ -260,77 +240,74 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Accordions Container */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-4 text-xs">
-        {/* Topics Accordion */}
-        <div className="space-y-1">
-          <button
-            onClick={() => setTopicsOpen(!topicsOpen)}
-            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] font-medium text-slate-400 hover:text-slate-200 transition"
-          >
-            <span>Topics</span>
-            {topicsOpen ? (
-              <ChevronDown className="w-3 h-3" />
-            ) : (
-              <ChevronRight className="w-3 h-3" />
-            )}
-          </button>
-
-          {topicsOpen && (
-            <div className="space-y-0.5 pt-0.5">
-              {TOPIC_PRESETS.map((t, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    onNavigate('chat');
-                    onSelectQuery(t.query);
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-left transition truncate text-[11px]"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600 flex-shrink-0" />
-                  <span className="truncate">{t.title}</span>
-                </button>
-              ))}
-            </div>
+      {/* Conversations (Chat Sessions) List */}
+      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-2 text-xs">
+        <div className="flex items-center justify-between px-2.5 py-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5">
+            <MessageSquare className="w-3 h-3 text-[#d4a843]" />
+            <span>Conversations</span>
+          </div>
+          {sessions.length > 0 && (
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-400">
+              {sessions.length}
+            </span>
           )}
         </div>
 
-        {/* Recent Accordion */}
         <div className="space-y-1">
-          <button
-            onClick={() => setRecentOpen(!recentOpen)}
-            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] font-medium text-slate-400 hover:text-slate-200 transition"
-          >
-            <span>Recent</span>
-            {recentOpen ? (
-              <ChevronDown className="w-3 h-3" />
-            ) : (
-              <ChevronRight className="w-3 h-3" />
-            )}
-          </button>
-
-          {recentOpen && (
-            <div className="space-y-0.5 pt-0.5">
-              {history.length === 0 ? (
-                <div className="px-3 py-2 text-[11px] text-slate-600 italic">
-                  No questions asked yet
-                </div>
-              ) : (
-                history.slice(0, 8).map((h, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      onNavigate('chat');
-                      onSelectQuery(h.question);
-                    }}
-                    className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-left transition truncate text-[11px] group"
-                  >
-                    <Clock className="w-3 h-3 text-slate-600 group-hover:text-slate-400 flex-shrink-0" />
-                    <span className="truncate">{h.question}</span>
-                  </button>
-                ))
-              )}
+          {sessions.length === 0 ? (
+            <div className="px-3 py-8 text-center text-[11px] text-slate-500 italic space-y-1">
+              <p>No conversations yet.</p>
+              <p className="text-[10px] text-slate-600">Ask a question to start a chat session.</p>
             </div>
+          ) : (
+            sessions.map((sess) => {
+              const isActive = activeSessionId === sess.id && activeView === 'chat';
+              return (
+                <div
+                  key={sess.id}
+                  onClick={() => {
+                    onNavigate('chat');
+                    if (onSelectSession) onSelectSession(sess.id);
+                  }}
+                  className={`group relative flex items-center justify-between gap-2 px-3 py-2 rounded-xl cursor-pointer transition select-none ${
+                    isActive
+                      ? 'bg-slate-800 text-white font-medium border border-[#d4a843]/40 shadow-sm'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60 border border-transparent'
+                  }`}
+                  title={sess.title}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <MessageSquare
+                      className={`w-3.5 h-3.5 flex-shrink-0 transition ${
+                        isActive ? 'text-[#f0c96a]' : 'text-slate-500 group-hover:text-slate-300'
+                      }`}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs truncate block leading-snug">
+                        {sess.title}
+                      </span>
+                      <span className="text-[10px] text-slate-500 block">
+                        {sess.turns?.length || 1} {sess.turns?.length === 1 ? 'question' : 'questions'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Delete Session Button (Visible on hover) */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onDeleteSession) onDeleteSession(sess.id);
+                    }}
+                    className="opacity-0 group-hover:opacity-100 p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-slate-900/80 transition flex-shrink-0"
+                    title="Delete conversation"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              );
+            })
           )}
         </div>
       </div>
