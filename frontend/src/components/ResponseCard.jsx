@@ -60,11 +60,27 @@ export default function ResponseCard({
     setTranslating(true);
     setTranslationError(null);
     try {
-      const resp = await fetch('/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: answer, target_language: lang }),
-      });
+      let resp;
+      try {
+        resp = await fetch('/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: answer, target_language: lang }),
+        });
+      } catch {
+        // Network fallback
+        resp = null;
+      }
+
+      // If proxied route failed or returned 404, fallback directly to backend port 8005
+      if (!resp || !resp.ok) {
+        resp = await fetch('http://127.0.0.1:8005/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: answer, target_language: lang }),
+        });
+      }
+
       if (!resp.ok) {
         throw new Error(`Translation error (${resp.status})`);
       }
