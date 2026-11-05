@@ -318,10 +318,15 @@ export default function App() {
                             </div>
                           </div>
 
-                          {/* Loading indicator for this turn */}
-                          <div className="p-4 rounded-2xl bg-[#101726]/60 border border-slate-800/80 text-center text-xs text-[#f0c96a] flex items-center justify-center gap-2.5 animate-pulse">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#d4a843]" />
-                            <span>Consulting 991 sections & verifying statutory citations...</span>
+                          {/* Clean minimal processing indicator (no card box, only blinking yellow words) */}
+                          <div className="flex items-center gap-2.5 pt-2 pb-1 text-[#f0c96a] text-xs font-medium select-none animate-pulse">
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4a843] opacity-75" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4a843]" />
+                            </span>
+                            <span className="tracking-wide">
+                              Consulting 991 sections & verifying statutory citations...
+                            </span>
                           </div>
                         </div>
                       )}
