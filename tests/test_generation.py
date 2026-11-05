@@ -207,6 +207,26 @@ def test_number_verifier_statutory_words_to_numerals(tmp_path) -> None:
     assert "50" in flagged_bad
 
 
+def test_number_verifier_decimal_currency_equivalence(tmp_path) -> None:
+    """Verifies that source numbers tabulated as decimals (e.g. 1000.00) match integers and formatted currency (1000, 1,000)."""
+    verifier = CitationVerifier(sections_path=tmp_path / "dummy.jsonl")
+    retrieved_texts = [
+        "Section 158 Failure to wear protective helmets when driving 1000.00"
+    ]
+
+    answer = "The spot fine for failure to wear a helmet is Rs. 1,000."
+    flagged = verifier.verify_numbers(answer, retrieved_texts)
+    assert flagged == []
+
+    # And plain 1000 also passes
+    plain_answer = "The fine amount is 1000 rupees."
+    assert verifier.verify_numbers(plain_answer, retrieved_texts) == []
+
+    # But an ungrounded number is still flagged
+    bad_answer = "The fine amount is 2500 rupees."
+    assert "2500" in verifier.verify_numbers(bad_answer, retrieved_texts)
+
+
 # --- Confidence Gate Tests ---
 
 

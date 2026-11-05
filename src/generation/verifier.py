@@ -205,6 +205,14 @@ class CitationVerifier:
             clean_s = s_num.strip(".,")
             source_numbers.add(clean_s)
             source_numbers.add(clean_s.replace(",", ""))
+            try:
+                f_val = float(clean_s.replace(",", ""))
+                if f_val.is_integer():
+                    i_val = int(f_val)
+                    source_numbers.add(str(i_val))
+                    source_numbers.add(f"{i_val:,}")
+            except ValueError:
+                pass
 
         # Resolve statutory written English amounts to numbers
         combined_lower = combined_source.lower()
