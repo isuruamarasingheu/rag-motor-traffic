@@ -24,7 +24,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#422907] via-[#2a1904] to-[#120a02]',
           borderColor: 'border-[#d4a843]',
-          innerBorder: 'border-[#d4a843]/50',
           accentText: 'text-[#f0c96a]',
           bannerBg: 'bg-gradient-to-r from-[#d4a843] to-[#e4b952] text-slate-950',
           sealBg: 'from-[#f0c96a] via-[#d4a843] to-[#8c591b]',
@@ -35,7 +34,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#4c0d1b] via-[#2d0710] to-[#150307]',
           borderColor: 'border-rose-500',
-          innerBorder: 'border-rose-400/40',
           accentText: 'text-rose-300',
           bannerBg: 'bg-gradient-to-r from-rose-500 to-rose-600 text-white',
           sealBg: 'from-rose-400 via-rose-600 to-rose-900',
@@ -46,7 +44,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#0d3824] via-[#082216] to-[#04120b]',
           borderColor: 'border-emerald-500',
-          innerBorder: 'border-emerald-400/40',
           accentText: 'text-emerald-300',
           bannerBg: 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-slate-950',
           sealBg: 'from-emerald-400 via-emerald-600 to-emerald-950',
@@ -57,7 +54,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#351547] via-[#210c2e] to-[#0e0414]',
           borderColor: 'border-purple-500',
-          innerBorder: 'border-purple-400/40',
           accentText: 'text-purple-300',
           bannerBg: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
           sealBg: 'from-purple-400 via-purple-600 to-purple-950',
@@ -68,7 +64,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#0e274a] via-[#091830] to-[#040b17]',
           borderColor: 'border-sky-500',
-          innerBorder: 'border-sky-400/40',
           accentText: 'text-sky-300',
           bannerBg: 'bg-gradient-to-r from-sky-500 to-sky-600 text-white',
           sealBg: 'from-sky-400 via-sky-600 to-sky-950',
@@ -80,7 +75,6 @@ export default function LegalResourceCoverCard({
         return {
           bgGradient: 'from-[#422206] via-[#291403] to-[#120801]',
           borderColor: 'border-amber-500',
-          innerBorder: 'border-amber-400/40',
           accentText: 'text-amber-300',
           bannerBg: 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950',
           sealBg: 'from-amber-400 via-amber-600 to-amber-950',
@@ -106,17 +100,6 @@ export default function LegalResourceCoverCard({
       >
         {/* Leather Spine Shadow on the Left */}
         <div className="absolute left-0 top-0 bottom-0 w-3.5 bg-gradient-to-r from-black/80 via-black/30 to-transparent border-r border-white/10 z-10" />
-
-        {/* Embossed Ornamental Gold Foil Inner Frame */}
-        <div
-          className={`absolute inset-2 rounded-xl border ${theme.innerBorder} pointer-events-none z-0`}
-        >
-          {/* Ornamental corner notches */}
-          <div className="absolute top-1 left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#d4a843]" />
-          <div className="absolute top-1 right-1 w-2.5 h-2.5 border-t-2 border-r-2 border-[#d4a843]" />
-          <div className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b-2 border-l-2 border-[#d4a843]" />
-          <div className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#d4a843]" />
-        </div>
 
         {/* Top Header Row on Book Cover */}
         <div className="relative z-10 flex items-start justify-between gap-1.5 pl-2 pt-1">
