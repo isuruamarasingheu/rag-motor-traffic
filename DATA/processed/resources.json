@@ -441,6 +441,94 @@
     "sections_count": 1
   },
   {
+    "id": "res-gazette-1295-11",
+    "title": "Extraordinary Gazette No. 1295/11 (Vehicle Fitness & Exhaust Emission Standards)",
+    "short_title": "Gazette No. 1295/11: Fitness & Emissions",
+    "instrument_type": "gazette_regulation",
+    "category": "emissions",
+    "act_no": null,
+    "gazette_no": "1295/11",
+    "date_promulgated": "2003-06-30",
+    "year": 2003,
+    "issuing_authority": "Minister of Transport",
+    "source_file": "data/raw/gazettes/Gazette_1295-11_2003_Emission_Fitness_Standards.pdf",
+    "badge_label": "FITNESS STANDARDS",
+    "theme_color": "emerald",
+    "description": "Establishes comprehensive fitness criteria and permissible smoke and exhaust emission ceilings for petrol and diesel vehicles.",
+    "key_provisions": [
+      "Exhaust Emission Ceilings",
+      "Fitness Inspection Protocol",
+      "Testing Procedures"
+    ],
+    "sections_count": 2
+  },
+  {
+    "id": "res-gazette-1557-14",
+    "title": "Extraordinary Gazette No. 1557/14 (Vehicular Exhaust Emission Regulations Amendment)",
+    "short_title": "Gazette No. 1557/14: Air Quality Standards",
+    "instrument_type": "gazette_regulation",
+    "category": "emissions",
+    "act_no": null,
+    "gazette_no": "1557/14",
+    "date_promulgated": "2008-07-09",
+    "year": 2008,
+    "issuing_authority": "Minister of Transport",
+    "source_file": "data/raw/gazettes/Gazette_1557-14_2008_Air_Quality_Amendment.pdf",
+    "badge_label": "AIR QUALITY 2008",
+    "theme_color": "emerald",
+    "description": "Amends exhaust emission thresholds for in-use vehicles, establishing smoke opacity and gas concentration limits.",
+    "key_provisions": [
+      "In-use Vehicle Limits",
+      "Smoke Opacity Thresholds",
+      "Gas Analysis Standards"
+    ],
+    "sections_count": 3
+  },
+  {
+    "id": "res-gazette-1887-20",
+    "title": "Extraordinary Gazette No. 1887/20 (Vehicular Emission Standards Amendment 2014)",
+    "short_title": "Gazette No. 1887/20: Emission Amendment",
+    "instrument_type": "gazette_regulation",
+    "category": "emissions",
+    "act_no": null,
+    "gazette_no": "1887/20",
+    "date_promulgated": "2014-11-04",
+    "year": 2014,
+    "issuing_authority": "Minister of Transport",
+    "source_file": "data/raw/gazettes/Gazette_1887-20_2014_Air_Quality_Amendment.pdf",
+    "badge_label": "EMISSIONS 2014",
+    "theme_color": "emerald",
+    "description": "Refines criteria for vehicular exhaust emissions and compliance procedures for annual revenue licences.",
+    "key_provisions": [
+      "Emission Refinement",
+      "Exhaust Measurement Standards",
+      "Testing Verification"
+    ],
+    "sections_count": 1
+  },
+  {
+    "id": "res-gazette-2128-09",
+    "title": "Extraordinary Gazette No. 2128/09 (Traffic Signs & Road Markings Amendment)",
+    "short_title": "Gazette No. 2128/09: Traffic Signs Amendment",
+    "instrument_type": "gazette_regulation",
+    "category": "safety",
+    "act_no": null,
+    "gazette_no": "2128/09",
+    "date_promulgated": "2019-06-18",
+    "year": 2019,
+    "issuing_authority": "Minister of Transport and Civil Aviation",
+    "source_file": "data/raw/gazettes/Gazette_2128-09_2019_Signs_Amendment.pdf",
+    "badge_label": "TRAFFIC SIGNS 2019",
+    "theme_color": "amber",
+    "description": "Amends specifications for regulatory, warning, and informational road signs and pedestrian crossing markings.",
+    "key_provisions": [
+      "Regulatory Sign Markings",
+      "Pedestrian Crossings",
+      "Warning Sign Geometries"
+    ],
+    "sections_count": 1
+  },
+  {
     "id": "res-guide-dmt-registration",
     "title": "Citizen Guide: Vehicle Registration, Transfer of Ownership & Absolute Ownership",
     "short_title": "Citizen Guide: Vehicle Registration & Transfer",
