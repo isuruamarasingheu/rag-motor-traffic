@@ -116,10 +116,10 @@ export default function App() {
         return prev.map((s) =>
           s.id === activeSessionId
             ? {
-                ...s,
-                updatedAt: Date.now(),
-                turns: [...s.turns, newTurn],
-              }
+              ...s,
+              updatedAt: Date.now(),
+              turns: [...s.turns, newTurn],
+            }
             : s
         );
       } else {
@@ -173,14 +173,14 @@ export default function App() {
         prev.map((s) =>
           s.id === activeSessionId
             ? {
-                ...s,
-                updatedAt: Date.now(),
-                turns: s.turns.map((turn) =>
-                  turn.id === turnId
-                    ? { ...turn, result: data, loading: false }
-                    : turn
-                ),
-              }
+              ...s,
+              updatedAt: Date.now(),
+              turns: s.turns.map((turn) =>
+                turn.id === turnId
+                  ? { ...turn, result: data, loading: false }
+                  : turn
+              ),
+            }
             : s
         )
       );
@@ -198,13 +198,13 @@ export default function App() {
         prev.map((s) =>
           s.id === activeSessionId
             ? {
-                ...s,
-                turns: s.turns.map((turn) =>
-                  turn.id === turnId
-                    ? { ...turn, loading: false, error: errMsg }
-                    : turn
-                ),
-              }
+              ...s,
+              turns: s.turns.map((turn) =>
+                turn.id === turnId
+                  ? { ...turn, loading: false, error: errMsg }
+                  : turn
+              ),
+            }
             : s
         )
       );
@@ -336,30 +336,7 @@ export default function App() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setCurrentView('calculator')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-[#f0c96a] hover:text-white hover:border-[#d4a843] transition"
-                  >
-                    <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
-                    <span className="hidden sm:inline">Calculator</span>
-                  </button>
 
-                  <button
-                    onClick={() => setCurrentView('library')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white hover:border-slate-700 transition"
-                  >
-                    <BookOpen className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="hidden sm:inline">Statute Library</span>
-                  </button>
-
-                  <button
-                    onClick={handleNewQuestion}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 font-semibold text-xs transition shadow-sm active:scale-95"
-                  >
-                    <span>New Question</span>
-                  </button>
-                </div>
               </header>
             )}
 
@@ -465,8 +442,8 @@ export default function App() {
                         onClick={handleAsk}
                         disabled={loading || !question.trim()}
                         className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition shadow-md ${loading
-                            ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
-                            : 'bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95'
+                          ? 'bg-[#d4a843] shadow-[#d4a843]/40 cursor-wait'
+                          : 'bg-[#d4a843] hover:bg-[#e4b952] text-slate-950 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95'
                           }`}
                         title={loading ? "Consulting the law..." : "Ask Question"}
                       >

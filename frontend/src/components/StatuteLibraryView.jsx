@@ -119,19 +119,13 @@ export default function StatuteLibraryView({ onExplainSection, onBackToChat }) {
               </h1>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Browse official consolidated Acts, amending legislation, and extraordinary gazettes with zero hallucination.
+              Browse official consolidated Acts, amending legislation, and extraordinary gazettes.
             </p>
           </div>
         </div>
 
         {/* Back to Chat Button */}
-        <button
-          onClick={onBackToChat}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-white transition self-start md:self-center"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Chat</span>
-        </button>
+
       </div>
 
       {/* Top Filter & Sort Bar (Matching photo's toolbar) */}

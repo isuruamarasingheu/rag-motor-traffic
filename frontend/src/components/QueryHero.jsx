@@ -165,10 +165,7 @@ export default function QueryHero({
 
             {/* Right Controls */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] font-medium text-slate-300">
-                <span>EN</span>
-                <ChevronDown className="w-3 h-3 text-slate-500" />
-              </div>
+
 
               <button
                 type="button"
@@ -242,9 +239,7 @@ export default function QueryHero({
             <Calculator className="w-3.5 h-3.5 text-[#d4a843]" />
             <span className="flex items-center gap-1.5">
               <span>Traffic Fine Calculator</span>
-              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                Deterministic
-              </span>
+
             </span>
           </div>
           <p className="text-[11px] text-slate-400 group-hover:text-slate-300 leading-relaxed">
